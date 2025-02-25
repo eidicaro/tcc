@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -9,10 +9,18 @@ const Stack = createNativeStackNavigator();
 
 function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <Text>Bem-vindo ao seu aplicativo!</Text>
+    <SafeAreaView style={styles.container}>
+      <View className="card text-white bg-dark mb-3" style={{ width: "80%" }}>
+        <div className="card-header">Menu</div>
+        <div className="card-body">
+          <h5 className="card-title">Bem-vindo ao seu App!</h5>
+          <p className="card-text">
+            Este é um exemplo de um card estilizado com Bootstrap.
+          </p>
+        </div>
+      </View>
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -23,9 +31,9 @@ export default function App() {
         initialRouteName="Home"
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#000', // Altera o fundo da nav-bar para preto
+            backgroundColor: '#000',
           },
-          headerTintColor: '#fff', // Altera a cor do texto da nav-bar para branco
+          headerTintColor: '#fff',
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
