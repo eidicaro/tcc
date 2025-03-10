@@ -7,40 +7,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Stack = createNativeStackNavigator();
 
-function HomeScreen() {
-  return (
-    <SafeAreaView style={styles.container}>
-      <View className="card text-white bg-dark mb-3" style={{ width: "80%" }}>
-        <div className="card-header">Menu</div>
-        <div className="card-body">
-          <h5 className="card-title">Bem-vindo ao seu App!</h5>
-          <p className="card-text">
-            Este é um exemplo de um card estilizado com Bootstrap.
-          </p>
-        </div>
-      </View>
-      <StatusBar style="auto" />
-    </SafeAreaView>
-  );
-}
+import Header from './paginas/header.js'; // ajuste o caminho conforme a estrutura do seu projeto
 
-export default function App() {
+const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#000',
-          },
-          headerTintColor: '#fff',
-        }}
-      >
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <div className='header_teste col-12'>
+      <Header />
+      <main className="container mt-5 ">
+        <h1>Bem-vindo ao Restaurante!</h1>
+        <p>Delicie-se com os melhores pratos.</p>
+      </main>
+    </div>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
