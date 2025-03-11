@@ -22,6 +22,7 @@ const App = () => {
               <h1>Bem-vindo ao Restaurante!</h1>
               <p>Delicie-se com os melhores pratos.</p>
             </main>
+            <Footer/>
       </div>
       </html>
   );
