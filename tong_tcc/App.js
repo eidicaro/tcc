@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Stack = createNativeStackNavigator();
 
 import Header from './paginas/header.js'; // ajuste o caminho conforme a estrutura do seu projeto
+import Footer from './paginas/footer.js';
 
 const App = () => {
   return (
@@ -23,7 +24,6 @@ const App = () => {
             </main>
       </div>
       </html>
-    
   );
 };
 
