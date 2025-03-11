@@ -5,19 +5,25 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
+
 const Stack = createNativeStackNavigator();
 
 import Header from './paginas/header.js'; // ajuste o caminho conforme a estrutura do seu projeto
 
 const App = () => {
   return (
-    <div className='header_teste col-12'>
-      <Header />
-      <main className="container mt-5 ">
-        <h1>Bem-vindo ao Restaurante!</h1>
-        <p>Delicie-se com os melhores pratos.</p>
-      </main>
-    </div>
+      <html className='html col-12'  lang="pt-br">
+        
+      <div >
+            <Header />
+            <main className="container mt-5 ">
+              <h1>Bem-vindo ao Restaurante!</h1>
+              <p>Delicie-se com os melhores pratos.</p>
+            </main>
+      </div>
+      </html>
+    
   );
 };
 

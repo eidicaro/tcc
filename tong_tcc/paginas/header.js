@@ -10,7 +10,7 @@ const Header = () => {
     <div className='navbar'>
     <nav className="navbar navbar-expand-lg navbar-dark col-12">
       <div className="container">
-        <a className="navbar-brand" href="#">Meu Site</a>
+        <a className="navbar-titulo" href="#">TONG SUSHI</a>
         <button 
           className="navbar-toggler" 
           type="button" 
@@ -28,21 +28,14 @@ const Header = () => {
               <a className="nav-link" href="#home">Home</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#about">Sobre</a>
+              <a className="nav-link" href="#about">Cardápio</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#services">Serviços</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#contact">Contato</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#profile">
+              <a className="nav-link-carrinho" href="#profile">
                 <img 
-                  src="/avatar.png" 
-                  alt="Avatar" 
-                  width="30" 
-                  height="30" 
+                  src="../carrinho.svg"
+                  width="40" 
+                  height="40" 
                   className="rounded-circle"
                 />
               </a>
