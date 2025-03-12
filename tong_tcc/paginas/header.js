@@ -2,6 +2,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/style.css';
+import '../images/cart.svg';
+import '../assets/icon.js';
+import Carrinho from '../assets/icon.js';
 
 
 
@@ -31,14 +34,7 @@ const Header = () => {
               <a className="nav-link" href="#about">Cardápio</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link-carrinho" href="#profile">
-                <img 
-                  src="../carrinho.svg"
-                  width="40" 
-                  height="40" 
-                  className="rounded-circle"
-                />
-              </a>
+              <Carrinho/>
             </li>
           </ul>
         </div>
