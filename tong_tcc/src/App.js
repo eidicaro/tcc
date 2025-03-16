@@ -1,14 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import "bootstrap/dist/css/bootstrap.min.css";
-
-
-
-const Stack = createNativeStackNavigator();
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './paginas/header.js'; // ajuste o caminho conforme a estrutura do seu projeto
 import Footer from './paginas/footer.js';
 
@@ -29,12 +20,3 @@ const App = () => {
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

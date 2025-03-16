@@ -1,7 +1,8 @@
 // Footer.js
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../assets/style.css';
+import '../index.css';
+import tong from './../images/tong-2.svg';
 
 const Footer = () => {
   return (
@@ -36,7 +37,7 @@ const Footer = () => {
 
           {/* Logo e ícones sociais */}
           <div className="col-lg-4 mb-4 text-center">
-            <img src="/logo-tongsushi.png" alt="Logo Tong Sushi" width="100" className="mb-3" />
+            <img src={tong} alt="Logo Tong Sushi" width="250" className="mb-3" />
             <div className="d-flex justify-content-center gap-3">
               <a href="#" className="text-white fs-4"><i className="bi bi-instagram"></i></a>
               <a href="#" className="text-white fs-4"><i className="bi bi-facebook"></i></a>

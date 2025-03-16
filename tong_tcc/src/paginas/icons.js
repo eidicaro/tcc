@@ -48,7 +48,7 @@ const StyledWrapper = styled.div`
   }
 
   .icon {
-    font-size: 20px;
+    font-size: 50px;
   }`;
 
 export default Carrinho;
