@@ -42,4 +42,7 @@
 .nav-item{
   color: var(--white);
 }
-  
+
+main{
+  margin: 5%; 
+}

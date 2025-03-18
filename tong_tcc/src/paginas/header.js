@@ -1,8 +1,8 @@
 // Header.js
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../index.css'
-import Carrinho from './icons';
+import '../style.css'
+import Carrinho from './carrinho';
 import tong from './../images/tong-2.svg';
 
 

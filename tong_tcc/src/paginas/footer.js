@@ -1,7 +1,7 @@
 // Footer.js
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../index.css';
+import '../style.css';
 import tong from './../images/tong-2.svg';
 
 const Footer = () => {
