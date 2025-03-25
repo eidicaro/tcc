@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Tong from './../images/tong-2.svg';
-import sashimi from './../images/sashimi-salmao.png'
 
 const Carrossel = () => {
   return (

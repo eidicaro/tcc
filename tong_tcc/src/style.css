@@ -46,3 +46,12 @@
 main{
   margin: 5%; 
 }
+
+.horario{
+  margin-top: 5%; 
+  font-weight: 800;
+ margin-left: 14%;
+  border-left: 7px solid #F48347; /* Cor e espessura da linha */
+  padding-left: 10px; /* Espaçamento entre a linha e o texto */
+}
+
