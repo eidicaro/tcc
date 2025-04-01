@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Carpa from '../images/koi_no_background.png'; 
 
-const Loader = () => {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000); 
-  }, []);
-
+const Loader = ({ loading }) => {
   return (
     <>
       {loading && (
@@ -16,15 +9,6 @@ const Loader = () => {
           <div style={styles.loader}></div>
         </div>
       )}
-      <div style={styles.content}>
-        {!loading && (
-          <img
-            src={Carpa}
-            alt="Conteúdo carregado"
-            style={styles.image}
-          />
-        )}
-      </div>
     </>
   );
 };
@@ -45,21 +29,10 @@ const styles = {
   loader: {
     width: '150px',
     height: '150px',
-    backgroundImage: `url(${Carpa})`, 
+    backgroundImage: `url(${Carpa})`,
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
-    animation: 'spin 3s linear infinite', 
-  },
-  content: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    textAlign: 'center',
-  },
-  image: {
-    maxWidth: '100%',
-    height: 'auto',
+    animation: 'spin 3s linear infinite',
   },
 };
 
