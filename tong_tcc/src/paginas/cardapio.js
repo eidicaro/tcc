@@ -1,18 +1,16 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from './paginas/header.js';
-import Footer from './paginas/footer.js';
-import AppRoutes from '../assets/router.js';
+import Header from '../paginas/header';
+import Footer from '../paginas/footer';
 
-const App = () => {
+const Cardapio = () => {
   return (
-    <AppRoutes>
-            <div>
-              <Header />
-              <Footer />
-            </div>
-    </AppRoutes>
+    <div>
+      <Header />
+
+      <Footer />
+    </div>
   );
 };
 
-export default App;
+export default Cardapio;
