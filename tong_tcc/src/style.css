@@ -47,11 +47,33 @@ main{
   margin: 5%; 
 }
 
+.sla{
+  display: flex;
+}
+
 .horario{
-  margin-top: 5%; 
   font-weight: 800;
  margin-left: 14%;
   border-left: 7px solid #F48347; /* Cor e espessura da linha */
   padding-left: 10px; /* Espaçamento entre a linha e o texto */
+  display: flex;
+  flex-direction: column;
+  height: 35%;
+}
+
+.horarios-p .pa{
+  margin-bottom: 3%;
+}
+
+.horario-h1{
+  margin: 10% 0 2% 0; 
+  font-weight: 800;
+  margin-left: 14%;
+}
+
+.poke{
+  height: 25%;
+  width: 25%;
+  margin: -8% 0 0 20%;
 }
 

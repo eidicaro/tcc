@@ -141,7 +141,6 @@ const StyledWrapper = styled.div`
     width: 100%;
     height: var(--height);
     overflow: hidden;
-    mask-image: linear-gradient(to right, transparent, #000 10% 90%, transparent);
   }
 
   .slider .list {
@@ -156,10 +155,10 @@ const StyledWrapper = styled.div`
     height: var(--height);
     position: absolute;
     left: 100%;
-    animation: autoRun 10s linear infinite;
+    animation: autoRun 20s linear infinite;
     transition: filter 0.5s;
     animation-delay: calc(
-      (10s / var(--quantity)) * (var(--position) - 1) - 10s
+      (20s / var(--quantity)) * (var(--position) - 1) - 20s
     ) !important;
   }
 

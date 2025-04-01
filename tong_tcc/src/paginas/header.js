@@ -6,7 +6,6 @@ import Carrinho from './carrinho';
 import tong from './../images/tong-2.svg';
 
 
-
 const Header = () => {
   return (
     <div className='navbar'>
@@ -29,10 +28,10 @@ const Header = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a className="nav-link" href="#home">Home</a>
+              <a className="nav-link" href="/">Home</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#about">Cardápio</a>
+              <a className="nav-link" href='./cardapio'>Cardápio</a>
             </li>
             <li className="nav-item">
                 <Carrinho/>
