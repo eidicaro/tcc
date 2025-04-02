@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';  // Importando Link
 
 const Btt = () => {
   return (
@@ -7,7 +8,8 @@ const Btt = () => {
       <button>
         <span className="shadow" />
         <span className="edge" />
-        <span className="front text">Ir ao Cardápio</span>
+        <span className="front text"><Link className="nav-link" to="/cardapio">Ir ao Cardápio</Link></span>
+        
       </button>
     </StyledWrapper>
   );
