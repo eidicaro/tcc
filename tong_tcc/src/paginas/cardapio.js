@@ -11,7 +11,10 @@ const Cardapio = () => {
     <div>
       <Header />
       <Sidebar/>
+      <div className='produtos'>
+      
       <Footer />
+      </div>
     </div>
   );
 };

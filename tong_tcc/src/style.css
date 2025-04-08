@@ -114,3 +114,20 @@ main p{
   margin: 0 0 7% 0;
 }
 
+/* CARDAPIO */
+
+.nav-item-cardapio {
+  width: 100%;
+  padding: 7% 0; /* tira o padding lateral pra não "encolher" */
+  font-size: 24px;
+  font-weight: 600;
+  border-bottom: 3px solid #fff;
+  box-sizing: border-box;
+  display: block; /* força ocupar a linha toda */
+  text-align: center; /* opcional, se quiser centralizar o texto */
+}
+
+.produtos{
+  margin-left: 15%;
+}
+

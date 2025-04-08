@@ -3,8 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Sidebar() {
   return (
-    <div className="d-flex flex-column vh-100 p-3 text-white" style={{ width: '220px', backgroundColor: '#f37030'}}>
-      <ul className="nav nav-pills flex-column mb-auto">
+    // sideBar
+    <div className="d-flex flex-column vh-100 p-3 text-white" style={{ width: '15%', backgroundColor: '#f37030', position: 'absolute'}}>
+      <ul className="nav flex-column">
         <li className="nav-item-cardapio">
           <a href="#entradas" className="nav-link text-white">Entradas</a>
         </li>
