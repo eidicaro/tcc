@@ -5,11 +5,21 @@ import Footer from './paginas/footer.js';
 import Carrossel from './paginas/carrossel.js';
 import Btt from './paginas/btt-cardapio.js';
 import poke from './images/poke.png';
+import Loader from './paginas/loader.js';
+import { useState, useEffect } from 'react';
 
 const App = () => {
-  return (
-    <div>
-      <Header />
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  return loading ? <Loader loading={true} /> : 
+  <div>
+       <Header />
       <main className="container mt-5">
         <h1>Seja Bem-Vindo!</h1>
         <p>Somos a Tong Sushi, uma casa de culinária japonesa localizada em Iperó-SP, agora com uma cara nova e um novo sistema de delivery para sua melhor experiência.</p>
@@ -43,10 +53,8 @@ const App = () => {
 
 
       </div>
-
       <Footer />
-    </div>
-  );
+  </div>;
 };
 
 export default App;
