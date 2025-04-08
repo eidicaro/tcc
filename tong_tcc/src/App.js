@@ -26,6 +26,24 @@ const App = () => {
         <img src={poke} alt="salmao" className='poke' />
       </div>
 
+      <div className='mapa'>
+          <div className='local'>
+            <h1>Nossa localização</h1>
+            <p>Rua Orlando Sartorelli 45, Centro</p>
+            <p>Iperó/SP</p>
+          </div>
+  
+          <iframe 
+            id="localization" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4356.226877656857!2d-47.6898667!3d-23.3514105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8396108f88ca8cb3%3A0x87a04fcb137e595!2sTong%20Sushi%20Iper%C3%B3!5e0!3m2!1spt-BR!2sbr!4v1709918912454!5m2!1spt-BR!2sbr" 
+            width="30%" height="272px" 
+            allowfullscreen="" loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+
+
+      </div>
+
       <Footer />
     </div>
   );

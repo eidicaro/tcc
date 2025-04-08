@@ -15,7 +15,7 @@
 
 /* nav-bar */
 .navbar {
-    background-color: #000; /* Cor personalizada */
+    background-color: #000; 
   }
 
 .nav-link-carrinho{
@@ -42,10 +42,26 @@
 .nav-item{
   color: var(--white);
 }
-
+/* HOME */
+/* intro */
 main{
   margin: 5%; 
 }
+
+main h1 {
+  font-weight: 800; /* Extrabold */
+  font-size: 50px;
+  border-bottom: #000 ridge 4px;
+  padding: 0 0 1% 0;
+  width: fit-content; /* Ajusta o tamanho do h1 ao conteúdo */
+}
+
+main p{
+  font-size: 24px;
+}
+
+
+/* horario */
 
 .sla{
   display: flex;
@@ -54,26 +70,47 @@ main{
 .horario{
   font-weight: 800;
  margin-left: 14%;
-  border-left: 7px solid #F48347; /* Cor e espessura da linha */
-  padding-left: 10px; /* Espaçamento entre a linha e o texto */
+  border-left: 7px solid #F48347; 
+  padding-left: 10px; 
   display: flex;
   flex-direction: column;
   height: 35%;
 }
 
-.horarios-p .pa{
-  margin-bottom: 3%;
+.horario .pa{
+  margin-bottom: 5%;
+  font-size: 25px;
 }
 
 .horario-h1{
   margin: 10% 0 2% 0; 
   font-weight: 800;
   margin-left: 14%;
+  font-size: 40px;
+
 }
 
 .poke{
   height: 25%;
   width: 25%;
   margin: -8% 0 0 20%;
+}
+
+/* mapa */
+.mapa{
+  display: flex;
+  align-items: start;
+  justify-content: space-evenly;
+}
+
+.mapa .local h1{
+  font-weight: 800;
+  border-bottom: #000 ridge 4px;
+  padding: 0 0 1% 0;
+  width: fit-content; /* Ajusta o tamanho do h1 ao conteúdo */
+}
+
+.local h1{
+  margin: 0 0 7% 0;
 }
 
