@@ -114,6 +114,11 @@ main p{
   margin: 0 0 7% 0;
 }
 
+.local p{
+  font-weight: 800; /* Extrabold */
+  text-align: center;
+}
+
 /* CARDAPIO */
 
 .nav-item-cardapio {
