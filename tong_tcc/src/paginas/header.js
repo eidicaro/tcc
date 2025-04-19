@@ -1,11 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';  // Importando Link
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../style.css';
 import Carrinho from './carrinho';
+import { Modal } from './modal_carrinho';
 import tong from './../images/tong-2.svg';
 
 const Header = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
+
   return (
     <div className='navbar'>
       <nav className="navbar navbar-expand-lg navbar-dark col-12">
@@ -32,12 +36,29 @@ const Header = () => {
                 <Link className="nav-link" to="/cardapio">Cardápio</Link>
               </li>
               <li className="nav-item">
-                <Carrinho />
+                <button onClick={toggleModal} className="btn btn-link p-0">
+                  <Carrinho />
+                </button>
               </li>
             </ul>
           </div>
         </div>
       </nav>
+
+      {/* Renderiza o modal fora do botão */}
+      {isModalOpen && (
+        <Modal
+          title="Seu Carrinho"
+          subtitle="Veja as suas gostosuras"
+          isOpen={isModalOpen}
+          toggleModal={toggleModal}
+          modalContent={
+            <div>
+              <p>Aqui vão os itens do carrinho 🛒</p>
+            </div>
+          }
+        />
+      )}
     </div>
   );
 };
