@@ -242,3 +242,40 @@ main p{
 }
 
 
+/* footer */
+
+.footer-container {
+  background-color: #000;
+  color: #fff;
+  padding: 2rem 1rem;
+  margin-top: 80px;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.footer-section ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+  color: var(--orange);
+}
+
+.footer-grupo{
+  margin-top: 40px;
+  margin-bottom: 100px;
+}
