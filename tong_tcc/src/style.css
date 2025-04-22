@@ -121,6 +121,8 @@ main p{
 
 /* CARDAPIO */
 
+  /* Sidebar */
+
 .nav-item-cardapio {
   width: 100%;
   padding: 7% 0; /* tira o padding lateral pra não "encolher" */
@@ -132,9 +134,16 @@ main p{
   text-align: center; /* opcional, se quiser centralizar o texto */
 }
 
+
+
 .produtos{
   margin-left: 15%;
+  width: 85%;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto; 
 }
+
 
 
 /* MODAL CARRINHO */

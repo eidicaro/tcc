@@ -3,8 +3,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Sidebar() {
   return (
-    // sideBar
-    <div className="d-flex flex-column vh-100 p-3 text-white" style={{ width: '15%', backgroundColor: '#f37030', position: 'absolute'}}>
+    <div
+      className="d-flex flex-column p-3 text-white"
+      style={{
+        width: '15%',
+        backgroundColor: '#f37030',
+        position: 'fixed',
+        height: '100vh',
+        overflowY: 'auto', 
+      }}
+    >
       <ul className="nav flex-column">
         <li className="nav-item-cardapio">
           <a href="#entradas" className="nav-link text-white">Entradas</a>
@@ -29,6 +37,15 @@ export default function Sidebar() {
         </li>
         <li className="nav-item-cardapio">
           <a href="#bebidas" className="nav-link text-white">Bebidas</a>
+        </li>
+        <li className="nav-item-cardapio">
+          <a href="#sobremesas" className="nav-link text-white">Sobremesas</a>
+        </li>
+        <li className="nav-item-cardapio">
+          <a href="#sobremesas" className="nav-link text-white">Sobremesas</a>
+        </li>
+        <li className="nav-item-cardapio">
+          <a href="#sobremesas" className="nav-link text-white">Sobremesas</a>
         </li>
         <li className="nav-item-cardapio">
           <a href="#sobremesas" className="nav-link text-white">Sobremesas</a>
