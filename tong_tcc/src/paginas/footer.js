@@ -40,7 +40,7 @@ const Footer = () => {
       </div> */}
 
       <div className="footer text-center">
-      <h3>Todos direitos reservados ©TongSushi</h3>
+      <h4>Todos direitos reservados ©TongSushi</h4>
       </div>
     </footer>
   );

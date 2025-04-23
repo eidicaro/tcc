@@ -22,6 +22,7 @@ const Cardapio = () => {
     <div className='produtos'> 
 
 
+    <Footer/>
     </div>
   </div>;
 };
