@@ -8,6 +8,7 @@ import poke from './images/poke.png';
 import Loader from './paginas/loader.js';
 import { useState, useEffect } from 'react';
 
+
 const App = () => {
   const [loading, setLoading] = useState(true);
 
