@@ -1,13 +1,11 @@
 import React from 'react';
 import tong from './../images/tong-2.svg';
+import { FaInstagram, FaFacebookF, FaWhatsapp } from 'react-icons/fa'; // <-- importação dos ícones
 import '../style.css';
 
 const Footer = () => {
   return (
     <footer className="footer-container">
-      <div className="footer-top text-center">
-      </div>
-
       <div className="container footer-content">
         <div className="footer-section">
           <h4>Páginas :</h4>
@@ -18,29 +16,27 @@ const Footer = () => {
           </ul>
           
           <div className='footer-grupo'>
-          <h5>Desenvolvido por:</h5>
-          <ul className="list-unstyled">
-            <li><a href="/">Nome do grupo</a></li>
-          </ul>
+            <h5>Desenvolvido por:</h5>
+            <ul className="list-unstyled">
+              <li><a href="/">VIII</a></li>
+            </ul>
           </div>
         </div>
 
-       
-
         <div className="footer-section text-center">
           <img src={tong} alt="Tong Sushi Logo" width="250" />
-          <div className="footer-social mt-2"></div>
+
+          {/* Ícones sociais */}
+          <div className="footer-icons">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram size={24} color="#fff" style={{ marginRight: '20px' }} /></a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebookF size={24} color="#fff"  style={{ marginRight: '20px' }} /> </a>
+            <a href="https://wa.me/SEUNUMERO" target="_blank" rel="noopener noreferrer"><FaWhatsapp size={24} color="#fff" style={{ marginRight: '20px' }} /></a>
+          </div>
         </div>
       </div>
-{/* 
-      <div className='footer-icons mt-2'>
-      <a href="#"><img src={face} width="10"></a>
-      <a href="#"><img src={insta} width="10"></a>
-      <a href="#"><img src={whats} width="10"></a>
-      </div> */}
 
       <div className="footer text-center">
-      <h4>Todos direitos reservados ©TongSushi</h4>
+        <h4>Todos direitos reservados ©TongSushi</h4>
       </div>
     </footer>
   );
