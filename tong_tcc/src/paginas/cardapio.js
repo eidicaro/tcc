@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from '../paginas/header';
-import Footer from '../paginas/footer';
-import Sidebar from './sidebar';
-import Loader from './loader.js';
+import Header from './modais/header.js';
+import Footer from './modais/footer';
+import Sidebar from './modais/sidebar.js';
+import Loader from './modais/loader.js';
 import axios from 'axios';
 
 const Cardapio = () => {
@@ -23,18 +23,25 @@ const Cardapio = () => {
       });
   }, []);
 
-  return loading ? (
-    <Loader loading={true} />
-  ) : (
-    <div>
-      <Header />
+return loading ? (
+  <Loader loading={true} />
+) : (
+  <div className="page-container">
+    <Header />
+
+    <div className="main-content">
       <Sidebar />
-      <div className='produtos'>
-       
+      <div className="produtos">
+        {/* Aqui vai seu conteúdo de produtos */}
       </div>
-      <Footer />
     </div>
-  );
+
+    <Footer />
+
+  </div>
+);
+
+
 };
 
 export default Cardapio;

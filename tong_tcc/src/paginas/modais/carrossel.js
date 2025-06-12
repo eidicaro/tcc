@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Tong from './../images/tong-2.svg';
+import Tong from './../../images/tong-2.svg';
 
 const Carrossel = () => {
   return (

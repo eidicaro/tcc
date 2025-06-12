@@ -1,7 +1,7 @@
 import React from 'react';
-import tong from './../images/tong-2.svg';
+import tong from './../../images/tong-2.svg';
 import { FaInstagram, FaFacebookF, FaWhatsapp } from 'react-icons/fa'; // <-- importação dos ícones
-import '../style.css';
+import '../../style.css';
 
 const Footer = () => {
   return (

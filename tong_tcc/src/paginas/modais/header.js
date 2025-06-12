@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../style.css';
+import '../../style.css';
 import Carrinho from './carrinho';
 import { Modal } from './modal_carrinho';
-import tong from './../images/tong-2.svg';
+import tong from './../../images/tong-2.svg';
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

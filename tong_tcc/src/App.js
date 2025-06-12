@@ -1,11 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from './paginas/header.js';
-import Footer from './paginas/footer.js';
-import Carrossel from './paginas/carrossel.js';
-import Btt from './paginas/btt-cardapio.js';
+import Header from './paginas/modais/header.js';
+import Footer from './paginas/modais/footer.js';
+import Carrossel from './paginas/modais/carrossel.js';
+import Btt from './paginas/modais/btt-cardapio.js';
 import poke from './images/poke.png';
-import Loader from './paginas/loader.js';
+import Loader from './paginas/modais/loader.js';
 import { useState, useEffect } from 'react';
 
 

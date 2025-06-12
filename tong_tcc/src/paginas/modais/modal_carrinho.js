@@ -2,7 +2,7 @@
 import { createPortal } from "react-dom";
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../style.css';
+import '../../style.css';
 
 export const Modal = ({
   title,
