@@ -5,6 +5,8 @@ import Footer from './modais/footer';
 import Sidebar from './modais/sidebar.js';
 import Loader from './modais/loader.js';
 import axios from 'axios';
+import sushiImg from '../images/sunomono.png';
+
 
 const Cardapio = () => {
   const [loading, setLoading] = useState(true);
@@ -32,8 +34,21 @@ return loading ? (
     <div className="main-content">
       <Sidebar />
       <div className="produtos">
-        {/* Aqui vai seu conteúdo de produtos */}
+  
+        <div className='prod'>
+        <img src={sushiImg} alt="Sushi" style={{ width: '200px' }} />
+          <article>
+            <h1>Sunomono</h1>
+            <p>Salada agridoce de pepino com gergelim.</p>
+            <section>
+              <p>R$ 18,00</p>
+              <button className="botao">Saiba Mais</button>
+            </section>
+          </article>
+
+        </div>
       </div>
+
     </div>
 
     <Footer />
