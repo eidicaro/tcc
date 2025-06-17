@@ -153,6 +153,7 @@ main p{
   background-color: #D9D9D9;
   padding: 40px;
   font-weight: 700; /* também é negrito */
+  margin-bottom: 4%;
 }
 
 
@@ -165,6 +166,7 @@ main p{
 .prod article section{
   display: flex;
   padding: 10px;
+  margin-top: 10%;
   justify-content: space-between;
   font-weight: 700; 
   font-size: 20px;
@@ -177,7 +179,14 @@ main p{
   padding: 6px 12px;
   border: none;
   border-radius: 4px;
-  cursor: pointer;}
+  cursor: pointer;
+}
+
+.prod article h1{
+  color:#F48347;
+  font-weight: 700; 
+}
+  
 
 
 /* MODAL CARRINHO */
@@ -317,18 +326,6 @@ main p{
 
 .footer-icons{
   margin-right: -14px; 
-}
-
-/* teste */
-.page-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  display: flex;
-  flex: 1;
 }
 
 
