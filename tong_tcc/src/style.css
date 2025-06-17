@@ -231,7 +231,7 @@ main p{
 
 .dialog {
   z-index: 2;
-  width: 380px;
+  width: 670px;
   top: 50%;
   left: 50%;
   translate: -50% -50%;
@@ -331,4 +331,63 @@ main p{
   flex: 1;
 }
 
+/* modal css */
+.item-carrinho {
+  background: #f1f1f1;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 
+.item-carrinho-info {
+  flex: 1;
+}
+
+.item-carrinho-info strong {
+  color: #ff6b00;
+}
+
+.item-carrinho-info ul {
+  padding-left: 16px;
+  margin: 8px 0 0 0;
+  font-size: 14px;
+}
+
+.item-carrinho-acoes {
+  text-align: right;
+}
+
+.quantidade {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #000000;
+  font-weight: bold;
+  margin-top: 50%;
+}
+
+.preco {
+  display: block;
+  font-weight: bold;
+  color: #095d4c;
+  margin-bottom: 8px;
+}
+
+.icones .icone {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.btn-finalizar {
+  width: 100%;
+  background: linear-gradient(to right, #ff7b00, #ff3c00);
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  margin-top: 16px;
+}

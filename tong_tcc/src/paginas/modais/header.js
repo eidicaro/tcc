@@ -5,6 +5,8 @@ import '../../style.css';
 import Carrinho from './carrinho';
 import { Modal } from './modal_carrinho';
 import tong from './../../images/tong-2.svg';
+import ConteudoCarrinho from './conteudoCarrinho'; // novo import
+
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,20 +47,16 @@ const Header = () => {
         </div>
       </nav>
 
-      {/* Renderiza o modal fora do botão */}
+
       {isModalOpen && (
-        <Modal
-          title="Seu Carrinho"
-          subtitle="Veja as suas gostosuras"
-          isOpen={isModalOpen}
-          toggleModal={toggleModal}
-          modalContent={
-            <div>
-              <p>Aqui vão os itens do carrinho 🛒</p>
-            </div>
-          }
-        />
-      )}
+  <Modal
+    title="Seu Carrinho"
+    subtitle="Veja as suas gostosuras"
+    isOpen={isModalOpen}
+    toggleModal={toggleModal}
+    modalContent={<ConteudoCarrinho />} // aqui usa o conteúdo real
+  />
+)}
     </div>
   );
 };
