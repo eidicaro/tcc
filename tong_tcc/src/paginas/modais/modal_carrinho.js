@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../style.css';
 
 export const Modal = ({
-  title,
+  title ,
   subtitle,
   modalContent,
   toggleModal,

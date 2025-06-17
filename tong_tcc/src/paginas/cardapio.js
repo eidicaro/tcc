@@ -5,16 +5,15 @@ import Footer from './modais/footer';
 import Sidebar from './modais/sidebar.js';
 import Loader from './modais/loader.js';
 import axios from 'axios';
+import '../style.css';
 import sushiImg from '../images/sunomono.png';
-
 
 const Cardapio = () => {
   const [loading, setLoading] = useState(true);
   const [produtos, setProdutos] = useState([]);
 
   useEffect(() => {
-    // Requisição à API Laravel
-    axios.get('http://localhost:8000/api/cardapio') // ajuste se sua rota for diferente
+    axios.get('http://localhost:8000/api/cardapio')
       .then(response => {
         setProdutos(response.data);
         setLoading(false);
@@ -25,38 +24,59 @@ const Cardapio = () => {
       });
   }, []);
 
-return loading ? (
-  <Loader loading={true} />
-) : (
-  <div className="page-container">
-    <Header />
+  return loading ? (
+    <Loader loading={true} />
+  ) : (
+    <div className="page-container">
+      <Header />
 
-    <div className="main-content">
-      <Sidebar />
-      <div className="produtos">
-  
-        <div className='prod'>
-        <img src={sushiImg} alt="Sushi" style={{ width: '200px' }} />
-          <article>
-            <h1>Sunomono</h1>
-            <p>Salada agridoce de pepino com gergelim.</p>
-            <section>
-              <p>R$ 18,00</p>
-              <button className="botao">Saiba Mais</button>
-            </section>
-          </article>
+      <div className="content-wrap">
+          <Sidebar />
 
-        </div>
+          <div className="produtos">
+            {/* Produto 1 */}
+            <div className='prod'>
+              <img src={sushiImg} alt="Sushi" style={{ width: '200px' }} />
+              <article>
+                <h1>Sunomono</h1>
+                <p>Salada agridoce de pepino com gergelim.</p>
+                <section>
+                  <p>R$ 18,00</p>
+                  <button className="botao">Saiba Mais</button>
+                </section>
+              </article>
+            </div>
+
+            {/* Produto 2 */}
+            <div className='prod'>
+              <img src={sushiImg} alt="Sushi" style={{ width: '200px' }} />
+              <article>
+                <h1>Sunomono</h1>
+                <p>Salada agridoce de pepino com gergelim.</p>
+                <section>
+                  <p>R$ 18,00</p>
+                  <button className="botao">Saiba Mais</button>
+                </section>
+              </article>
+            </div>
+
+            {/* Produto 3 */}
+            <div className='prod'>
+              <img src={sushiImg} alt="Sushi" style={{ width: '200px' }} />
+              <article>
+                <h1>Sunomono</h1>
+                <p>Salada agridoce de pepino com gergelim.</p>
+                <section>
+                  <p>R$ 18,00</p>
+                  <button className="botao">Saiba Mais</button>
+                </section>
+              </article>
+            </div>
+          </div>
       </div>
 
     </div>
-
-    <Footer />
-
-  </div>
-);
-
-
+  );
 };
 
 export default Cardapio;
