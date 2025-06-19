@@ -134,9 +134,11 @@ main p{
   text-align: center; /* opcional, se quiser centralizar o texto */
 }
 
+/* PRODUTOS */
 
 .produtos{
-  padding: 20px;
+  padding: 4%;
+  margin-bottom: 5%;
   margin-left: 15%;
   width: 85%;
   position: fixed;
@@ -151,22 +153,21 @@ main p{
   width: 85%;
   border-radius: 10px;
   background-color: #D9D9D9;
-  padding: 40px;
+  padding:2%;
   font-weight: 700; /* também é negrito */
   margin-bottom: 4%;
 }
 
 
 .prod article {
-  margin-left: 45px;
+  margin-left: 2.5%;
   font-weight: 700; 
   font-size: 20px;
 }
 
 .prod article section{
   display: flex;
-  padding: 10px;
-  margin-top: 10%;
+  margin-top: 2%;
   justify-content: space-between;
   font-weight: 700; 
   font-size: 20px;
@@ -176,7 +177,8 @@ main p{
 .botao {
   background-color: #004225;
   color: white;
-  padding: 6px 12px;
+  padding: 1% 2%;
+  margin: 1%;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -265,6 +267,7 @@ main p{
 .dialog header {
   background: linear-gradient(90deg, #F48347, #e0360c );
   margin: -85px -20px 30px;
+
   border-radius: 12px;
   height: 170px;
   display: flex;
@@ -329,24 +332,12 @@ main p{
 }
 
 
-/* teste */
-.page-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  display: flex;
-  flex: 1;
-}
-
-/* modal css */
+/* MODAL CARRINHO */
 .item-carrinho {
-  background: #f1f1f1;
+  background: #D9D9D9;
   border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 12px;
+  padding: 4%;
+  margin-bottom: 3%;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -361,8 +352,8 @@ main p{
 }
 
 .item-carrinho-info ul {
-  padding-left: 16px;
-  margin: 8px 0 0 0;
+  padding-left: 4%;
+  margin: 2% 0 0 0;
   font-size: 14px;
 }
 
@@ -373,7 +364,7 @@ main p{
 .quantidade {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5%;
   color: #000000;
   font-weight: bold;
   margin-top: 50%;
@@ -383,11 +374,14 @@ main p{
   display: block;
   font-weight: bold;
   color: #095d4c;
-  margin-bottom: 8px;
+  padding: 5%;
+  margin-bottom: 3%;
 }
 
 .icones .icone {
-  margin-left: 8px;
+  width: 22%;
+  height: auto;
+  margin-left: 20%;
   cursor: pointer;
 }
 
@@ -396,8 +390,8 @@ main p{
   background: linear-gradient(to right, #ff7b00, #ff3c00);
   color: white;
   font-weight: bold;
-  padding: 10px;
+  padding: 2%;
   border: none;
   border-radius: 6px;
-  margin-top: 16px;
+  margin-top: 3%;
 }

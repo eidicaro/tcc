@@ -34,6 +34,7 @@ const Cardapio = () => {
           <Sidebar />
 
           <div className="produtos">
+
             {/* Produto 1 */}
             <div className='prod'>
               <img src={sushiImg} alt="Sushi" style={{ width: '200px' }} />
@@ -72,7 +73,9 @@ const Cardapio = () => {
                 </section>
               </article>
             </div>
+            
           </div>
+
       </div>
 
     </div>
