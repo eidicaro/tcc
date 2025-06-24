@@ -42,15 +42,6 @@ export default function Sidebar() {
         <li className="nav-item-cardapio">
           <a href="#sobremesas" className="nav-link text-white">Sobremesas</a>
         </li>
-        <li className="nav-item-cardapio">
-          <a href="#sobremesas" className="nav-link text-white">Sobremesas</a>
-        </li>
-        <li className="nav-item-cardapio">
-          <a href="#sobremesas" className="nav-link text-white">Sobremesas</a>
-        </li>
-        <li className="nav-item-cardapio">
-          <a href="#sobremesas" className="nav-link text-white">Sobremesas</a>
-        </li>
       </ul>
     </div>
   );

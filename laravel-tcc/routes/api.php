@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProdutosController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Http\Controllers\CardapioController;
 
-Route::get('/cardapio', [CardapioController::class, 'index']);
+Route::get('/produtos', [ProdutosController::class, 'index']);
 
