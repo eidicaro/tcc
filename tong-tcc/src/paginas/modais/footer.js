@@ -2,6 +2,7 @@ import React from 'react';
 import tong from './../../images/tong-2.svg';
 import { FaInstagram, FaFacebookF, FaWhatsapp } from 'react-icons/fa'; // <-- importação dos ícones
 import '../../style.css';
+import viii from './../../images/viii.png';
 
 const Footer = () => {
   return (
@@ -18,7 +19,7 @@ const Footer = () => {
           <div className='footer-grupo'>
             <h5>Desenvolvido por:</h5>
             <ul className="list-unstyled">
-              <li><a href="/">VIII</a></li>
+              <img src={viii} style={{ width: "200px", borderRadius: "7px" }} alt="Logo da equipe dona do projeto" />
             </ul>
           </div>
         </div>
