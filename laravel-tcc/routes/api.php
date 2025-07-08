@@ -18,4 +18,6 @@ use App\Http\Controllers\ProdutosController;
 
 
 Route::get('/produtos', [ProdutosController::class, 'index']);
+Route::get('/produtos/{id}/adicionais', [AdicionalController::class, 'adicionais']);
+
 

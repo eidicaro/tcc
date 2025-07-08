@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AdicionalModel extends Model
 {
+     protected $table = 'adicional';
+    protected $fillable = ['nome', 'preco', 'imagem'];
     use HasFactory;
 }

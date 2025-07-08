@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class AdicionaisSeeder extends Seeder
 {
@@ -12,7 +13,7 @@ class AdicionaisSeeder extends Seeder
      */
     public function run(): void
     {
-         DB::table('adicionais')->insert([
+         DB::table('adicional')->insert([
         [
             'nome' => 'tare 30ml',
             'preco' => 5.00,
@@ -39,7 +40,6 @@ class AdicionaisSeeder extends Seeder
         
         [
             'nome' => 'doritos',
-            'descricao' => 'Farofa de Doritos',
             'preco' => 5.00,
             'imagem' => 'images/doritos.webp'
         ],

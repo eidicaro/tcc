@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id('id_adicional');
             $table->string('nome', 100);
             $table->decimal('preco', 10, 2);
+            $table->string('imagem', 255)->nullable();
             $table->timestamps();
         });
     }

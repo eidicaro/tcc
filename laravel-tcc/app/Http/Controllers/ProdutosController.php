@@ -12,4 +12,9 @@ class ProdutosController extends Controller
 {
     return response()->json(ProdutoModel::all());
 }
+public function adicionais($id) {
+    $produto = Produto::findOrFail($id);
+    return $produto->adicionais; // assumindo relacionamento $produto->adicionais()
+}
+
 }
