@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('nome', 100);
             $table->text('descricao')->nullable();
             $table->decimal('preco', 10, 2);
-            $table->string('imagem_url', 255)->nullable();
+            $table->string('imagem', 255)->nullable();
             $table->unsignedBigInteger('id_categoria')->nullable();
             $table->timestamps();
 
