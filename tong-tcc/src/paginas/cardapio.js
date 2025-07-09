@@ -12,17 +12,21 @@ function Cardapio() {
   const [adicionais, setAdicionais] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
 
-  const abrirModalProduto = async (produto) => {
-    setProdutoSelecionado(produto);
-    try {
-      const res = await axios.get(`http://localhost:8000/api/produtos/${produto.id_produto}/adicionais`);
-      setAdicionais(res.data);
-    } catch (err) {
-      console.error("Erro ao carregar adicionais:", err);
-      setAdicionais([]);
-    }
+const abrirModalProduto = async (produto) => {
+  setProdutoSelecionado(produto);
+  try {
+    const res = await axios.get(`http://localhost:8000/api/produtos/${produto.id_produto}/adicionais`);
+    setAdicionais(res.data);
     setMostrarModal(true);
-  };
+    // teste dos adicionais
+    console.log("Adicionais recebidos:", res.data);
+
+  } catch (err) {
+    console.error("Erro ao carregar adicionais:", err);
+    setAdicionais([]);
+  }
+};
+
 
   const [loading, setLoading] = useState(true);
   const [produtos, setProdutos] = useState([]);
@@ -71,12 +75,14 @@ function Cardapio() {
 
       {/* ✅ Modal de produto (aparece sobre a tela toda) */}
       {mostrarModal && produtoSelecionado && (
-        <InfosProd
-          produto={produtoSelecionado}
-          adicionais={adicionais}
-          onClose={() => setMostrarModal(false)}
-        />
-      )}
+      <InfosProd
+        produto={produtoSelecionado}
+        adicionais={adicionais}
+        onClose={() => setMostrarModal(false)}
+      />
+    )}
+
+
     </div>
   );
 };

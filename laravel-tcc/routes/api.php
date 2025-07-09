@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdutosController;
+use App\Http\Controllers\AdicionalController;
 
 
 /*
@@ -18,6 +19,8 @@ use App\Http\Controllers\ProdutosController;
 
 
 Route::get('/produtos', [ProdutosController::class, 'index']);
-Route::get('/produtos/{id}/adicionais', [AdicionalController::class, 'adicionais']);
+Route::get('/produtos/{id}/adicionais', [ProdutosController::class, 'getAdicionais']);
+Route::post('/produtos/{id}/adicionais', [ProdutosController::class, 'atualizarAdicionais']);
+
 
 
