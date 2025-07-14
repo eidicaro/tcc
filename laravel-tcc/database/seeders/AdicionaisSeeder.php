@@ -17,79 +17,79 @@ class AdicionaisSeeder extends Seeder
         [
             'nome' => 'tare 30ml',
             'preco' => 5.00,
-            'imagem' => 'images/tare.webp'
+            'imagem' => 'images/tare.png'
         ],
 
         [
             'nome' => 'batata crispy',
             'preco' => 5.00,
-            'imagem' => 'images/batata-crispy.webp'
+            'imagem' => 'images/batata_crispy.jpeg'
         ],
 
         [
             'nome' => 'couve crispy',
             'preco' => 5.00,
-            'imagem' => 'images/couve-crispy.webp'
+            'imagem' => 'images/couve_crispy.jpeg'
         ],
 
         [
             'nome' => 'cream cheese',
             'preco' => 5.00,
-            'imagem' => 'images/cream-cheese.webp'
+            'imagem' => 'images/cream_cheese.jpeg'
         ],
         
         [
             'nome' => 'doritos',
             'preco' => 5.00,
-            'imagem' => 'images/doritos.webp'
+            'imagem' => 'images/doritos.jpeg'
         ],
 
         [
             'nome' => 'geleia de pimenta 30ml',
             'preco' => 10.00,
-            'imagem' => 'images/geleia-pimenta.webp'
+            'imagem' => 'images/geleia_de_pimenta.jpeg'
         ],
 
         [
             'nome' => 'salmão em cubos extra 70g',
             'preco' => 20.00,
-            'imagem' => 'images/salmao-cubos.webp'
+            'imagem' => 'images/salmao_cubos.jpeg'
         ],
 
         [
             'nome' => 'shoyu sache',
             'preco' => 1.50,
-            'imagem' => 'images/shoyu-sache.webp'
+            'imagem' => 'images/sache_shoyu.png'
         ],
 
         [
             'nome' => 'tare sache',
             'preco' => 2.00,
-            'imagem' => 'images/tare-sache.webp'
+            'imagem' => 'images/sache_tare.png'
         ],
 
         [
             'nome' => 'wasabi 20g',
             'preco' => 5.00,
-            'imagem' => 'images/wasabi.webp'
+            'imagem' => 'images/wasabi.png'
         ],
 
         [
             'nome' => 'gengibre 20g',
             'preco' => 5.00,
-            'imagem' => 'images/gengibre.webp'
+            'imagem' => 'images/gengibre.png'
         ],
 
         [
             'nome' => 'adaptador',
             'preco' => 1.00,
-            'imagem' => 'images/adaptador.webp'
+            'imagem' => 'images/adaptador.png'
         ],
 
         [
             'nome' => 'par de hashi',
             'preco' => 1.00,
-            'imagem' => 'images/hashi.webp'
+            'imagem' => 'images/hashi.png'
         ],
 
         [
@@ -101,7 +101,7 @@ class AdicionaisSeeder extends Seeder
         [
             'nome' => 'cebolinha',
             'preco' => 3.00,
-            'imagem' => 'images/cebolinha.webp'
+            'imagem' => 'images/cebolinha.jpeg'
         ],
     ]);
     }
