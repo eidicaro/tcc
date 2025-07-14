@@ -18,8 +18,6 @@ const abrirModalProduto = async (produto) => {
     const res = await axios.get(`http://localhost:8000/api/produtos/${produto.id_produto}/adicionais`);
     setAdicionais(res.data);
     setMostrarModal(true);
-    // teste dos adicionais
-    console.log("Adicionais recebidos:", res.data);
 
   } catch (err) {
     console.error("Erro ao carregar adicionais:", err);
