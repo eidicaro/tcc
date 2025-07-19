@@ -29,6 +29,7 @@ const ItemCarrinho = ({ nome, adicionais, preco }) => (
   </div>
 );
 
+// aparente conteudo do carrinho
 const ConteudoCarrinho = () => {
   const itens = [
     {
@@ -52,15 +53,19 @@ const ConteudoCarrinho = () => {
   ];
 
   return (
+    // conteudo em si
     <div className="conteudo-carrinho">
+
       {itens.map((item, index) => (
         <ItemCarrinho
+        // infos do carrinho (vai ser alterado)
           key={index}
           nome={item.nome}
           adicionais={item.adicionais}
           preco={item.preco}
         />
       ))}
+
       <button className="btn-finalizar">Finalizar Pedido</button>
     </div>
   );

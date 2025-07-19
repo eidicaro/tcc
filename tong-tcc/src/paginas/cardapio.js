@@ -11,24 +11,22 @@ function Cardapio() {
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [adicionais, setAdicionais] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
+  const abrirModalProduto = async (produto) => {
+    setProdutoSelecionado(produto);
+    try {
+      const res = await axios.get(`http://localhost:8000/api/produtos/${produto.id_produto}/adicionais`);
+      setAdicionais(res.data);
+      setMostrarModal(true);
 
-const abrirModalProduto = async (produto) => {
-  setProdutoSelecionado(produto);
-  try {
-    const res = await axios.get(`http://localhost:8000/api/produtos/${produto.id_produto}/adicionais`);
-    setAdicionais(res.data);
-    setMostrarModal(true);
-
-  } catch (err) {
-    console.error("Erro ao carregar adicionais:", err);
-    setAdicionais([]);
-  }
-};
-
-
+    } catch (err) {
+      console.error("Erro ao carregar adicionais:", err);
+      setAdicionais([]);
+    }
+  };
   const [loading, setLoading] = useState(true);
   const [produtos, setProdutos] = useState([]);
 
+    // conexão com axios aqui
   useEffect(() => {
     axios.get('http://localhost:8000/api/produtos')
       .then(res => {
@@ -41,34 +39,36 @@ const abrirModalProduto = async (produto) => {
       });
   }, []);
 
+
   return loading ? (
+    // inicia com o carregamento do loader
     <Loader loading={true} />
   ) : (
+    // conteudo
     <div className="page-container">
       <Header />
 
+      {/* conteudo em si fora do header */}
       <div className="content-wrap">
-        <Sidebar />
+          <Sidebar />
 
-        <div className="produtos">
-          {produtos.map(p => (
-            <div className='prod' key={p.id_produto}>
-              <img
-                src={`http://localhost:8000/storage/${p.imagem}`}
-                alt={p.nome}
-                style={{ width: '200px', borderRadius: '10px' }}
-              />
-              <article>
-                <h1>{p.nome}</h1>
-                <p>{p.descricao}</p>
-                <section>
-                  <p>{p.preco}</p>
-                  <button className="botao" onClick={() => abrirModalProduto(p)}>Saiba Mais</button>
-                </section>
-              </article>
-            </div>
-          ))}
-        </div>
+          <div className="produtos">
+            {produtos.map(p => (
+              <div className='prod' key={p.id_produto}>
+
+                <img src={`http://localhost:8000/storage/${p.imagem}`} alt={p.nome} style={{ width: '200px', borderRadius: '10px' }}/>
+
+                <article>
+                    <h1>{p.nome}</h1>
+                    <p>{p.descricao}</p>
+                    <section>
+                        <p>{p.preco}</p>
+                        <button className="botao" onClick={() => abrirModalProduto(p)}>Saiba Mais</button>
+                    </section>
+                </article>
+              </div>
+            ))}
+          </div>
       </div>
 
       {/* ✅ Modal de produto (aparece sobre a tela toda) */}

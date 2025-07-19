@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Tong from './../../images/tong-2.svg';
 
+// por as imagens do banco de dados
 const Carrossel = () => {
   return (
     <StyledWrapper>

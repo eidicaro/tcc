@@ -1,3 +1,5 @@
+// inutiil por enquanto
+
 import React, { useEffect, useState } from 'react';
 
 const SelecionarAdicionais = ({ produtoId }) => {
