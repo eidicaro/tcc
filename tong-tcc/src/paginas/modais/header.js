@@ -27,7 +27,7 @@ const Header = () => {
             aria-expanded="false" 
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
@@ -47,16 +47,16 @@ const Header = () => {
         </div>
       </nav>
 
-
-      {isModalOpen && (
-  <Modal
-    title="Seu Carrinho"
-    subtitle="Veja as suas gostosuras"
-    isOpen={isModalOpen}
-    toggleModal={toggleModal}
-    modalContent={<ConteudoCarrinho />} // aqui usa o conteúdo real
-  />
-)}
+    {/* Conteudo do modal do Carrinho */}
+        {isModalOpen && (
+            <Modal
+              title="Seu Carrinho"
+              subtitle="Veja as suas gostosuras"
+              isOpen={isModalOpen}
+              toggleModal={toggleModal}
+              modalContent={<ConteudoCarrinho />} // aqui usa o conteúdo real
+            />
+        )}
     </div>
   );
 };

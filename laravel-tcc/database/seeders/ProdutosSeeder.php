@@ -21,35 +21,41 @@ class ProdutosSeeder extends Seeder
             'preco' => 20.50,
             'imagem' => 'images/ceviche.webp'
         ],
+
         [
             'nome' => 'sunomono', 
             'descricao' => 'Salada agridoce de pepino com gergelim.', 
             'preco' => 18.91, 
             'imagem' => 'images/ceviche.webp'
         ],
+
         [
             'nome' => 'sunomono', 
             'descricao' => 'Salada agridoce de pepino com gergelim.', 
             'preco' => 18.91, 
             'imagem' => 'images/sunomono.png'
         ],
+
         [
             'nome' => 'sunomono', 
             'descricao' => 'Salada agridoce de pepino com gergelim.', 
             'preco' => 18.91, 
             'imagem' => 'images/ceviche.webp'
         ],
+
         [
             'nome' => 'Hot Roll', 
             'descricao' => 'Sushi empanado e frito.', 
             'preco' => 25.50, 'imagem' => 'images/ceviche.webp'
         ],
+        
         [
             'nome' => 'Temaki de Salmao Grelhado', 
             'descricao' => 'Sushi empanado e frito.', 
             'preco' => 40.50, 
             'imagem' => 'images/ceviche.webp'
         ],
+        
         [
             'nome' => 'Temaki de Salmao Grelhado', 
             'descricao' => 'Sushi empanado e frito.', 

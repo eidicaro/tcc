@@ -29,15 +29,16 @@ const App = () => {
       
       <h1 className='horario-h1'>Horário de Atendimento</h1>
       <div className='sla'>
-        <div className='horario'>
-          <p className='pa'>Segunda-Quinta: 18:30-22:00</p>
-          <p className='pa'>Sexta-sabado: 18:30-22:30</p>
-          <Btt />
-        </div>
-        <img src={poke} alt="salmao" className='poke' />
+          <div className='horario'>
+              <p className='pa'>Segunda-Quinta: 18:30-22:00</p>
+              <p className='pa'>Sexta-sabado: 18:30-22:30</p>
+              <Btt />
+          </div>
+          <img src={poke} alt="salmao" className='poke' />
       </div>
 
       <div className='mapa'>
+
           <div className='local'>
             <h1>Nossa localização</h1>
             <p>Rua Orlando Sartorelli 45, Centro</p>
@@ -51,7 +52,6 @@ const App = () => {
             allowfullscreen="" loading="lazy" 
             referrerpolicy="no-referrer-when-downgrade">
           </iframe>
-
 
       </div>
 

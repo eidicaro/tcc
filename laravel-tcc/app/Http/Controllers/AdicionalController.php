@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 class AdicionalController extends Controller
 {
     public function index()
-{
-    return response()->json(AdicionalModel::all());
-}
+    {
+        return response()->json(AdicionalModel::all());
+    }
 
 }
