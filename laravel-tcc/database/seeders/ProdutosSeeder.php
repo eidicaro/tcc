@@ -109,19 +109,19 @@ class ProdutosSeeder extends Seeder
         'nome' => 'BIG HOT HOLL',
         'descricao' => '1 hot recheado com salmão cru, cream cheese e cebolinha finalizado com gergelim e tare da casa. Acompanha 1 shoyu e 1 tare sachê.',
         'preco' => 50.00,
-        'imagem' => ''
+        'imagem' => 'imagens/bighotholl.png'
     ],
     [
         'nome' => 'POKE TONG',
         'descricao' => 'Shari, salmão, sunomono, batata e couve crispy, doritos, manga, gergelim, cream cheese, pimenta biquinho. Acompanha 1 shoyu, 1 tare e 1 hashi.',
         'preco' => 55.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hamburguer.jfif'
     ],
     [
         'nome' => 'HAMBÚRGUER DE SALMÃO',
         'descricao' => 'Hambúrguer de salmão, cream cheese, cebolinha, cebola, couve crispy e pimenta biquinho.',
         'preco' => 40.00,
-        'imagem' => ''
+        'imagem' => 'imagens/poketong.png'
     ],
 
     // Temaki
@@ -129,61 +129,61 @@ class ProdutosSeeder extends Seeder
     'nome' => 'TEMAKI COMPLETO SALMÃO CRU',
     'descricao' => 'Arroz, salmão em cubos ou batido, com cream cheese, cebolinha. Acompanha 1 shoyu e 1 tare sachê.',
     'preco' => 38.00,
-    'imagem' => ''
+    'imagem' => 'imagens/TEMAKICOMPLETOSALMÃOCRU.jfif'
 ],
 [
     'nome' => 'TEMAKI SALMÃO COMPLETO GRELHADO',
     'descricao' => 'Arroz, salmão grelhado, cream cheese, cebolinha. Acompanha 1 shoyu e 1 tare sachê.',
     'preco' => 38.00,
-    'imagem' => ''
+    'imagem' => 'imagens/salmaogrelhado.png'
 ],
 [
     'nome' => 'TEMAKI CALIFORNIA',
     'descricao' => 'Arroz, pepino, manga, kani e cream cheese. Acompanha 1 shoyu e 1 tare sachê.',
     'preco' => 30.00,
-    'imagem' => ''
+    'imagem' => 'imagens/california.png'
 ],
 [
     'nome' => 'TEMAKI GRELHADO E FRITO',
     'descricao' => 'Temaki de salmão grelhado e frito. Acompanha 1 shoyu e 1 tare.',
     'preco' => 45.00,
-    'imagem' => ''
+    'imagem' => 'imagens/grelhadoefrito.png'
 ],
 [
     'nome' => 'TEMAKI CAMARÃO EMPANADO',
     'descricao' => 'Arroz, camarão empanado e frito, cream cheese e cebolinha. Acompanha 1 shoyu e 1 tare.',
     'preco' => 54,90,
-    'imagem' => ''
+    'imagem' => 'imagens/camaraoempanado.png'
 ],
 [
     'nome' => 'TEMAKI CAMARÃO EMPANADO E FRITO',
     'descricao' => 'Arroz, camarão empanado e frito. Acompanha 1 shoyu e 1 tare.',
     'preco' => 59,90,
-    'imagem' => ''
+    'imagem' => 'imagens/camaraoempanado.png'
 ],
 [
     'nome' => 'TEMAKI DOUBLE',
     'descricao' => '2 temakis slim cru com cream cheese e cebolinha. Acompanha 2 shoyu e 1 tare.',
     'preco' => 45.00,
-    'imagem' => ''
+    'imagem' => 'imagens/double.png'
 ],
 [
     'nome' => 'TEMAKI DOUBLE GRELHADO',
     'descricao' => '2 temakis de salmão grelhado slim com cebolinha. Acompanha 2 shoyu e 1 tare sachê.',
     'preco' => 45.90,
-    'imagem' => ''
+    'imagem' => 'imagens/doublegrelhado.png'
 ],
 [
     'nome' => 'NANJOO',
     'descricao' => '2 temakis salmão cru com cream cheese, cebolinha e 8 hot holl couve crispy finalizado com tare da casa. Acompanha 2 shoyu e 2 tare sachê.',
     'preco' => 59.90,
-    'imagem' => ''
+    'imagem' => 'imagens/nanjoo.png'
 ],
 [
     'nome' => 'TEMAKI+ HOT + REFRI 200 ML',
     'descricao' => '1 temaki slim grelhado e frito, 10 hot holls cebolinha, finalizado com gergelim e tare da casa, e 1 refri 200 ml. Acompanha 2 shoyu e 1 tare sachê.',
     'preco' => 55.00,
-    'imagem' => ''
+    'imagem' => 'imagens/temakimaishot.jfif'
 ],
 
 // Sushi Individual
@@ -191,79 +191,79 @@ class ProdutosSeeder extends Seeder
         'nome' => 'URAMAKI DE SALMÃO CRU (8 UNIDADES)',
         'descricao' => 'Nori, arroz, salmão cru, cream cheese, envolvido com gergelim. 1 unidade cortada em 8 pedaços. Acompanha 1 hashi, 1 shoyu e 1 tare.',
         'preco' => 28.00,
-        'imagem' => ''
+        'imagem' => 'imagens/urumakisalmaocru8.png'
     ],
     [
         'nome' => 'URAMAKI SALMÃO GRELHADO (8 UNIDADES)',
         'descricao' => 'Nori, arroz, salmão grelhado com cream cheese envolto com gergelim.',
         'preco' => 28.00,
-        'imagem' => ''
+        'imagem' => 'imagens/urumakisalmaogrelhado.png'
     ],
     [
         'nome' => 'URAMAKI CAMARÃO (8 UNIDADES)',
         'descricao' => 'Nori, arroz, camarão empanado e cream cheese. 1 unidade cortada em 8 pedaços. Acompanha 1 hashi, 1 shoyu e 1 tare sachê.',
         'preco' => 32.00,
-        'imagem' => ''
+        'imagem' => 'imagens/urumakicamarao8.png'
     ],
     [
         'nome' => 'URAMAKI CALIFÓRNIA (8 UNIDADES)',
         'descricao' => 'Nori, arroz, kani, manga, pepino e cream cheese. 1 unidade cortada em 8 pedaços. Acompanha 1 hashi, 1 shoyu e 1 tare sachê.',
         'preco' => 25.00,
-        'imagem' => ''
+        'imagem' => 'imagens/urumakicalifornia8.png'
     ],
     [
         'nome' => 'HOSSOMAKI DE SALMÃO (8 UNIDADES)',
         'descricao' => 'Nori, shari, salmão. 1 unidade cortada em 8 pedaços. Acompanha 1 hashi, 1 shoyu e 1 tare sachê.',
         'preco' => 25.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hossomakisalmao8.png'
     ],
     [
         'nome' => 'HOSSOMAKI PEPINO (8 UNIDADES)',
         'descricao' => 'Shari, nori, pepino. 1 unidade cortada em 8 pedaços.',
         'preco' => 18.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hossomakipepino8.png'
     ],
     [
         'nome' => 'HOSSOMAKI KANI (8 UNIDADES)',
         'descricao' => 'Shari, nori, kani. 1 unidade cortada em 8 pedaços. Acompanha 1 hashi, 1 shoyu e 1 tare sachê.',
         'preco' => 20.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hossomakikani8.png'
     ],
     [
         'nome' => 'SASHIMI (5 UNIDADES)',
         'descricao' => '5 unidades de salmão fresco. Acompanha 1 shoyu sachê, 1 tare sachê e 1 hashi.',
         'preco' => 25.00,
-        'imagem' => ''
+        'imagem' => 'imagens/sashimi5.png'
     ],
     [
         'nome' => 'JHOW CREAM CHEESE (6 UNIDADES)',
         'descricao' => '6 unidades de jhow cream cheese e cebolinha.',
         'preco' => 30.00,
-        'imagem' => ''
+        'imagem' => 'imagens/jhowcreamcheese6.jfif'
     ],
     [
         'nome' => 'JHOW COUVE (6 UNIDADES)',
         'descricao' => '6 unidades de jhow couve, finalizado com tare da casa. Acompanha 1 hashi, 1 shoyu e 1 tare sachê.',
         'preco' => 33.00,
-        'imagem' => ''
+        'imagem' => 'imagens/jhowcouve6.jfif'
     ],
     [
         'nome' => 'NIGUIRI (6 UNIDADES)',
         'descricao' => 'Niguiris de salmão cru. Acompanha 1 shoyu, 1 tare sachê e 1 hashi.',
         'preco' => 29,90,
-        'imagem' => ''
+        'imagem' => 'imagens/niguiri6.jfif'
     ],
     [
         'nome' => 'NIGUIRI TONG (6 UNIDADES)',
         'descricao' => '6 unidades de niguiris flambados, finalizado com geleia de pimenta e cebolinha. Acompanha 1 shoyu e 1 hashi.',
         'preco' => 31.90,
-        'imagem' => ''
+        'imagem' => 'imagens/niguiritong.png'
     ],
     [
         'nome' => 'JOY EBI FLAMBADO (6 UNIDADES)',
         'descricao' => '6 unidades de joy flambado, finalizado com cream cheese, camarão e tare da casa. Acompanha 1 shoyu, 1 tare e 1 hashi.',
         'preco' => 34.00,
-        'imagem' => ''
+        'imagem' => 'imagens/joyebi.png'
     ],
 
 // Hot Holl
@@ -271,73 +271,73 @@ class ProdutosSeeder extends Seeder
         'nome' => 'HOT HOLL CEBOLINHA (10 UNIDADES)',
         'descricao' => 'Arroz, nori, salmão grelhado empanado e frito, finalizado com cream cheese, cebolinha, gergelim e tare da casa. 1 unidade cortada em 10 pedaços.',
         'preco' => 30.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hothollcebolinha10.png'
     ],
     [
         'nome' => 'HOT HOLL MIX (10 UNIDADES)',
         'descricao' => 'Shari, nori, salmão grelhado empanado e frito, finalizado com cream cheese, cebolinha e doritos, gergelim e tare da casa. 1 unidade cortada em 10 pedaços. Acompanha 1 hashi, 1 shoyu e 1 tare sachê.',
         'preco' => 32.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hothollmix10.png'
     ],
     [
         'nome' => 'HOT HOLL COUVE CRISPY (10 UNIDADES)',
         'descricao' => 'Shari, nori, salmão grelhado empanado e frito, finalizado com couve e tare da casa. 1 unidade cortada em 10 pedaços. Acompanha 1 hashi, 1 shoyu e 1 tare sachê.',
         'preco' => 32.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hothollcouvecrispy10.png'
     ],
     [
         'nome' => 'HOT HOLL CAMARÃO (10 UNIDADES)',
         'descricao' => 'Shari, nori, salmão grelhado finalizado com cream cheese e camarão, finalizado com tare da casa. Acompanha 1 hashi, 1 shoyu e 1 tare sachê.',
         'preco' => 37.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hothollcamarão10.png'
     ],
     [
         'nome' => 'HOT HOLL CEBOLINHA (20 UNIDADES)',
         'descricao' => 'Shari, nori, salmão grelhado empanado e frito, finalizado com cream cheese e cebolinha, gergelim e tare da casa.',
         'preco' => 42.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hothollcebolinha20.png'
     ],
     [
         'nome' => 'HOT HOLL MIX (20 UNIDADES)',
         'descricao' => 'Shari, nori, salmão grelhado empanado e frito, finalizado com cebolinha e doritos, gergelim e tare da casa. 2 unidades cortadas em 20 pedaços. Acompanha 1 hashi, 2 shoyu e 1 tare sachê.',
         'preco' => 52.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hothollmix20.png'
     ],
     [
         'nome' => 'HOT HOLL COUVE CRISPY (20 UNIDADES)',
         'descricao' => 'Nori, shari, salmão grelhado empanado e frito, finalizado com cream cheese, couve e tare da casa. 2 unidades cortadas em 20 pedaços. Acompanha 1 hashi, 2 shoyu e 1 tare sachê.',
         'preco' => 44.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hothollcouvecrispy10.png'
     ],
     [
         'nome' => 'HOT HOLL GOURMET (20 UNIDADES)',
         'descricao' => 'Nori, shari, salmão grelhado empanado e frito, finalizado com 4 unidades de pimenta biquinho, 4 unidades de geleia de pimenta, 4 unidades de couve crispy, 4 unidades de cebolinha e 4 unidades de doritos, finalizado com tare da casa. Acompanha 1 hashi, 2 shoyu e 1 tare sachê. 2 unidades cortadas em 20 pedaços.',
         'preco' => 55.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hothollgourmet20.png'
     ],
     [
         'nome' => 'HOT HOLL DORITOS (20 UNIDADES)',
         'descricao' => '2 unidades cortadas em 20 pedaços de shari, nori, salmão grelhado empanado e frito, finalizado com cream cheese, doritos, gergelim e tare da casa. Acompanha 1 hashi, 2 shoyu e 1 tare sachê.',
         'preco' => 55.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hotholldoritos20.webp'
     ],
     [
         'nome' => 'HOT HOLL CEBOLINHA (30 UNIDADES)',
         'descricao' => 'Shari, nori, salmão grelhado empanado e frito, finalizado com cream cheese, cebolinha, gergelim e tare da casa. 3 unidades cortadas em 30 pedaços. Acompanha 2 shoyu, 1 hashi e 1 tare sachê.',
         'preco' => 70.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hothollcebolinha20.png'
     ],
     [
         'nome' => 'HOT HOLL CEBOLINHA (40 UNIDADES)',
         'descricao' => 'Nori, shari, salmão grelhado empanado e frito, finalizado com cream cheese, cebolinha, gergelim e tare da casa. 4 unidades cortadas em 40 pedaços. Acompanha 2 hashi, 2 shoyu e 2 tare sachê.',
         'preco' => 78.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hothollcebolinha40.png'
     ],
     [
         'nome' => 'HOT HOLL MIX (40 UNIDADES)',
         'descricao' => 'Nori, shari, salmão grelhado empanado e frito, finalizado com cebolinha, doritos, gergelim e tare da casa. 4 unidades cortadas em 40 pedaços. Acompanha 1 hashi, 3 shoyu e 2 tare sachê.',
         'preco' => 85.00,
-        'imagem' => ''
+        'imagem' => 'imagens/hothollmix40.png'
     ],
 
     //yakisoba 
@@ -345,28 +345,28 @@ class ProdutosSeeder extends Seeder
     'nome' => 'YAKISOBA MISTO CARNE E FRANGO',
     'descricao' => 'Macarrão oriental frito com carne e frango flambado, brócolis, pimentões coloridos, acelga, cenoura, cebola e molho especial da casa finalizado com óleo de gergelim. Acompanha 1 hashi e 1 shoyu sachê. Peso aproximado: 800g.',
     'preco' => 55.00,
-    'imagem' => ''
+    'imagem' => 'imagens/yakisobamistojfif.png'
 ],
 
 [
     'nome' => 'YAKISOBA SUPREMO',
     'descricao' => 'Macarrão oriental frito, carne, frango e camarão, brócolis, cenoura, acelga, pimentões coloridos e molho especial da casa finalizado com óleo de gergelim.',
     'preco' => 75.00,
-    'imagem' => ''
+    'imagem' => 'imagens/yakisobasupremo.jfif'
 ],
 
 [
     'nome' => 'YAKISOBA DE FRANGO',
     'descricao' => 'Macarrão frito, frango, brócolis, cenoura, acelga, pimentões coloridos, cebola e molho especial da casa finalizado com óleo de gergelim. Acompanha 1 sachê de shoyu e 1 hashi.',
     'preco' => 55.00,
-    'imagem' => ''
+    'imagem' => 'imagens/yakisobafrango.jfif'
 ],
 
 [
     'nome' => 'YAKISOBA CAMARÃO',
     'descricao' => 'Macarrão frito, camarão, brócolis, cenoura, acelga, pimentões coloridos, cebola e molho especial da casa finalizado com óleo de gergelim. Acompanha 1 hashi e 1 shoyu sachê.',
     'preco' => 70.00,
-    'imagem' => ''
+    'imagem' => 'imagens/yakisomacamarao.jfif'
 ],
 
 //coxinhass
@@ -374,14 +374,14 @@ class ProdutosSeeder extends Seeder
     'nome' => 'COXINHA DE FRANGO COM CATUPIRY',
     'descricao' => '1 unidade de 120g. Massa artesanal feita com leite e manteiga, recheada com frango desfiado e catupiry. Acompanha 1 sachê de ketchup e 1 de maionese.',
     'preco' => 12.00,
-    'imagem' => ''
+    'imagem' => 'imagens/coxinhafrango.jfif'
 ],
 
 [
     'nome' => 'COXINHA DE CAMARÃO',
     'descricao' => '1 unidade de 120g. Massa artesanal feita com leite e manteiga, recheada com catupiry e camarão. Acompanha 1 sachê de ketchup e 1 de maionese.',
     'preco' => 15.00,
-    'imagem' => ''
+    'imagem' => 'imagens/coxinhacamarao.jfif'
 ],
 
     ]);
