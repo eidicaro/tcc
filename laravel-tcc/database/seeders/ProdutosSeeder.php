@@ -28,34 +28,34 @@ class ProdutosSeeder extends Seeder
             'nome' => 'CEVICHE MISTO', 
             'descricao' => 'Cubos de salmão e tilápia, com cebola, cebolinha, marinados com temperos especiais e finalizado com azeite.', 
             'preco' => 45.90, 
-            'imagem' => 'images/ceviche.webp'
+            'imagem' => 'imagens/cevichemisto.png'
         ],
 
         [
             'nome' => 'SUNOMONO', 
             'descricao' => 'Fatias finas de pepino, com molho especial da casa finalizado com gergelim (100 gramas).', 
             'preco' => 9.90, 
-            'imagem' => 'images/sunomono.png'
+            'imagem' => 'images/sunomonoo.png'
         ],
 
         [
             'nome' => 'GUIOZA', 
             'descricao' => '4 unidade de Guioza frito ou a vapor,no sabor de sua escolha.', 
             'preco' => 19.90, 
-            'imagem' => 'images/sunomono.png'
+            'imagem' => 'images/guioza.png'
         ],
 
        [
         'nome' => 'HARUMAKI DE QUEIJO',
         'descricao' => '2 unidades de rolinho de queijo, acompanha molho especial.',
         'preco' => 18.00,
-        'imagem' => ''
+        'imagem' => 'imagens/harumakidequeijo.png'
     ],
     [
         'nome' => 'SHIMEJI NA MANTEIGA',
         'descricao' => 'Shimeji na manteiga finalizado com cebolinha.',
         'preco' => 25.00,
-        'imagem' => ''
+        'imagem' => 'imagens/shimejinamanteiga.jfif'
     ],
 
     // Combinados
