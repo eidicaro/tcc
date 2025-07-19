@@ -64,43 +64,43 @@ class ProdutosSeeder extends Seeder
         'nome' => 'COMBINADO 1 (16 PEÇAS)',
         'descricao' => '4 fatias de sashimi, 4 uramaki salmão com cream cheese, 8 unidades de hotholl finalizado com cream cheese, cebolinha, gergelim e tare da casa, acompanha 2 shoyu sachê, 1 tare sachê e 1 hashi.',
         'preco' => 52.00,
-        'imagem' => ''
+        'imagem' => 'imagens/combinado1.png'
     ],
     [
         'nome' => 'COMBINADO 20',
         'descricao' => '4 niguiris de salmão cru, 8 uramaki de salmão com cream cheese, 8 hossomaki de pepino, acompanha 2 shoyu, 1 tare e 1 hashi.',
         'preco' => 49.90,
-        'imagem' => ''
+        'imagem' => 'imagens/combinado20.png'
     ],
     [
         'nome' => 'COMBINADO 4',
         'descricao' => '8 niguiris, 8 jhow cream cheese, 8 uramaki salmão cream cheese, 8 hotholl doritos, 8 hotholl cebolinha.',
         'preco' => 129.90,
-        'imagem' => ''
+        'imagem' => 'imagens/combinado4.png'
     ],
     [
         'nome' => 'COMBINADO 6 GRELHADOS',
         'descricao' => '5 niguiris sem cream cheese, 5 jhow cream cheese flambado, 5 uramaki de salmão grelhado, 5 hot holl couve crispy, 10 hot holl cebolinha, finalizado com gergelim e tare da casa. Acompanha 2 shoyu, 1 tare e 2 hashi.',
         'preco' => 80.00,
-        'imagem' => ''
+        'imagem' => 'imagens/combinado6.png'
     ],
     [
         'nome' => 'COMBINADO 7',
         'descricao' => '5 niguiris de salmão cru, 5 jhow doritos, 5 uramaki salmão, 5 hot camarão, 10 hot cebolinha, finalizado com gergelim e tare da casa. Acompanha 2 hashi, 2 shoyu e 2 tare sachê.',
         'preco' => 75.00,
-        'imagem' => ''
+        'imagem' => 'imagens/combinado7.png'
     ],
     [
         'nome' => 'COMBINADO PREMIUM',
         'descricao' => '4 sashimis, 4 niguiris, 4 jhow batidinho, 8 uramaki salmão, 4 hossomaki salmão. Acompanha 2 shoyu, 2 tare, 2 hashi.',
         'preco' => 84.90,
-        'imagem' => ''
+        'imagem' => 'imagens/combinadopremium.png'
     ],
     [
         'nome' => 'COMBINADO TROPICAL',
         'descricao' => '2 niguiris salmão cru, 4 uramaki salmão, 8 uramaki california, 8 hossomaki pepino, 8 hossomaki kani, 10 hot holl couve crispy. Acompanha 2 hashi, 2 shoyu e 2 tare sachê.',
         'preco' => 79,90,
-        'imagem' => ''
+        'imagem' => 'imagens/combinadotropical.png'
     ],
 
     // Especial da Casa
