@@ -17,8 +17,8 @@ class ProdutosSeeder extends Seeder
             DB::table('produto')->insert([
         [
             'nome' => 'CEVICHE TILÁPIA',
-            'descricao' => 'Bagui com peice cru.',
-            'preco' => 20.50,
+            'descricao' => '200 gramas de Tilápia em cubos, marinados, com cebola, cebolinha, temperos especiais e finalizado com azeite.',
+            'preco' => 45.90,
             'imagem' => 'images/ceviche.webp'
         ],
         [
