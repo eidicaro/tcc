@@ -16,7 +16,7 @@ class ProdutosSeeder extends Seeder
     {
             DB::table('produto')->insert([
         [
-            'nome' => 'ceviche',
+            'nome' => 'CEVICHE TILÁPIA',
             'descricao' => 'Bagui com peice cru.',
             'preco' => 20.50,
             'imagem' => 'images/ceviche.webp'
