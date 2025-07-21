@@ -60,7 +60,7 @@ function Cardapio() {
 
                 <article>
                     <h1>{p.nome}</h1>
-                    <p>{p.descricao}</p>
+                    <p className='descricao'>{p.descricao}</p>
                     <section>
                         <p>{p.preco}</p>
                         <button className="botao" onClick={() => abrirModalProduto(p)}>Saiba Mais</button>
