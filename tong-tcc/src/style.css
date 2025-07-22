@@ -127,14 +127,25 @@ main p{
 
 .nav-item-cardapio {
   width: 100%;
-  padding: 7% 0; /* tira o padding lateral pra não "encolher" */
-  font-size: 24px;
+  padding: 4% 0; /* tira o padding lateral pra não "encolher" */
+  font-size: 20px;
   font-weight: 600;
   border-bottom: 3px solid #fff;
   box-sizing: border-box;
   display: block; /* força ocupar a linha toda */
   text-align: center; /* opcional, se quiser centralizar o texto */
 }
+
+.sidebar-custom {
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.sidebar-custom::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
 
   /* MODAIS PRODUTOS */
 

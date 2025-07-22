@@ -13,15 +13,20 @@ class ProdutoModel extends Model
     protected $primaryKey = 'id_produto';
     use HasFactory;
 
-public function adicionais()
-{
-    return $this->belongsToMany(
-        AdicionalModel::class,
-        'produto_adicional',
-        'id_produto',    
-        'id_adicional'
-    );
-}
+        public function adicionais()
+        {
+            return $this->belongsToMany(
+                AdicionalModel::class,
+                'produto_adicional',
+                'id_produto',    
+                'id_adicional'
+            );
+        }
+        public function categoria()
+        {
+            return $this->belongsTo(CategoriaModel::class, 'id_categoria');
+        }
+
 
 
     

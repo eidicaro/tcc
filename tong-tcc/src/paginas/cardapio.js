@@ -25,6 +25,7 @@ function Cardapio() {
   };
   const [loading, setLoading] = useState(true);
   const [produtos, setProdutos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
 
     // conexão com axios aqui
   useEffect(() => {
@@ -39,6 +40,14 @@ function Cardapio() {
       });
   }, []);
 
+  // chama a categoria
+    useEffect(() => {
+      axios.get('http://localhost:8000/api/categoria')
+        .then(res => setCategorias(res.data))
+        .catch(err => console.error("Erro ao carregar categorias:", err));
+    }, []);
+
+
 
   return loading ? (
     // inicia com o carregamento do loader
@@ -49,26 +58,37 @@ function Cardapio() {
       <Header />
 
       {/* conteudo em si fora do header */}
-      <div className="content-wrap">
+      <div className="content-wrap" style={{marginBottom: '20%'}}>
           <Sidebar />
 
-          <div className="produtos">
-            {produtos.map(p => (
-              <div className='prod' key={p.id_produto}>
+      <div className="produtos">
+        {categorias.map((categoria) => (
+          <section key={categoria.id_categoria} id={categoria.nome.toLowerCase().replace(/\s/g, "-")}>
+            <h2 style={{ color: '#000', margin: '30px 0 10px' }}>{categoria.nome}</h2>
 
-                <img src={`http://localhost:8000/storage/${p.imagem}`} alt={p.nome} style={{ width: '200px', borderRadius: '10px' }}/>
-
-                <article>
+            {produtos
+              .filter(p => p.id_categoria === categoria.id_categoria)
+              .map((p) => (
+                <div className='prod' key={p.id_produto}>
+                  <img
+                    src={`http://localhost:8000/storage/${p.imagem}`}
+                    alt={p.nome}
+                    style={{ width: '200px', borderRadius: '10px' }}
+                  />
+                  <article>
                     <h1>{p.nome}</h1>
                     <p className='descricao'>{p.descricao}</p>
                     <section>
-                        <p>{p.preco}</p>
-                        <button className="botao" onClick={() => abrirModalProduto(p)}>Saiba Mais</button>
+                      <p>{p.preco}</p>
+                      <button className="botao" onClick={() => abrirModalProduto(p)}>Saiba Mais</button>
                     </section>
-                </article>
-              </div>
-            ))}
-          </div>
+                  </article>
+                </div>
+              ))}
+          </section>
+        ))}
+      </div>
+
       </div>
 
       {/* ✅ Modal de produto (aparece sobre a tela toda) */}
