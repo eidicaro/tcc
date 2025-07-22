@@ -172,18 +172,19 @@ main p{
   margin-left: 2.5%;
   font-weight: 700; 
   font-size: 24px;
-  width: 70%;
+  width: 100%;
 }
 
 .prod article .descricao{
   margin-left: 2.5%;
   font-weight: 700; 
-  font-size: 14px;
+  font-size: 12px;
   width: 70%;
 }
 
 .prod article section{
   display: flex;
+  padding: 20px;
   margin-top: 2%;
   justify-content: space-between;
   font-weight: 700; 
@@ -197,15 +198,15 @@ main p{
   padding: 1% 2%;
   margin: 1%;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   transition: 0.4s;
 }
 .botao:hover{
   background-color: #033903;
-  padding: 2% 2%;
-  border-radius: 10px;
-  transition: 0.4s;
+  padding: 1.5% 2.5%;
+  border-radius: 12px;
+  transition: 0.2s;
 }
 
 .prod article h1{
