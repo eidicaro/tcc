@@ -5,6 +5,7 @@ import Sidebar from './modais/sidebar.js';
 import Loader from './modais/loader.js';
 import axios from 'axios';
 import '../style.css';
+import '../md.css';
 import InfosProd from './modais/infos-prod.js'; 
 
 function Cardapio() {
