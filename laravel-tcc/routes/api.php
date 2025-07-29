@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\AdicionalController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CarrinhoAdicionalController;
+
 
 
 /*
@@ -25,6 +27,7 @@ Route::post('/produtos/{id}/adicionais', [ProdutosController::class, 'atualizarA
 Route::get('/produtos/testar-adicionais', [ProdutosController::class, 'testarAdicionais']);
 Route::get('/adicionais', [AdicionalController::class, 'index']);
 Route::get('/categoria', [CategoriaController::class, 'index']);
+Route::post('/carrinho/adicional', [CarrinhoAdicionalController::class, 'adicionarAdicional']);
 
 
 

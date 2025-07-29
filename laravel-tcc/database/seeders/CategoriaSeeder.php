@@ -21,10 +21,6 @@ class CategoriaSeeder extends Seeder
         ],
 
         [
-            'nome' => 'Pokes'
-        ],
-
-        [
             'nome' => 'Combinados'
         ],
 
@@ -41,10 +37,6 @@ class CategoriaSeeder extends Seeder
         ],
 
         [
-            'nome' => 'Pratos Quentes'
-        ],
-
-        [
             'nome' => 'Hot Rolls'
         ],
 
@@ -54,6 +46,10 @@ class CategoriaSeeder extends Seeder
 
         [
             'nome' => 'coxinhas'
+        ],
+
+        [
+            'nome' => 'Bebidas'
         ]
 
     ]);
