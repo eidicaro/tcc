@@ -41,14 +41,14 @@
 
 .nav-item{
   color: var(--white);
-}
+}  
 
 
 /* HOME */
   /* INTRO */
 main{
   margin: 5%; 
-}
+}  
 
 main h1 {
   font-weight: 800; /* Extrabold */
@@ -56,33 +56,33 @@ main h1 {
   border-bottom: #000 ridge 4px;
   padding: 0 0 1% 0;
   width: fit-content; /* Ajusta o tamanho do h1 ao conteúdo */
-}
+}  
 
 main p{
   font-size: 24px;
-}
+}  
 
 
   /* HORARIO*/
 
 .sla{
   display: flex;
-}
+}  
 
 .horario{
   font-weight: 800;
- margin-left: 14%;
+ margin-left: 14%; 
   border-left: 7px solid #F48347; 
   padding-left: 10px; 
   display: flex;
   flex-direction: column;
   height: 35%;
-}
+}  
 
 .horario .pa{
   margin-bottom: 5%;
   font-size: 25px;
-}
+}  
 
 .horario-h1{
   margin: 10% 0 2% 0; 
@@ -90,36 +90,36 @@ main p{
   margin-left: 14%;
   font-size: 40px;
 
-}
+}  
 
 .poke{
   height: 25%;
   width: 25%;
   margin: -8% 0 0 20%;
-}
+}  
 
   /* MAPA */
 .mapa{
   display: flex;
   align-items: start;
   justify-content: space-evenly;
-}
+}  
 
 .mapa .local h1{
   font-weight: 800;
   border-bottom: #000 ridge 4px;
   padding: 0 0 1% 0;
   width: fit-content; /* Ajusta o tamanho do h1 ao conteúdo */
-}
+}  
 
 .local h1{
   margin: 0 0 7% 0;
-}
+}  
 
 .local p{
   font-weight: 800; /* Extrabold */
   text-align: center;
-}
+}  
 
 /* CARDAPIO */
 
