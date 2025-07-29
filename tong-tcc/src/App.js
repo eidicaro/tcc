@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
 import Header from './paginas/modais/header.js';
 import Footer from './paginas/modais/footer.js';
 import Carrossel from './paginas/modais/carrossel.js';
