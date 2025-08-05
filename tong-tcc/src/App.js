@@ -8,16 +8,54 @@ import Btt from './paginas/modais/btt-cardapio.js';
 import poke from './images/poke.png';
 import Loader from './paginas/modais/loader.js';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 
 const App = () => {
+  
   const [loading, setLoading] = useState(true);
+    const criarCarrinho = async (idCliente) => {
+      const idCarrinho = localStorage.getItem('id_carrinho');
+    
+      if (!idCarrinho && idCliente) {
+        try {
+          const response = await axios.post('http://localhost:8000/api/carrinho/criar', {
+            id_cliente: parseInt(idCliente)
+          });
+    
+          localStorage.setItem('id_carrinho', response.data.id_carrinho);
+          console.log("Carrinho criado:", response.data.id_carrinho);
+        } catch (error) {
+          console.error("Erro ao criar carrinho:", error.response?.data || error);
+        }
+      }
+    };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
+  
+
+    useEffect(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    
+      const idCliente = localStorage.getItem('id_cliente');
+      const idCarrinho = localStorage.getItem('id_carrinho');
+    
+      if (idCliente && !idCarrinho) {
+        axios.post('http://localhost:8000/api/carrinho/criar', {
+          id_cliente: parseInt(idCliente)
+        })
+        .then(response => {
+          localStorage.setItem('id_carrinho', response.data.id_carrinho);
+          console.log("Carrinho reativado:", response.data.id_carrinho);
+        })
+        .catch(error => {
+          console.error("Erro ao criar carrinho:", error.response?.data || error);
+        });
+      }
+    }, []);
+    
+  
 
   return loading ? <Loader loading={true} /> : 
   <div>
