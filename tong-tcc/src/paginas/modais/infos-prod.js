@@ -34,7 +34,7 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
         return;
       }
   
-      const response = await axios.post('http://localhost:8000/api/carrinho/adicional', {
+      const response = await axios.post('http://127.0.0.1:8000/api/carrinho/adicional', {
         id_carrinho: parseInt(idCarrinho),
         id_produto: idProduto,
         id_adicional: idAdicional,
@@ -61,7 +61,7 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
         <button className="fechar" onClick={handleClose}>×</button>
 
         <div className="modal-header">
-          <img src={`http://localhost:8000/storage/${produto.imagem}`} alt={produto.nome} />
+          <img src={`http://127.0.0.1:8000/storage/${produto.imagem}`} alt={produto.nome} />
           <button className="btn-avancar">Avançar</button>
         </div>
 
@@ -73,7 +73,7 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
           <div className="adicionais-lista">
               {adicionais.map(adicional => (
                   <div className="adicional-item" key={adicional.id_adicional}>
-                    <img src={`http://localhost:8000/storage/${adicional.imagem}`} alt={adicional.nome} />
+                    <img src={`http://127.0.0.1:8000/storage/${adicional.imagem}`} alt={adicional.nome} />
                     <span>{adicional.nome}</span>
                     <div className="butão">
                       <span>R$ {adicional.preco}</span>  

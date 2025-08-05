@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CarrinhoModel extends Model
+class Carrinho extends Model
 {
-    use HasFactory;
+    protected $table = 'carrinho';
+    protected $primaryKey = 'id_carrinho';
+
+    protected $fillable = [
+        'id_cliente',
+        'data_criacao'
+    ];
 }

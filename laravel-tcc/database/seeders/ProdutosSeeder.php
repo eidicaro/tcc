@@ -441,6 +441,7 @@ class ProdutosSeeder extends Seeder
     'id_categoria' => 8 // <- coxinhas
 ],
 
+
 // //bebidas 
 
  [
