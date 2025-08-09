@@ -14,6 +14,19 @@ class ProdutosController extends Controller
         return response()->json(ProdutoModel::all());
     }
 
+    // rota para o carrossel
+    public function getByIds(Request $request)
+{
+    $ids = explode(',', $request->query('ids'));
+
+    $produtos = ProdutoModel::whereIn('id_produto', $ids)->get()->map(function($p) {
+        $p->imagem_url = asset('storage/' . $p->imagem); // monta caminho completo
+        return $p;
+    });
+
+    return response()->json($produtos);
+}
+
     // conecta e põe os adicionais para cada produto
     public function getAdicionais($id)
     {

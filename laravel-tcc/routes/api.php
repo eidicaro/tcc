@@ -26,6 +26,7 @@ use App\Models\Carrinho;
 
 Route::get('/produtos', [ProdutosController::class, 'index']);
 Route::get('/produtos/{id}/adicionais', [ProdutosController::class, 'getAdicionais']);
+Route::get('/produtos', [ProdutosController::class, 'getByIds']); //rota do carrossel
 Route::get('/produtos/testar-adicionais', [ProdutosController::class, 'testarAdicionais']);
 Route::get('/adicionais', [AdicionalController::class, 'index']);
 Route::get('/categoria', [CategoriaController::class, 'index']);

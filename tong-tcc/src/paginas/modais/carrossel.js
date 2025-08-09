@@ -1,120 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Tong from './../../images/tong-2.svg';
+import axios from 'axios';
 
-// por as imagens do banco de dados
 const Carrossel = () => {
+  const [produtos, setProdutos] = useState(Array(9).fill(null));
+
+  useEffect(() => {
+    // IDs dos produtos que você quer no carrossel (na ordem)
+    const ids = [1, 5, 8, 12, 15, 18, 22,19 , 20]; 
+
+    axios.get(`http://localhost:8000/api/produtos?ids=${ids.join(',')}`)
+      .then(response => {
+        setProdutos(response.data); // já vem com imagem_url do Laravel
+      })
+      .catch(error => {
+        console.error("Erro ao carregar produtos:", error);
+      });
+  }, []);
+
   return (
     <StyledWrapper>
       <div
         className="slider"
         style={{
-          '--width': '300px', 
-          '--height': '300px', 
+          '--width': '300px',
+          '--height': '300px',
           '--quantity': 9
         }}
       >
         <div className="list">
-          <div className="item" style={{ '--position': 1 }}>
-            <div
-              className="card"
-              style={{
-                background: '#000',
-              }}
-            >
-              <img src={Tong} style={{width: '800%;', height: '800%',}}/>
+          {produtos.map((produto, index) => (
+            <div key={index} className="item" style={{ '--position': index + 1 }}>
+              <div className="card" style={{ background: '#fff', border:'none' }}>
+                {produto ? (
+                  <>
+                    <img
+                      src={produto.imagem_url}
+                      alt={produto.nome}
+                      style={{ width: '110%', borderRadius: '15px' }}
+                    />
+                    <p>{produto.nome}</p>
+                  </>
+                ) : (
+                  <p>Carregando...</p>
+                )}
+              </div>
             </div>
-          </div>
-
-          <div className="item" style={{ '--position': 2 }}>
-            <div
-              className="card"
-              style={{
-                  background: '#000',
-                }}
-                >
-              <img src={Tong} style={{width: '800%;', height: '800%',}}/>
-                <p>Os Mais Pedidos</p>
-            </div>
-          </div>
-
-          <div className="item" style={{ '--position': 3 }}>
-            <div
-              className="card"
-              style={{
-                background: '#000',
-              }}
-            >
-              <img src={Tong} style={{width: '800%;', height: '800%',}}/>
-            </div>
-          </div>
-
-          <div className="item" style={{ '--position': 4 }}>
-            <div
-              className="card"
-              style={{
-                background: '#000',
-              }}
-            >
-              <img src={Tong} style={{width: '800%;', height: '800%',}}/>
-            </div>
-          </div>
-          
-          <div className="item" style={{ '--position': 5 }}>
-            <div
-              className="card"
-              style={{
-                background: '#000',
-              }}
-            >
-              <img src={Tong} style={{width: '800%;', height: '800%',}}/>
-            </div>
-          </div>
-
-          <div className="item" style={{ '--position': 6 }}>
-            <div
-              className="card"
-              style={{
-                background: '#000',
-              }}
-            >
-              <img src={Tong} style={{width: '800%;', height: '800%',}}/>
-            </div>
-          </div>
-
-          <div className="item" style={{ '--position': 7 }}>
-            <div
-              className="card"
-              style={{
-                background: '#000',
-              }}
-            >
-              <img src={Tong} style={{width: '800%;', height: '800%',}}/>
-            </div>
-          </div>
-
-          <div className="item" style={{ '--position': 8 }}>
-            <div
-              className="card"
-              style={{
-                background: '#000',
-              }}
-            >
-              <img src={Tong} style={{width: '800%;', height: '800%',}}/>
-            </div>
-          </div>
-          
-          <div className="item" style={{ '--position': 9 }}>
-            <div
-              className="card"
-              style={{
-                background: '#000',
-              }}
-            >
-              <img src={Tong} style={{width: '800%;', height: '800%',}}/>
-            </div>
-          </div>
-
+          ))}
         </div>
       </div>
     </StyledWrapper>
@@ -125,7 +57,7 @@ const StyledWrapper = styled.div`
   .card {
     width: 100%;
     height: 100%;
-    padding: 10%; 
+    padding: 10%;
     border: 1px solid #ccc;
     border-radius: 7px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -134,9 +66,10 @@ const StyledWrapper = styled.div`
   }
 
   .card p {
-    font-size: 18px; 
+    font-size: 18px;
     color: white;
   }
+
 
   .slider {
     width: 100%;
