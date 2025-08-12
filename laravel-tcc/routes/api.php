@@ -17,3 +17,7 @@ Route::get('/categoria', [CategoriaController::class, 'index']);
 
 // Adicionais
 Route::get('/adicionais', [AdicionalController::class, 'index']);
+
+// criar carrinho 
+Route::post('/carrinho/criar', [CarrinhoController::class, 'criarCarrinho']);
+Route::get('/adicionais', [AdicionalController::class, 'listarAdicionais']);

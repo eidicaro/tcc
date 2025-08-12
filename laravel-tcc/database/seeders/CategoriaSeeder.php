@@ -45,7 +45,7 @@ class CategoriaSeeder extends Seeder
         ],
 
         [
-            'nome' => 'coxinhas'
+            'nome' => 'Coxinhas'
         ],
 
         [

@@ -11,4 +11,10 @@ class AdicionalController extends Controller
         return response()->json(AdicionalModel::all());
     }
 
+    public function listarAdicionais()
+    {
+        $adicionais = Adicional::all();
+        return response()->json($adicionais);
+    }
+
 }

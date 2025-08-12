@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('carrinho', function (Blueprint $table) {
             $table->id('id_carrinho');
             $table->unsignedBigInteger('id_cliente');
+            $table->string('status', 100);
             $table->dateTime('data_criacao')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
 
