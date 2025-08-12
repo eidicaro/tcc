@@ -68,5 +68,4 @@ class ProdutosController extends Controller
     }
 
 
-
 }
