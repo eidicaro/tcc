@@ -149,106 +149,81 @@ main p{
 
   /* MODAIS PRODUTOS */
 
-  .item-carrinho {
-    background: #fff;
-    border-radius: 10px;
-    padding: 16px;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  }
-  
-  .item-carrinho-info {
-    flex: 1;
-  }
-  
-  .item-carrinho-info strong {
-    color: #ff6b00;
-    font-size: 16px;
-  }
-  
-  .item-carrinho-info ul {
-    margin: 6px 0 0;
-    padding-left: 18px;
-    font-size: 13px;
-    color: #555;
-  }
-  
-  .item-carrinho-acoes {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
-  }
-  
-  .icones {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .icone {
-    font-size: 18px;
-    cursor: pointer;
-    transition: transform 0.2s, color 0.2s;
-  }
-  
-  .icone.editar:hover { color: #0077cc; transform: scale(1.1); }
-  .icone.excluir:hover { color: #d32f2f; transform: scale(1.1); }
-  
-  .quantidade-preco {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-  
-  .quantidade {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  
-  .btn-qtd {
-    background: #f1f1f1;
-    border: none;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .btn-qtd:hover {
-    background: #ddd;
-  }
-  
-  .preco {
-    font-weight: bold;
-    color: #095d4c;
-    font-size: 15px;
-  }
-  
-  .btn-finalizar {
-    width: 100%;
-    background: linear-gradient(to right, #ff7b00, #e0360c);
-    color: white;
-    font-weight: bold;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    margin-top: 8px;
-    cursor: pointer;
-    transition: background-position 0.5s ease-in-out;
-  }
-  .btn-finalizar:hover {
-    background-position: right;
-  }
-  
+.produtos{
+  padding: 4%;
+  margin-bottom: 5%;
+  margin-left: 15%;
+  width: 85%;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto; 
+}
 
+.prod{
+  display: flex;
+  margin: auto;
+  height: 27vh;
+  width: 85%;
+  border-radius: 10px;
+  background-color: #D9D9D9;
+  padding:2%;
+  font-weight: 700; /* também é negrito */
+  margin-bottom: 4%;
+}
+
+
+.prod article {
+  margin-left: 2.5%;
+  font-weight: 700; 
+  font-size: 20px;
+  width: 70%;
+}
+
+.prod article h1{
+  margin-left: 2.5%;
+  font-weight: 700; 
+  font-size: 24px;
+  width: 100%;
+}
+
+.prod article .descricao{
+  margin-left: 2.5%;
+  font-weight: 700; 
+  font-size: 12px;
+  width: 70%;
+}
+
+.prod article section{
+  display: flex;
+  padding: 20px;
+  margin-top: 2%;
+  justify-content: space-between;
+  font-weight: 700; 
+  font-size: 20px;
+  
+}
+
+.botao {
+  background-color: #03391D;
+  color: white;
+  padding: 1% 2%;
+  margin: 1%;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.botao:hover{
+  background-color: #033903;
+  padding: 1.5% 2.5%;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+
+.prod article h1{
+  color:#F48347;
+  font-weight: 700; 
+}
 
 
 /* MODAL CARRINHO (ANIMACAO)*/

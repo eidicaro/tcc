@@ -5,7 +5,6 @@ import '../../style.css';
 
 const ItemCarrinho = ({ nome, adicionais, preco }) => (
   <div className="item-carrinho">
-    {/* Informações do item */}
     <div className="item-carrinho-info">
       <strong>{nome}</strong>
       <ul>
@@ -14,25 +13,23 @@ const ItemCarrinho = ({ nome, adicionais, preco }) => (
         ))}
       </ul>
     </div>
-
-    {/* Ações, quantidade e preço */}
     <div className="item-carrinho-acoes">
-      <div className="icones">
-        <FaPen className="icone editar" title="Editar" />
-        <FaTrash className="icone excluir" title="Remover" />
+    <div className="icones">
+        <FaTrash className="icone" />
+        <FaPen className="icone" />
       </div>
-      <div className="quantidade-preco">
-        <div className="quantidade">
-          <button className="btn-qtd">–</button>
-          <span>1</span>
-          <button className="btn-qtd">+</button>
-        </div>
-        <span className="preco">R$ {preco}</span>
+      <div className="quantidade">
+        <span className="menos">–</span>
+        <span>1</span>
+        <span className="mais">+</span>
+      <span className="preco">R$ {preco}</span>
       </div>
+      
     </div>
   </div>
 );
 
+// aparente conteudo do carrinho
 const ConteudoCarrinho = () => {
   const itens = [
     {
@@ -56,15 +53,19 @@ const ConteudoCarrinho = () => {
   ];
 
   return (
+    // conteudo em si
     <div className="conteudo-carrinho">
+
       {itens.map((item, index) => (
         <ItemCarrinho
+        // infos do carrinho (vai ser alterado)
           key={index}
           nome={item.nome}
           adicionais={item.adicionais}
           preco={item.preco}
         />
       ))}
+
       <button className="btn-finalizar">Finalizar Pedido</button>
     </div>
   );
