@@ -9,7 +9,7 @@ const Carrossel = () => {
     // IDs dos produtos que você quer no carrossel (na ordem)
     const ids = [1, 5, 8, 12, 15, 18, 22,19 , 20]; 
 
-    axios.get(`http://localhost:8000/api/produtos?ids=${ids.join(',')}`)
+    axios.get(`http://localhost:8000/api/produtos/by-ids?ids=${ids.join(',')}`)
       .then(response => {
         setProdutos(response.data); // já vem com imagem_url do Laravel
       })

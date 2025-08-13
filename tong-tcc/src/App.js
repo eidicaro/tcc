@@ -13,47 +13,70 @@ import axios from 'axios';
 
 const App = () => {
   
+    const [produtoSelecionado, setProdutoSelecionado] = useState(null);
+  const [adicionais, setAdicionais] = useState([]); // todos adicionais
+  const [adicionaisProduto, setAdicionaisProduto] = useState([]); // adicionais filtrados
+  const [mostrarModal, setMostrarModal] = useState(false);
   const [loading, setLoading] = useState(true);
-    const criarCarrinho = async (idCliente) => {
-      const idCarrinho = localStorage.getItem('id_carrinho');
-    
-      if (!idCarrinho && idCliente) {
-        try {
-          const response = await axios.post('http://localhost:8000/api/carrinho/criar', {
-            id_cliente: parseInt(idCliente)
-          });
-    
-          localStorage.setItem('id_carrinho', response.data.id_carrinho);
-          console.log("Carrinho criado:", response.data.id_carrinho);
-        } catch (error) {
-          console.error("Erro ao criar carrinho:", error.response?.data || error);
+  const [produtos, setProdutos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+
+  //🔹 Abre modal e filtra adicionais pelo produto
+  const abrirModalProduto = (produto) => {
+    setProdutoSelecionado(produto);
+
+    // Filtra os adicionais que pertencem a este produto
+    const adicionaisFiltrados = adicionais.filter(adc => adc.id_produto === produto.id_produto);
+    setAdicionaisProduto(adicionaisFiltrados);
+
+    setMostrarModal(true);
+  };
+
+  //  Inicializa sessão do cliente e carrega adicionais gerais
+  useEffect(() => {
+    async function inicializarSessao() {
+      try {
+        //  Criar carrinho vazio (se não existir)
+        if (!localStorage.getItem("id_carrinho")) {
+          const resCarrinho = await axios.post("http://localhost:8000/api/carrinho/criar");
+          localStorage.setItem("id_carrinho", resCarrinho.data.id_carrinho);
+          alert("Carrinho criado:", resCarrinho.data.id_carrinho);
+        } else {
+          alert("Carrinho já existente:", localStorage.getItem("id_carrinho"));
         }
+
+        //  Carregar todos os adicionais de todos os produtos
+        const resAdicionais = await axios.get("http://localhost:8000/api/adicionais");
+        setAdicionais(resAdicionais.data);
+        console.log("Adicionais carregados:", resAdicionais.data);
+
+      } catch (error) {
+        console.error("Erro ao inicializar sessão:", error);
       }
-    };
+    }
 
-  
+    inicializarSessao();
+  }, []);
 
-    useEffect(() => {
-      setTimeout(() => {
+  //  Carregar produtos
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/produtos')
+      .then(res => {
+        setProdutos(res.data);
         setLoading(false);
-      }, 1000);
-    
-      const idCliente = localStorage.getItem('id_cliente');
-      const idCarrinho = localStorage.getItem('id_carrinho');
-    
-      if (idCliente && !idCarrinho) {
-        axios.post('http://localhost:8000/api/carrinho/criar', {
-          id_cliente: parseInt(idCliente)
-        })
-        .then(response => {
-          localStorage.setItem('id_carrinho', response.data.id_carrinho);
-          console.log("Carrinho reativado:", response.data.id_carrinho);
-        })
-        .catch(error => {
-          console.error("Erro ao criar carrinho:", error.response?.data || error);
-        });
-      }
-    }, []);
+      })
+      .catch(err => {
+        console.error("Erro:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  //  Carregar categorias
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/categoria')
+      .then(res => setCategorias(res.data))
+      .catch(err => console.error("Erro ao carregar categorias:", err));
+  }, []);
     
   
 

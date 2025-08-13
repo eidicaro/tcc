@@ -20,4 +20,4 @@ Route::get('/adicionais', [AdicionalController::class, 'index']);
 
 // criar carrinho 
 Route::post('/carrinho/criar', [CarrinhoController::class, 'criarCarrinho']);
-Route::get('/adicionais', [AdicionalController::class, 'listarAdicionais']);
+Route::get('/adicionais', [AdicionalController::class, 'testarAdicionais']);

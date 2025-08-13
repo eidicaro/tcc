@@ -10,49 +10,26 @@ import InfosProd from './modais/infos-prod.js';
 
 function Cardapio() {
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
-  const [adicionais, setAdicionais] = useState([]); // todos adicionais
-  const [adicionaisProduto, setAdicionaisProduto] = useState([]); // adicionais filtrados
+  const [adicionaisProduto] = useState([]); // adicionais filtrados
   const [mostrarModal, setMostrarModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [produtos, setProdutos] = useState([]);
   const [categorias, setCategorias] = useState([]);
+  const [adicionais, setAdicionais] = useState([]);
 
-  //🔹 Abre modal e filtra adicionais pelo produto
-  const abrirModalProduto = (produto) => {
+  const abrirModalProduto = async (produto) => {
     setProdutoSelecionado(produto);
+    try {
+      const res = await axios.get(`http://localhost:8000/api/produtos/${produto.id_produto}/adicionais`);
+      setAdicionais(res.data);
+      setMostrarModal(true);
 
-    // Filtra os adicionais que pertencem a este produto
-    const adicionaisFiltrados = adicionais.filter(adc => adc.id_produto === produto.id_produto);
-    setAdicionaisProduto(adicionaisFiltrados);
-
-    setMostrarModal(true);
+    } catch (err) {
+      console.error("Erro ao carregar adicionais:", err);
+      setAdicionais([]);
+    }
   };
 
-  //  Inicializa sessão do cliente e carrega adicionais gerais
-  useEffect(() => {
-    async function inicializarSessao() {
-      try {
-        //  Criar carrinho vazio (se não existir)
-        if (!localStorage.getItem("id_carrinho")) {
-          const resCarrinho = await axios.post("http://localhost:8000/api/carrinho/criar");
-          localStorage.setItem("id_carrinho", resCarrinho.data.id_carrinho);
-          console.log("Carrinho criado:", resCarrinho.data.id_carrinho);
-        } else {
-          console.log("Carrinho já existente:", localStorage.getItem("id_carrinho"));
-        }
-
-        //  Carregar todos os adicionais de todos os produtos
-        const resAdicionais = await axios.get("http://localhost:8000/api/adicionais");
-        setAdicionais(resAdicionais.data);
-        console.log("Adicionais carregados:", resAdicionais.data);
-
-      } catch (error) {
-        console.error("Erro ao inicializar sessão:", error);
-      }
-    }
-
-    inicializarSessao();
-  }, []);
 
   //  Carregar produtos
   useEffect(() => {
