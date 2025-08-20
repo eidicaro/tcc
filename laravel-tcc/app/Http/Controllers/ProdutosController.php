@@ -12,6 +12,8 @@ class ProdutosController extends Controller
     public function index()
     {
         return response()->json(ProdutoModel::all());
+        return Produto::paginate(20);
+
     }
 
     // rota para o carrossel
@@ -30,8 +32,23 @@ class ProdutosController extends Controller
     // conecta e põe os adicionais para cada produto
     public function getAdicionais($id)
     {
-        $produto = ProdutoModel::with('adicionais')->findOrFail($id);
-        return response()->json($produto->adicionais);
+        // Busca os 25 primeiros adicionais
+        $adicionaisIds = AdicionalModel::limit(25)->pluck('id_adicional')->toArray();
+
+        // Busca todos os produtos
+        $produtos = ProdutoModel::all();
+
+        // Para cada produto, sincroniza os adicionais
+        foreach ($produtos as $produto) {
+            $produto->adicionais()->sync($adicionaisIds);
+        }
+
+        return response()->json(['message' => 'Adicionais vinculados a todos os produtos com sucesso']);
+    }
+
+    public function testarAdicionais()
+    {
+        
     }
 
     // atualiza os adicionais
@@ -51,21 +68,7 @@ class ProdutosController extends Controller
         // FUNÇÃO PARA REGISTRAR ADICIONAIS 
 
 
-    public function testarAdicionais()
-    {
-        // Busca os 25 primeiros adicionais
-        $adicionaisIds = AdicionalModel::limit(25)->pluck('id_adicional')->toArray();
 
-        // Busca todos os produtos
-        $produtos = ProdutoModel::all();
-
-        // Para cada produto, sincroniza os adicionais
-        foreach ($produtos as $produto) {
-            $produto->adicionais()->sync($adicionaisIds);
-        }
-
-        return response()->json(['message' => 'Adicionais vinculados a todos os produtos com sucesso']);
-    }
 
 
 }

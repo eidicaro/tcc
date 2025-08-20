@@ -19,6 +19,7 @@ function Cardapio() {
 
   const abrirModalProduto = async (produto) => {
     setProdutoSelecionado(produto);
+
     try {
       const res = await axios.get(`http://localhost:8000/api/produtos/${produto.id_produto}/adicionais`);
       setAdicionais(res.data);
@@ -50,6 +51,8 @@ function Cardapio() {
       .then(res => setCategorias(res.data))
       .catch(err => console.error("Erro ao carregar categorias:", err));
   }, []);
+
+
 
   return loading ? (
     <Loader loading={true} />

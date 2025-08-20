@@ -11,6 +11,8 @@ use App\Http\Controllers\CarrinhoController;
 Route::get('/produtos', [ProdutosController::class, 'index']); // Lista todos os produtos
 Route::get('/produtos/by-ids', [ProdutosController::class, 'getByIds']); // Para o carrossel
 Route::get('/produtos/{id}/adicionais', [ProdutosController::class, 'getAdicionais']); // Adicionais do produto
+Route::get('/produtos/testar-adicionais', [ProdutosController::class, 'testaradicionais']); // Adicionais do produto
+
 
 // Categorias
 Route::get('/categoria', [CategoriaController::class, 'index']);
@@ -19,5 +21,9 @@ Route::get('/categoria', [CategoriaController::class, 'index']);
 Route::get('/adicionais', [AdicionalController::class, 'index']);
 
 // criar carrinho 
-Route::post('/carrinho/criar', [CarrinhoController::class, 'criarCarrinho']);
-Route::get('/adicionais', [AdicionalController::class, 'testarAdicionais']);
+Route::post('/carrinho/adicionar', [CarrinhoController::class, 'adicionar']);
+Route::delete('/carrinho/remover/{id}', [CarrinhoController::class, 'remover']);
+Route::get('/carrinho', [CarrinhoController::class, 'listar']);
+Route::delete('/carrinho/limpar', [CarrinhoController::class, 'limpar']);
+
+
