@@ -463,14 +463,14 @@ class ProdutosSeeder extends Seeder
         'nome' => 'Fanta uva lata 350ML',
         'descricao' => 'refri',
         'preco' => 7.00,
-        'imagem' => 'images/fantalaranja350.jpg',
+        'imagem' => 'images/fantauva350.jpg',
         'id_categoria' => '9',
     ],
     [
         'nome' => 'Fanta laranja 350ML',
         'descricao' => 'refri',
         'preco' => 7.00,
-        'imagem' => 'images/fantauva350.jpg',
+        'imagem' => 'images/fantalaranja350.webp',
         'id_categoria' => '9',
     ],
     [
@@ -512,7 +512,7 @@ class ProdutosSeeder extends Seeder
         'nome' => 'Suco Delvalle Pessego 290ML',
         'descricao' => 'refri',
         'preco' => 7.00,
-        'imagem' => 'images/sucodelvallepesego.jpg',
+        'imagem' => 'images/sucodelvallepessego.jpg',
         'id_categoria' => '9',
     ],
     [
@@ -533,14 +533,14 @@ class ProdutosSeeder extends Seeder
         'nome' => 'Coca Cola 2 LITROS',
         'descricao' => 'refri',
         'preco' => 15.00,
-        'imagem' => 'images/',
+        'imagem' => 'images/coca2.jpg',
         'id_categoria' => '9',
     ],
     [
         'nome' => 'Coca Cola Zero 2 LITROS',
         'descricao' => 'refri',
         'preco' => 15.00,
-        'imagem' => 'images/coca2',
+        'imagem' => 'images/cocazero2.jpg',
         'id_categoria' => '9',
     ],
     // [
