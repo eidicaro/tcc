@@ -1,9 +1,8 @@
-// Modal das informações do produto
 import React, { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import '../../style.css';
 import { useCarrinho } from "../hooks/useCarrinho";
-import axios from "axios";
+import axios from 'axios';
 
 const InfosProd = ({ produto, adicionais, onClose }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +10,6 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
   const [adicionaisSelecionados, setAdicionaisSelecionados] = useState([]);
   const { adicionarProduto } = useCarrinho();
 
-  // Adicionar/remover adicional do produto
   const toggleAdicional = (adicional) => {
     const existe = adicionaisSelecionados.find(a => a.id_adicional === adicional.id_adicional);
     if (existe) {
@@ -21,41 +19,36 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
     }
   };
 
-  // Adicionar produto com os adicionais ao carrinho
-const handleAdicionarCarrinho = async () => {
-  const produtoComAdicionais = {
-    ...produto,
-    adicionais: adicionaisSelecionados,
-    quantidade: 1
-  };
+  const handleAdicionarCarrinho = async () => {
+    const produtoComUID = {
+      ...produto,
+      adicionais: adicionaisSelecionados,
+      quantidade: 1,
+      uid: Date.now() // UID único para diferenciar produtos iguais
+    };
 
-  // Atualiza o estado do hook
-  adicionarProduto(produtoComAdicionais);
+    // Atualiza o estado local
+    adicionarProduto(produtoComUID);
 
-  try {
     // Envia para o back-end
-    await axios.post("http://127.0.0.1:8000/api/carrinho/adicionar", {
-      produto: {
-        id: produto.id_produto,
-        nome: produto.nome,
-        preco: produto.preco,
-        quantidade: 1,
-        adicionais: adicionaisSelecionados
-      }
-    });
-  } catch (err) {
-    console.error("Erro ao adicionar produto no carrinho back-end:", err);
-  }
+    try {
+      await axios.post("http://127.0.0.1:8000/api/carrinho/adicionar", {
+        produto: produtoComUID
+      });
+      console.log("Produto enviado ao back-end:", produto.nome);
+    } catch (err) {
+      console.error("Erro ao enviar produto para o back-end:", err);
+    }
 
-  onClose();
-};
+    onClose();
+  };
+  console.log("Carrinho atual:", JSON.parse(localStorage.getItem("carrinho")));
+
 
   useEffect(() => {
     setIsOpen(true);
     return () => {
-      if (isClosing) {
-        setIsOpen(false);
-      }
+      if (isClosing) setIsOpen(false);
     };
   }, [isClosing]);
 

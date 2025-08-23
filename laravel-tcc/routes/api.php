@@ -28,3 +28,6 @@ Route::post('/carrinho/finalizar', [CarrinhoController::class, 'finalizar']);
 
 
 
+Route::get('/carrinho/debug', function() {
+    return session()->get('carrinho', []);
+});

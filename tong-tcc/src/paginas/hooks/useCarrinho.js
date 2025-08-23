@@ -1,5 +1,5 @@
-// useCarrinho.js
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 export function useCarrinho() {
   const [carrinho, setCarrinho] = useState([]);
@@ -18,21 +18,45 @@ export function useCarrinho() {
   }, [carrinho]);
 
   // Adicionar produto (com adicionais)
-  const adicionarProduto = (produto) => {
-    setCarrinho((prevCarrinho) => [...prevCarrinho, produto]);
+  const adicionarProduto = async (produto) => {
+    // Gera UID único caso não exista
+    const produtoComUID = {
+      ...produto,
+      uid: produto.uid || Date.now()
+    };
+
+    // Atualiza estado local
+    setCarrinho((prev) => [...prev, produtoComUID]);
+
+    // Envia para o back-end
+    try {
+      await axios.post("http://127.0.0.1:8000/api/carrinho/adicionar", {
+        produto: produtoComUID
+      });
+      console.log("Produto enviado ao back-end:", produto.nome);
+    } catch (err) {
+      console.error("Erro ao enviar produto para o back-end:", err);
+    }
   };
 
-  // Remover produto pelo índice (exemplo: item duplicado continua separado)
-  const removerProduto = (index) => {
-    setCarrinho((prevCarrinho) =>
-      prevCarrinho.filter((_, i) => i !== index)
-    );
+  // Remover produto pelo UID
+  const removerProduto = (uid) => {
+    const novoCarrinho = carrinho.filter((p) => p.uid !== uid);
+    setCarrinho(novoCarrinho);
+
+    // Atualiza back-end também
+    axios
+      .delete(`http://127.0.0.1:8000/api/carrinho/remover/${uid}`)
+      .catch((err) => console.error("Erro ao remover produto do back-end:", err));
   };
 
   // Limpar carrinho
   const limparCarrinho = () => {
     setCarrinho([]);
     localStorage.removeItem("carrinho");
+    axios
+      .post("http://127.0.0.1:8000/api/carrinho/limpar")
+      .catch((err) => console.error("Erro ao limpar carrinho no back-end:", err));
   };
 
   return {
