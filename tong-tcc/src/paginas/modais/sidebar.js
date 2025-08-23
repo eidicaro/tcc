@@ -1,11 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../style.css';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function Sidebar() {
   const [categorias, setCategorias] = useState([]);
 
+
+  // carrega as categorias
   useEffect(() => {
     axios.get('http://localhost:8000/api/categoria')
       .then(res => {

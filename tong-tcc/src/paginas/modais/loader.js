@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Carpa from '../../images/koi_no_background.png'; 
 
 const Loader = ({ loading }) => {

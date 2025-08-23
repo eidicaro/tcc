@@ -1,5 +1,5 @@
 // src/paginas/modais/ConteudoCarrinho.js
-import React from 'react';
+
 import { FaTrash, FaPen } from 'react-icons/fa';
 import '../../style.css';
 

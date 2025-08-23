@@ -8,9 +8,11 @@ import '../style.css';
 import '../md.css';
 import InfosProd from './modais/infos-prod.js'; 
 
+// todos os itens comentados provavelmente serão retirados futuramente
+
 function Cardapio() {
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
-  const [adicionaisProduto] = useState([]); // adicionais filtrados
+  // const [adicionaisProduto, setAdicionaisProduto] = useState([]); // adicionais filtrados
   const [mostrarModal, setMostrarModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [produtos, setProdutos] = useState([]);
@@ -19,16 +21,18 @@ function Cardapio() {
 
   const abrirModalProduto = async (produto) => {
     setProdutoSelecionado(produto);
+    setMostrarModal(true);
 
-    try {
-      const res = await axios.get(`http://localhost:8000/api/produtos/${produto.id_produto}/adicionais`);
-      setAdicionais(res.data);
-      setMostrarModal(true);
-
-    } catch (err) {
-      console.error("Erro ao carregar adicionais:", err);
-      setAdicionais([]);
-    }
+    // try {
+    //   const res = await axios.get(`http://localhost:8000/api/produtos/${produto.id_produto}/adicionais`);
+    //   console.log("Adicionais recebidos:", res.data);
+    //   setAdicionaisProduto(Array.isArray(res.data) ? res.data : []); // garante array
+    //   setMostrarModal(true);
+    // } 
+    // catch (err) {
+    //   console.error("Erro ao carregar adicionais:", err);
+    //   setAdicionaisProduto([]);
+    // }
   };
 
 
@@ -53,6 +57,15 @@ function Cardapio() {
   }, []);
 
 
+  // Carregar adicionais (todos iguais para todos os produtos)
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/adicionais')
+      .then(res => setAdicionais(res.data))
+      .catch(err => console.error("Erro ao carregar adicionais:", err));
+  }, []);
+ 
+
+
 
   return loading ? (
     <Loader loading={true} />
@@ -61,42 +74,49 @@ function Cardapio() {
       <Header />
 
       <div className="content-wrap" style={{ marginBottom: '20%' }}>
+
         <Sidebar />
 
         <div className="produtos">
-          {categorias.map((categoria) => (
-            <section key={categoria.id_categoria} id={categoria.nome.toLowerCase().replace(/\s/g, "-")}>
-              <h2 style={{ color: '#000', margin: '30px 0 10px' }}>{categoria.nome}</h2>
 
-              {produtos
-                .filter(p => p.id_categoria === categoria.id_categoria)
-                .map((p) => (
-                  <div className='prod' key={p.id_produto}>
-                    <img
-                      src={`http://localhost:8000/storage/${p.imagem}`}
-                      alt={p.nome}
-                      style={{ width: '200px', borderRadius: '10px' }}
-                    />
-                    <article>
-                      <h1>{p.nome}</h1>
-                      <p className='descricao'>{p.descricao}</p>
-                      <section>
-                        <p>{p.preco}</p>
-                        <button className="botao" onClick={() => abrirModalProduto(p)}>Saiba Mais</button>
-                      </section>
-                    </article>
-                  </div>
-                ))}
-            </section>
-          ))}
+              {categorias.map((categoria) => (
+
+                <section key={categoria.id_categoria} id={categoria.nome.toLowerCase().replace(/\s/g, "-")}>
+                  <h2 style={{ color: '#000', margin: '30px 0 10px' }}>{categoria.nome}</h2>
+
+                  {produtos
+                    .filter(p => p.id_categoria === categoria.id_categoria)
+                    .map((p) => (
+                      <div className='prod' key={p.id_produto}>
+                        <img
+                          src={`http://localhost:8000/storage/${p.imagem}`}
+                          alt={p.nome}
+                          style={{ width: '200px', borderRadius: '10px' }}
+                        />
+                        <article>
+                          <h1>{p.nome}</h1>
+                          <p className='descricao'>{p.descricao}</p>
+                          <section>
+                            <p>{p.preco}</p>
+                            <button className="botao" onClick={() => abrirModalProduto(p)}>Saiba Mais</button>
+                          </section>
+                        </article>
+                      </div>
+                    ))}
+                    
+                </section>
+
+              ))}
+
         </div>
+
       </div>
 
       {/* Modal de produto */}
       {mostrarModal && produtoSelecionado && (
         <InfosProd
           produto={produtoSelecionado}
-          adicionais={adicionaisProduto} // apenas os adicionais filtrados
+          adicionais={adicionais} // todos os adicionais disponiveis
           onClose={() => setMostrarModal(false)}
         />
       )}

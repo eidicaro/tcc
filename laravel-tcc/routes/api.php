@@ -10,8 +10,7 @@ use App\Http\Controllers\CarrinhoController;
 // Produtos
 Route::get('/produtos', [ProdutosController::class, 'index']); // Lista todos os produtos
 Route::get('/produtos/by-ids', [ProdutosController::class, 'getByIds']); // Para o carrossel
-Route::get('/produtos/{id}/adicionais', [ProdutosController::class, 'getAdicionais']); // Adicionais do produto
-Route::get('/produtos/testar-adicionais', [ProdutosController::class, 'testaradicionais']); // Adicionais do produto
+// Route::get('/produtos/testar-adicionais', [ProdutosController::class, 'testaradicionais']);  Adicionais do produto
 
 
 // Categorias

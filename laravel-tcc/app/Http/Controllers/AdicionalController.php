@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\AdicionalModel;
 
 class AdicionalController extends Controller
 {
@@ -13,7 +14,7 @@ class AdicionalController extends Controller
 
     public function listarAdicionais()
     {
-        $adicionais = Adicional::all();
+        $adicionais = AdicionalModels::all();
         return response()->json($adicionais);
     }
 
