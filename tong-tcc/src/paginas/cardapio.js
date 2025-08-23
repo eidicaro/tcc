@@ -18,6 +18,7 @@ function Cardapio() {
   const [produtos, setProdutos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [adicionais, setAdicionais] = useState([]);
+  const [adicionarProduto] = useState(false);
 
   const abrirModalProduto = async (produto) => {
     setProdutoSelecionado(produto);
@@ -103,7 +104,7 @@ function Cardapio() {
                         </article>
                       </div>
                     ))}
-                    
+
                 </section>
 
               ))}
@@ -118,6 +119,7 @@ function Cardapio() {
           produto={produtoSelecionado}
           adicionais={adicionais} // todos os adicionais disponiveis
           onClose={() => setMostrarModal(false)}
+          adicionarProduto={adicionarProduto} 
         />
       )}
     </div>

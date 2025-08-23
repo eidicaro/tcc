@@ -1,23 +1,48 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import InfosProd from './infos-prod';
+import '../../style.css';
 
-const Carrossel = () => {
+const Carrossel = ({ adicionarProduto }) => {
   const [produtos, setProdutos] = useState(Array(9).fill(null));
+  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [adicionais, setAdicionais] = useState([]);
 
   useEffect(() => {
-    // IDs dos produtos que você quer no carrossel (na ordem)
-    const ids = [1, 5, 8, 12, 15, 18, 22,19 , 20]; 
+    const ids = [1, 5, 8, 12, 15, 18, 22, 19, 20];
 
-    axios.get(`http://localhost:8000/api/produtos/by-ids?ids=${ids.join(',')}`)
-      .then(response => {
-        setProdutos(response.data); // já vem com imagem_url do Laravel
+    axios
+      .get(`http://localhost:8000/api/produtos/by-ids?ids=${ids.join(',')}`)
+      .then((response) => {
+        setProdutos(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Erro ao carregar produtos:", error);
       });
   }, []);
 
+  const abrirModal = (produto) => {
+    setProdutoSelecionado(produto);
+    setMostrarModal(true);
+  };
+
+  const fecharModal = () => {
+    setMostrarModal(false);
+    setProdutoSelecionado(null);
+  };
+
+  
+
+  // Carregar adicionais (todos iguais para todos os produtos)
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/adicionais')
+      .then(res => setAdicionais(res.data))
+      .catch(err => console.error("Erro ao carregar adicionais:", err));
+  }, []);
+
+  
   return (
     <StyledWrapper>
       <div
@@ -37,7 +62,8 @@ const Carrossel = () => {
                     <img
                       src={produto.imagem_url}
                       alt={produto.nome}
-                      style={{ width: '110%', borderRadius: '15px' }}
+                      onClick={() => abrirModal(produto)}
+                      style={{ width: '110%', borderRadius: '15px', cursor: 'pointer' }}
                     />
                     <p>{produto.nome}</p>
                   </>
@@ -48,6 +74,15 @@ const Carrossel = () => {
             </div>
           ))}
         </div>
+
+           {mostrarModal && produtoSelecionado && (
+        <InfosProd
+          produto={produtoSelecionado}
+          adicionais={adicionais}
+          onClose={fecharModal}
+          adicionarProduto={adicionarProduto}
+        />)}
+
       </div>
     </StyledWrapper>
   );

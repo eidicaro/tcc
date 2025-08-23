@@ -24,5 +24,7 @@ Route::post('/carrinho/adicionar', [CarrinhoController::class, 'adicionar']);
 Route::delete('/carrinho/remover/{id}', [CarrinhoController::class, 'remover']);
 Route::get('/carrinho', [CarrinhoController::class, 'listar']);
 Route::delete('/carrinho/limpar', [CarrinhoController::class, 'limpar']);
+Route::post('/carrinho/finalizar', [CarrinhoController::class, 'finalizar']);
+
 
 

@@ -2,48 +2,67 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import '../../style.css';
-
+import { useCarrinho } from "../hooks/useCarrinho";
+import axios from "axios";
 
 const InfosProd = ({ produto, adicionais, onClose }) => {
-  // Gerencia os estados de abertura e fechamento
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [adicionaisSelecionados, setAdicionaisSelecionados] = useState([]);
+  const { adicionarProduto } = useCarrinho();
 
-  // função para por os adicionais no carrinho
-  const handleAddAdicional = (adicional) => {
+  // Adicionar/remover adicional do produto
+  const toggleAdicional = (adicional) => {
+    const existe = adicionaisSelecionados.find(a => a.id_adicional === adicional.id_adicional);
+    if (existe) {
+      setAdicionaisSelecionados(adicionaisSelecionados.filter(a => a.id_adicional !== adicional.id_adicional));
+    } else {
+      setAdicionaisSelecionados([...adicionaisSelecionados, adicional]);
+    }
+  };
 
-      // Aqui você pode disparar para o carrinho
-      console.log("Adicional adicionado junto ao produto:", produto.nome, adicional.nome);
+  // Adicionar produto com os adicionais ao carrinho
+const handleAdicionarCarrinho = async () => {
+  const produtoComAdicionais = {
+    ...produto,
+    adicionais: adicionaisSelecionados,
+    quantidade: 1
+  };
 
-      // Exemplo: enviar para localStorage ou contexto
-      const item = {
-        ...produto,
-        adicional: adicional
-      };
+  // Atualiza o estado do hook
+  adicionarProduto(produtoComAdicionais);
 
-      let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-      carrinho.push(item);
-      localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  try {
+    // Envia para o back-end
+    await axios.post("http://127.0.0.1:8000/api/carrinho/adicionar", {
+      produto: {
+        id: produto.id_produto,
+        nome: produto.nome,
+        preco: produto.preco,
+        quantidade: 1,
+        adicionais: adicionaisSelecionados
+      }
+    });
+  } catch (err) {
+    console.error("Erro ao adicionar produto no carrinho back-end:", err);
+  }
+
+  onClose();
 };
 
   useEffect(() => {
-    // Quando o modal for aberto, inicia a animação
     setIsOpen(true);
-
-    // Se o modal for fechado, inicia a animação de fechamento
     return () => {
       if (isClosing) {
         setIsOpen(false);
       }
     };
-}, [isClosing]);
+  }, [isClosing]);
 
-  
-const handleClose = () => {
-  setIsClosing(true);
-  setTimeout(() => onClose(), 500); // Após a animação, chama o onClose
-};
-
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => onClose(), 500);
+  };
 
   return (
     <div className={`modal-overlay ${isOpen ? 'open' : isClosing ? 'closed' : 'default'}`}>
@@ -51,45 +70,37 @@ const handleClose = () => {
         <button className="fechar" onClick={handleClose}>×</button>
 
         <div className="modal-header">
-
           <img src={`http://127.0.0.1:8000/storage/${produto.imagem}`} alt={produto.nome} />
-          <button className="btn-avancar">Avançar</button>
-
+          <button className="btn-avancar" onClick={handleAdicionarCarrinho}>Avançar</button>
         </div>
 
         <div className="modal-body">
+          <h2 className="produto-nome">{produto.nome}</h2>
+          <p className="produto-preco">R$ {produto.preco}</p>
+          <p className="produto-desc">{produto.descricao}</p>
 
-            <h2 className="produto-nome">{produto.nome}</h2>
-            <p className="produto-preco">R$ {produto.preco}</p>
-            <p className="produto-desc">{produto.descricao}</p>
+          <div className="adicionais-lista">
+            {Array.isArray(adicionais) && adicionais.length > 0 ? (
+              adicionais.map((adicional) => (
+                <div className="adicional-item" key={adicional.id_adicional}>
+                  <img src={`http://127.0.0.1:8000/storage/${adicional.imagem}`} alt={adicional.nome} />
+                  <span>{adicional.nome}</span>
 
-            <div className="adicionais-lista">
-              {Array.isArray(adicionais) && adicionais.length > 0 ? (
-                adicionais.map((adicional) => (
-                  <div className="adicional-item" key={adicional.id_adicional}>
-                      <img src={`http://127.0.0.1:8000/storage/${adicional.imagem}`} alt={adicional.nome} />
-                      <span>{adicional.nome}</span>
-
-                        <div className="butão">
-                          <span>R$ {adicional.preco}</span>  
-                          
-                          <button
-                            className="btn-mais"
-                            onClick={() => handleAddAdicional(adicional)}
-                          >
-                            <FaPlus size={14} />
-                          </button>
-
-                        </div>
-
+                  <div className="butão">
+                    <span>R$ {adicional.preco}</span>  
+                    <button
+                      className="btn-mais"
+                      onClick={() => toggleAdicional(adicional)}
+                    >
+                      <FaPlus size={14} />
+                    </button>
                   </div>
-                ))
-              ) : (
-                <p className="sem-adicionais">Nenhum adicional disponível.</p>
-              )}
-
-            </div>
-
+                </div>
+              ))
+            ) : (
+              <p className="sem-adicionais">Nenhum adicional disponível.</p>
+            )}
+          </div>
         </div>
       </div>
     </div>
