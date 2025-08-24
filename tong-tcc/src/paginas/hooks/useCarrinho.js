@@ -1,68 +1,66 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const API = 'http://localhost:8000/carrinho';
+
+axios.defaults.withCredentials = true;
 
 export function useCarrinho() {
   const [carrinho, setCarrinho] = useState([]);
 
-  // Carregar carrinho do localStorage quando a página abrir
+  // busca carrinho inicial do backend
   useEffect(() => {
-    const carrinhoSalvo = localStorage.getItem("carrinho");
-    if (carrinhoSalvo) {
-      setCarrinho(JSON.parse(carrinhoSalvo));
-    }
+    const fetchCarrinho = async () => {
+      try {
+        // pega cookie CSRF
+        await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
+        const res = await axios.get(API, { withCredentials: true });
+        setCarrinho(res.data.carrinho || []);
+      } catch (err) {
+        console.error('Erro ao carregar carrinho:', err);
+      }
+    };
+    fetchCarrinho();
   }, []);
 
-  // Salvar carrinho no localStorage sempre que mudar
-  useEffect(() => {
-    localStorage.setItem("carrinho", JSON.stringify(carrinho));
-  }, [carrinho]);
-
-  // Adicionar produto (com adicionais)
+  // adiciona produto
   const adicionarProduto = async (produto) => {
-    // Gera UID único caso não exista
-    const produtoComUID = {
-      ...produto,
-      uid: produto.uid || Date.now()
-    };
-
-    // Atualiza estado local
-    setCarrinho((prev) => [...prev, produtoComUID]);
-
-    // Envia para o back-end
     try {
-      await axios.post("http://127.0.0.1:8000/api/carrinho/adicionar", {
-        produto: produtoComUID
-      });
-      console.log("Produto enviado ao back-end:", produto.nome);
+      await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
+
+      const res = await axios.post(
+        `http://localhost:8000/carrinho/adicionar`,
+        { produto },
+        { withCredentials: true }
+      );
+
+      setCarrinho(res.data.carrinho || []);
     } catch (err) {
-      console.error("Erro ao enviar produto para o back-end:", err);
+      console.error('Erro ao adicionar produto:', err);
     }
   };
 
-  // Remover produto pelo UID
-  const removerProduto = (uid) => {
-    const novoCarrinho = carrinho.filter((p) => p.uid !== uid);
-    setCarrinho(novoCarrinho);
-
-    // Atualiza back-end também
-    axios
-      .delete(`http://127.0.0.1:8000/api/carrinho/remover/${uid}`)
-      .catch((err) => console.error("Erro ao remover produto do back-end:", err));
+  // remove produto pelo UID
+  const removerProduto = async (uid) => {
+    try {
+      await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
+      const res = await axios.delete(`http://localhost:8000/carrinho//remover/${uid}`, { withCredentials: true });
+      setCarrinho(res.data.carrinho || []);
+    } catch (err) {
+      console.error('Erro ao remover produto:', err);
+    }
   };
 
-  // Limpar carrinho
-  const limparCarrinho = () => {
-    setCarrinho([]);
-    localStorage.removeItem("carrinho");
-    axios
-      .post("http://127.0.0.1:8000/api/carrinho/limpar")
-      .catch((err) => console.error("Erro ao limpar carrinho no back-end:", err));
+  // limpa carrinho
+  const limparCarrinho = async () => {
+    try {
+      await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
+      const res = await axios.delete(`http://localhost:8000/carrinho//limpar`, { withCredentials: true });
+      setCarrinho([]);
+    } catch (err) {
+      console.error('Erro ao limpar carrinho:', err);
+    }
   };
 
-  return {
-    carrinho,
-    adicionarProduto,
-    removerProduto,
-    limparCarrinho,
-  };
+  return { carrinho, adicionarProduto, removerProduto, limparCarrinho };
 }

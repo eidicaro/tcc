@@ -8,7 +8,7 @@ import poke from './images/poke.png';
 import Loader from './paginas/modais/loader.js';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useCarrinho } from './paginas/hooks/useCarrinho';
+import  { useCarrinho }  from './paginas/hooks/useCarrinho';
 
 const App = () => {
   const [loading, setLoading] = useState(true);

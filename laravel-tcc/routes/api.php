@@ -6,6 +6,8 @@ use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\AdicionalController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CarrinhoController;
+use Illuminate\Session\Middleware\StartSession;
+
 
 // Produtos
 Route::get('/produtos', [ProdutosController::class, 'index']); // Lista todos os produtos
@@ -19,15 +21,18 @@ Route::get('/categoria', [CategoriaController::class, 'index']);
 // Adicionais
 Route::get('/adicionais', [AdicionalController::class, 'index']);
 
-// criar carrinho 
-Route::post('/carrinho/adicionar', [CarrinhoController::class, 'adicionar']);
-Route::delete('/carrinho/remover/{id}', [CarrinhoController::class, 'remover']);
-Route::get('/carrinho', [CarrinhoController::class, 'listar']);
-Route::delete('/carrinho/limpar', [CarrinhoController::class, 'limpar']);
-Route::post('/carrinho/finalizar', [CarrinhoController::class, 'finalizar']);
+// Rotas de carrinho com sessão ativa
+// Route::middleware('web')->group(function () {
+//     Route::get('/carrinho', [CarrinhoController::class, 'listar']);
+//     Route::post('/carrinho/adicionar', [CarrinhoController::class, 'adicionar']);
+//     Route::delete('/carrinho/remover/{uid}', [CarrinhoController::class, 'remover']);
+//     Route::delete('/carrinho/limpar', [CarrinhoController::class, 'limpar']);
+// });
 
 
-
-Route::get('/carrinho/debug', function() {
-    return session()->get('carrinho', []);
+// rota para o token
+Route::get('/csrf-cookie', function() {
+    return response()->json(['csrf_token' => csrf_token()]);
 });
+
+

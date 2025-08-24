@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CarrinhoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+// routes/web.php
+Route::get('/sanctum/csrf-cookie', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
 });
+
+// rotas do carrinho migradas
+// routes/web.php
+
+Route::prefix('carrinho')->group(function() {
+    Route::get('/', [CarrinhoController::class, 'listar']);
+    Route::post('/adicionar', [CarrinhoController::class, 'adicionar']);
+    Route::delete('/remover/{uid}', [CarrinhoController::class, 'remover']);
+    Route::delete('/limpar', [CarrinhoController::class, 'limpar']);
+});
+
+

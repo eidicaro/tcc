@@ -526,6 +526,12 @@ main p{
   border: none;
   font-size: 50px;
   cursor: pointer;
+  transition: 0.5s;
+}
+
+.fechar:active{
+  font-size: 65px;  
+  transition: 0.5s;
 }
 
 
@@ -600,6 +606,13 @@ main p{
   width: 30px;
   height: auto;
   font-weight: bold;
+  transition: 0.2s;
+}
+
+.btn-mais:active{
+  padding: 5%;
+  background-color: #041f11;
+  transition: 0.2s;
 }
 
 .btn-avancar {
