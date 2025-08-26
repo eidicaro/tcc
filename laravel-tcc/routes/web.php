@@ -24,11 +24,11 @@ Route::get('/sanctum/csrf-cookie', function () {
 // rotas do carrinho migradas
 // routes/web.php
 
-Route::prefix('carrinho')->group(function() {
-    Route::get('/', [CarrinhoController::class, 'listar']);
-    Route::post('/adicionar', [CarrinhoController::class, 'adicionar']);
-    Route::delete('/remover/{uid}', [CarrinhoController::class, 'remover']);
-    Route::delete('/limpar', [CarrinhoController::class, 'limpar']);
-});
+// Route::prefix('carrinho')->group(function() {
+//     Route::get('/', [CarrinhoController::class, 'listar']);
+//     Route::post('/adicionar', [CarrinhoController::class, 'adicionar']);
+//     Route::delete('/remover/{uid}', [CarrinhoController::class, 'remover']);
+//     Route::delete('/limpar', [CarrinhoController::class, 'limpar']);
+// });
 
 
