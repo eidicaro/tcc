@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API = 'http://localhost:8000/carrinho';
+const API = 'http://localhost:8000/api/carrinho';
 
 axios.defaults.withCredentials = true;
 
@@ -29,7 +29,7 @@ export function useCarrinho() {
       await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
 
       const res = await axios.post(
-        `http://localhost:8000/carrinho/adicionar`,
+        `http://localhost:8000/api/carrinho/adicionar`,
         { produto },
         { withCredentials: true }
       );
@@ -44,7 +44,7 @@ export function useCarrinho() {
   const removerProduto = async (uid) => {
     try {
       await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
-      const res = await axios.delete(`http://localhost:8000/carrinho//remover/${uid}`, { withCredentials: true });
+      const res = axios.delete(`http://localhost:8000/carrinho/remover/${uid}`, { withCredentials: true });
       setCarrinho(res.data.carrinho || []);
     } catch (err) {
       console.error('Erro ao remover produto:', err);
@@ -55,7 +55,8 @@ export function useCarrinho() {
   const limparCarrinho = async () => {
     try {
       await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
-      const res = await axios.delete(`http://localhost:8000/carrinho//limpar`, { withCredentials: true });
+      const res = axios.delete(`http://localhost:8000/carrinho/limpar`, { withCredentials: true });
+
       setCarrinho([]);
     } catch (err) {
       console.error('Erro ao limpar carrinho:', err);

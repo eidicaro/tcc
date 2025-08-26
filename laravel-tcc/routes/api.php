@@ -21,13 +21,14 @@ Route::get('/categoria', [CategoriaController::class, 'index']);
 // Adicionais
 Route::get('/adicionais', [AdicionalController::class, 'index']);
 
+
+
 // Rotas de carrinho com sessão ativa
-// Route::middleware('web')->group(function () {
-//     Route::get('/carrinho', [CarrinhoController::class, 'listar']);
-//     Route::post('/carrinho/adicionar', [CarrinhoController::class, 'adicionar']);
-//     Route::delete('/carrinho/remover/{uid}', [CarrinhoController::class, 'remover']);
-//     Route::delete('/carrinho/limpar', [CarrinhoController::class, 'limpar']);
-// });
+    Route::get('/carrinho', [CarrinhoController::class, 'listar']);
+    Route::post('/carrinho/adicionar', [CarrinhoController::class, 'adicionar']);
+    Route::delete('/carrinho/remover/{uid}', [CarrinhoController::class, 'remover']);
+    Route::delete('/carrinho/limpar', [CarrinhoController::class, 'limpar']);
+
 
 
 // rota para o token
