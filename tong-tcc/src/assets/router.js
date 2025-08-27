@@ -9,7 +9,6 @@ export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Quando acessar "/" já redireciona para /login */}
         <Route path="/" element={<App />} />
         <Route path="/cardapio" element={<Cardapio />} />
         <Route path="/login" element={<Login />} />

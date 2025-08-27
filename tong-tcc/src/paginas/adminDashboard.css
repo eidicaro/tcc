@@ -1,55 +1,76 @@
-.admin-container { 
-min-height: 100vh;
-display: flex;
-flex-direction: column; 
-background: #fff; }
+.admin-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+  }
+  
+  .admin-header {
+    background: #d9d9d9;
+    padding: 40px 0;
+    text-align: center;
+  }
+  
+  .admin-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #000;
+  }
+  
+  .underline {
+    margin: 8px auto 0;
+    height: 3px;
+    width: 220px;
+    background: #ff7a33;
+    border-radius: 2px;
+  }
+  
+  .admin-main {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 60px 0;
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    background: #f07c3c;
+    color: #fff;
+    font-weight: 800;
+    font-size: 16px;
+    padding: 70px 90px;
+    border-radius: 14px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .15);
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .card:hover {
+    transform: translateY(-3px);
+    transition: .2s ease;
+  }
+  
+  .logout {
+    margin-top: auto;
+    background: none;
+    border: none;
+    color: #0b3d22;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 24px;
+  }
+  
+  .logout:hover {
+    text-decoration: underline;
+  }
+  
 
-.admin-header { 
-background: #d9d9d9; 
-padding: 40px 0; 
-text-align: center; }
+  footer {
+    display: flex;
+    justify-content: center;
+  }
 
-.admin-header h1 { 
-font-size: 28px; 
-font-weight: 800; 
-color: #000; }
 
-.underline { 
-margin: 8px auto 0; 
-height: 3px; width: 220px; 
-background: #ff7a33; 
-border-radius: 2px; }
-
-.admin-main { 
-display: flex; 
-justify-content: center; 
-gap: 40px; padding: 60px 0; 
-flex-wrap: wrap; }
-
-.card { 
-background: #f07c3c; 
-color: #fff; 
-font-weight: 800; 
-font-size: 16px; 
-padding: 70px 90px; 
-border-radius: 14px;
-box-shadow: 0 10px 20px rgba(0,0,0,.15); 
-cursor: pointer; 
-text-align: center; }
-
-.card:hover { 
-transform: translateY(-3px); 
-transition: .2s ease; }
-
-.logout { 
-margin-top: auto; 
-background: none; 
-border: none; 
-color: #0b3d22; 
-font-weight: 800; 
-font-size: 14px; 
-cursor: pointer; 
-padding: 24px; }
-
-.logout:hover { 
-text-decoration: underline; }
+  
+  
