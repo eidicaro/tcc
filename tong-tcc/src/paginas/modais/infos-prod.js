@@ -18,7 +18,7 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
     }
   };
 
-  const handleAdicionarCarrinho = () => {
+  const handleAdicionarCarrinho = async () => {
     const produtoComUID = {
       ...produto,
       preco: Number(produto.preco),
@@ -26,11 +26,20 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
       quantidade: 1,
       uid: produto.uid || `${produto.id_produto}-${Date.now()}`,
     };
-
+  
     console.log("Produto montado no InfosProd:", produtoComUID);
-    adicionarProduto(produtoComUID);
+  
+    try {
+      const resultado = await adicionarProduto(produtoComUID);
+      console.log("Produto enviado:", resultado); // agora mostra {message, carrinho}
+    } catch (erro) {
+      console.error("Erro ao enviar produto:", erro);
+    }
+  
     onClose();
   };
+  
+  
 
   useEffect(() => {
     setIsOpen(true);

@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 
 class CarrinhoController extends Controller
 {
-    // Lista carrinho atual
+    // Lista o carrinho atual da session
     public function listar(Request $request)
     {
         $carrinho = session()->get('carrinho', []);
         return response()->json(['carrinho' => $carrinho]);
     }
 
-    // Adiciona produto ao carrinho
+    // Adiciona produto na session
     public function adicionar(Request $request)
     {
         $produto = $request->input('produto');
@@ -24,7 +24,7 @@ class CarrinhoController extends Controller
             $produto['uid'] = uniqid();
         }
 
-        // Verifica se já existe no carrinho
+        // Verifica se produto já existe no carrinho
         $index = array_search($produto['uid'], array_column($carrinho, 'uid'));
         if ($index !== false) {
             $carrinho[$index]['quantidade'] += $produto['quantidade'] ?? 1;
@@ -46,7 +46,7 @@ class CarrinhoController extends Controller
     {
         $carrinho = session()->get('carrinho', []);
         $carrinho = array_filter($carrinho, fn($item) => $item['uid'] !== $uid);
-        session()->put('carrinho', $carrinho);
+        session()->put('carrinho', array_values($carrinho));
         return response()->json(['carrinho' => array_values($carrinho)]);
     }
 

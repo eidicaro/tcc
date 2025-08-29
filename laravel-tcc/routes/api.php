@@ -24,10 +24,12 @@ Route::get('/adicionais', [AdicionalController::class, 'index']);
 
 
 // Rotas de carrinho com sessão ativa
-    Route::get('/carrinho', [CarrinhoController::class, 'listar']);
-    Route::post('/carrinho/adicionar', [CarrinhoController::class, 'adicionar']);
-    Route::delete('/carrinho/remover/{uid}', [CarrinhoController::class, 'remover']);
-    Route::delete('/carrinho/limpar', [CarrinhoController::class, 'limpar']);
+Route::prefix('carrinho')->group(function() {
+    Route::get('/listar', [CarrinhoController::class, 'listar']);
+    Route::post('/adicionar', [CarrinhoController::class, 'adicionar']);
+    Route::delete('/remover/{uid}', [CarrinhoController::class, 'remover']);
+    Route::delete('/limpar', [CarrinhoController::class, 'limpar']);
+});
 
 
 

@@ -8,13 +8,17 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('carrinho_produto', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_carrinho');
-            $table->unsignedBigInteger('id_produto');
-            $table->integer('quantidade')->default(1);
-            $table->primary(['id_carrinho', 'id_produto']);
-
-            $table->foreign('id_carrinho')->references('id_carrinho')->on('carrinho')->onDelete('cascade');
-            $table->foreign('id_produto')->references('id_produto')->on('produto')->onDelete('cascade');
+            $table->id();
+            $table->unsignedBigInteger('carrinho_id');
+            $table->unsignedBigInteger('produto_id');
+            $table->string('nome');
+            $table->decimal('preco', 8, 2);
+            $table->integer('quantidade');
+            $table->json('adicionais')->nullable();
+            $table->string('uid')->nullable();
+            $table->timestamps();
+        
+            $table->foreign('carrinho_id')->references('id_carrinho')->on('carrinho')->onDelete('cascade');
         });
     }
 

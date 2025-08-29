@@ -76,7 +76,7 @@ function Cardapio() {
       try {
         // pega cookie CSRF
         await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
-        const res = await axios.get(API, { withCredentials: true });
+        const res = await axios.get(`${API}/listar`, { withCredentials: true });
         setCarrinho(res.data.carrinho || []);
       } catch (err) {
         console.error('Erro ao carregar carrinho:', err);

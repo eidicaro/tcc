@@ -37,3 +37,4 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
     $request->session()->regenerateToken();
     return response()->json(['message' => 'Logout efetuado com sucesso']);
 });
+
