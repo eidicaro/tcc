@@ -1,0 +1,55 @@
+/* Responsividade da Home */
+@media (max-width: 768px) {
+    main h1 {
+      font-size: 32px;
+      border-bottom: 3px solid #000;
+    }
+  
+    main p {
+      font-size: 18px;
+      text-align: center;
+    }
+  
+    .sla {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .horario {
+      margin-left: 0;
+      border-left: none;
+      border-top: 5px solid #F48347;
+      padding-top: 10px;
+      padding-left: 0;
+      align-items: center;
+    }
+  
+    .horario .pa {
+      font-size: 20px;
+    }
+  
+    .horario-h1 {
+      margin-left: 0;
+      text-align: center;
+      font-size: 32px;
+    }
+  
+    .poke {
+      width: 80%;
+      height: auto;
+      margin: 20px auto;
+      display: block;
+    }
+  
+    .mapa {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .mapa iframe {
+      width: 90% !important;
+      height: 250px;
+    }
+  }

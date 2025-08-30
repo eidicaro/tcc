@@ -43,7 +43,7 @@
 // }
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../style.css';
+import '../../styles/cardapio.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaBars, FaTimes } from 'react-icons/fa';

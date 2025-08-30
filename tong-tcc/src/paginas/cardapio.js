@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './modais/header.js';
 import Sidebar from './modais/sidebar.js';
 import Loader from './modais/loader.js';
 import axios from 'axios';
-import '../style.css';
-import '../md.css';
+import '../styles/cardapio.css';
+import '..//styles/infosProd.css'
+import '../styles/mediaScreen/md_cardapio.css';
 import InfosProd from './modais/infos-prod.js'; 
 
 // todos os itens comentados provavelmente serão retirados futuramente

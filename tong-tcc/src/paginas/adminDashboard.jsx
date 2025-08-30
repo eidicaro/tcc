@@ -1,5 +1,5 @@
-import React from "react";
-import "./adminDashboard.css";
+// import React from "react";
+import "./../styles/adminDashboard.css";
 
 export default function AdminDashboard() {
   return (

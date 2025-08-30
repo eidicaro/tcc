@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
-import '../../style.css';
+import '../../styles/carrinho.css';
 import { useCarrinho } from '../hooks/useCarrinho';
 
 const ItemCarrinho = ({ item, incrementar, decrementar, remover }) => {

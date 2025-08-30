@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../style.css';
-import '../../md.css';
+import '../../styles/header.css';
+import '../../styles/mediaScreen/md_navbar.css';
 import Carrinho from './carrinho';
 import { Modal } from './modal_carrinho';
 import tong from './../../images/tong-2.svg';

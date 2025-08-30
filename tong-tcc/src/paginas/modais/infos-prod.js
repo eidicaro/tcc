@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import '../../style.css';
+import '../../styles/infosProd.css';
 import { useCarrinho } from '../hooks/useCarrinho';
 
 const InfosProd = ({ produto, adicionais, onClose }) => {

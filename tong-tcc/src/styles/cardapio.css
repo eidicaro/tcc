@@ -1,0 +1,120 @@
+/* configs basicas */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+:root{
+  --white:#FFFFFF;
+  --black:black;
+  --orange:#F48347;
+  --gray:#D9D9D9;
+  --green:#03391D;
+
+}
+
+*{
+  font-family: 'Poppins', sans-serif;
+}
+
+/* CARDAPIO */
+
+  /* SIDEBAR */
+
+.nav-item-cardapio {
+  width: 100%;
+  padding: 4% 0; /* tira o padding lateral pra não "encolher" */
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 3px solid #fff;
+  box-sizing: border-box;
+  display: block; /* força ocupar a linha toda */
+  text-align: center; /* opcional, se quiser centralizar o texto */
+}
+
+.sidebar-custom {
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.sidebar-custom::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+
+
+
+  /* MODAIS PRODUTOS */
+
+.produtos{
+  padding: 4%;
+  margin-bottom: 5%;
+  margin-left: 15%;
+  width: 85%;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto; 
+}
+
+.prod{
+  display: flex;
+  margin: auto;
+  height: 27vh;
+  width: 85%;
+  border-radius: 10px;
+  background-color: #D9D9D9;
+  padding:2%;
+  font-weight: 700; /* também é negrito */
+  margin-bottom: 4%;
+}
+
+
+.prod article {
+  margin-left: 2.5%;
+  font-weight: 700; 
+  font-size: 20px;
+  width: 70%;
+}
+
+.prod article h1{
+  margin-left: 2.5%;
+  font-weight: 700; 
+  font-size: 24px;
+  width: 100%;
+}
+
+.prod article .descricao{
+  margin-left: 2.5%;
+  font-weight: 700; 
+  font-size: 12px;
+  width: 70%;
+}
+
+.prod article section{
+  display: flex;
+  padding: 20px;
+  margin-top: 2%;
+  justify-content: space-between;
+  font-weight: 700; 
+  font-size: 20px;
+  
+}
+
+.botao {
+  background-color: #03391D;
+  color: white;
+  padding: 1% 2%;
+  margin: 1%;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.botao:hover{
+  background-color: #033903;
+  padding: 1.5% 2.5%;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+
+.prod article h1{
+  color:#F48347;
+  font-weight: 700; 
+}
