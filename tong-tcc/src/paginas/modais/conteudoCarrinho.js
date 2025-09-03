@@ -7,38 +7,42 @@ const ItemCarrinho = ({ item, incrementar, decrementar, remover }) => {
   const adicionaisTexto = item.adicionais?.map(a => a.nome || a) || [];
 
   return (
-    <div className="item-carrinho">
-      <div className="item-carrinho-info">
-        <strong>{item.nome}</strong>
-        {adicionaisTexto.length > 0 && (
-          <ul>
-            {adicionaisTexto.map((ad, index) => <li key={index}>{ad}</li>)}
-          </ul>
-        )}
-      </div>
 
-      <div className="item-carrinho-acoes">
-        <div className="icones">
-          <FaTrash className="icone" onClick={() => remover(item.uid)} />
+      <div className="item-carrinho">
+        <div className="item-carrinho-info">
+          <strong>{item.nome}</strong>
+          {adicionaisTexto.length > 0 && (
+            <ul>
+              {adicionaisTexto.map((ad, index) => <li key={index}>{ad}</li>)}
+            </ul>
+          )}
         </div>
 
-        <div className="quantidade">
-          <span className="menos" onClick={() => decrementar(item.uid)}>–</span>
-          <span>{item.quantidade || 1}</span>
-          <span className="mais" onClick={() => incrementar(item.uid)}>+</span>
-          <span className="preco">R$ {(Number(item.preco) * (item.quantidade || 1)).toFixed(2)}</span>
+        <div className="item-carrinho-acoes">
+          <div className="icones">
+            <FaTrash className="icone" onClick={() => remover(item.uid)} />
+          </div>
+
+          <div className="quantidade">
+            <span className="menos" onClick={() => decrementar(item.uid)}>–</span>
+            <span>{item.quantidade || 1}</span>
+            <span className="mais" onClick={() => incrementar(item.uid)}>+</span>
+            <span className="preco">R$ {(Number(item.preco) * (item.quantidade || 1)).toFixed(2)}</span>
+          </div>
         </div>
-      </div>
+
     </div>
   );
 };
 
 const ConteudoCarrinho = () => {
-  const { carrinho, adicionarProduto, removerProduto } = useCarrinho();
+  const { carrinho, removerProduto, atualizarQuantidade } = useCarrinho();
+
+
 
   const incrementar = (uid) => {
     const item = carrinho.find(p => p.uid === uid);
-    if (item) adicionarProduto({ ...item, quantidade: (item.quantidade || 1) + 1 });
+    if (item) atualizarQuantidade(uid, (item.quantidade || 1) + 1);
   };
 
   const decrementar = (uid) => {
@@ -46,7 +50,7 @@ const ConteudoCarrinho = () => {
     if (item) {
       const novaQtd = (item.quantidade || 1) - 1;
       if (novaQtd <= 0) removerProduto(uid);
-      else adicionarProduto({ ...item, quantidade: novaQtd });
+      else atualizarQuantidade(uid, novaQtd);
     }
   };
 
@@ -56,19 +60,21 @@ const ConteudoCarrinho = () => {
 
   return (
     <div className="conteudo-carrinho">
-      {carrinho.length === 0 ? (
-        <p>Carrinho vazio</p>
-      ) : (
-        carrinho.map(item => (
-          <ItemCarrinho
-            key={item.uid}
-            item={item}
-            incrementar={incrementar}
-            decrementar={decrementar}
-            remover={remover}
-          />
-        ))
-      )}
+      <div className='itens-carrinho'>
+        {carrinho.length === 0 ? (
+          <p>Carrinho vazio</p>
+        ) : (
+          carrinho.map(item => (
+            <ItemCarrinho
+              key={item.uid}
+              item={item}
+              incrementar={incrementar}
+              decrementar={decrementar}
+              remover={remover}
+            />
+          ))
+        )}
+      </div>
 
       {carrinho.length > 0 && (
         <div className="total-finalizar">
@@ -79,5 +85,6 @@ const ConteudoCarrinho = () => {
     </div>
   );
 };
+
 
 export default ConteudoCarrinho;

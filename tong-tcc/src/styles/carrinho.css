@@ -15,6 +15,27 @@
 
 /* MODAL CARRINHO */
 
+.itens-carrinho {
+  max-height: 55vh;   /* limita a altura em 60% da tela */
+  overflow-y: auto;   /* ativa scroll vertical */
+  padding-right: 8px; /* espaço pro scroll não colar no conteúdo */
+}
+
+/* estiliza a barra de rolagem (opcional) */
+.itens-carrinho::-webkit-scrollbar {
+  width: 8px;
+}
+
+.itens-carrinho::-webkit-scrollbar-thumb {
+  background: #ff7b00;
+  border-radius: 10px;
+}
+
+.itens-carrinho::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+
 .item-carrinho {
   background: #D9D9D9;
   border-radius: 8px;
@@ -52,6 +73,31 @@
   margin-top: 50%;
 }
 
+.menos {
+    font-size: 25px;
+    transition: 0.1s;
+}
+.menos:active{
+    font-size: 30px;
+    transition: 0.1s;
+}
+.menos:hover{
+    cursor: pointer;
+}
+
+.mais {
+    font-size: 25px;
+    transition: 0.1s;
+}
+.mais:active{
+    font-size: 30px;
+    transition: 0.1s;
+}
+.mais:hover{
+    cursor: pointer;
+}
+
+
 .preco {
   display: block;
   font-weight: bold;
@@ -61,10 +107,15 @@
 }
 
 .icones .icone {
-  width: 22%;
+  width: 20%;
   height: auto;
   margin-left: 20%;
   cursor: pointer;
+  transition: 0.1s;
+}
+.icone:active{
+    width: 17%;
+    transition: 0.1s;
 }
 
 .btn-finalizar {
@@ -77,11 +128,15 @@
   padding: 2%;
   border: none;
   border-radius: 6px;
-  margin-top: 3%;
   transition: background-position 0.5s ease-in-out;
   cursor: pointer;
 }
 
 .btn-finalizar:hover {
   background-position: right;
+}
+
+.total-finalizar h3{
+    margin-top: 1%;
+    font-size: 20px;
 }

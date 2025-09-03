@@ -14,23 +14,35 @@ export function useCarrinho() {
       .catch(err => console.error('Erro ao carregar carrinho:', err));
   }, []);
 
+  // adiciona o produto no carrinho
   const adicionarProduto = (produto) => {
     axios.post(`${API}/adicionar`, { produto })
       .then(res => setCarrinho(res.data.carrinho))
       .catch(err => console.error('Erro ao adicionar produto:', err));
   };
 
+  // remove o produto do carrinho
   const removerProduto = (uid) => {
     axios.delete(`${API}/remover/${uid}`)
       .then(res => setCarrinho(res.data.carrinho))
       .catch(err => console.error('Erro ao remover produto:', err));
   };
 
+  // limpa o carrinho inteiro
   const limparCarrinho = () => {
     axios.delete(`${API}/limpar`)
       .then(res => setCarrinho([]))
       .catch(err => console.error('Erro ao limpar carrinho:', err));
   };
 
-  return { carrinho, adicionarProduto, removerProduto, limparCarrinho };
+  // atualizar a quantidade do produto
+  const atualizarQuantidade = (uid, novaQtd) => {
+    setCarrinho(prev =>
+      prev.map(item =>
+        item.uid === uid ? { ...item, quantidade: novaQtd } : item
+      )
+    );
+  };
+
+  return { carrinho, adicionarProduto, removerProduto, limparCarrinho, atualizarQuantidade };
 }
