@@ -19,9 +19,18 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
   };
 
   const handleAdicionarCarrinho = async () => {
+    // soma os preços dos adicionais (mesmo se vierem como string)
+    const precoAdicionais = adicionaisSelecionados.reduce((total, adicional) => {
+      const precoNum = parseFloat(adicional.preco) || 0; // força número
+      return total + precoNum;
+    }, 0);
+  
+    // calcula o preço final do produto já com adicionais
+    const precoFinal = parseFloat(produto.preco) + precoAdicionais;
+  
     const produtoComUID = {
       ...produto,
-      preco: Number(produto.preco),
+      preco: precoFinal, // já vem com adicionais incluídos
       adicionais: adicionaisSelecionados,
       quantidade: 1,
       uid: produto.uid || `${produto.id_produto}-${Date.now()}`,
@@ -31,13 +40,14 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
   
     try {
       const resultado = await adicionarProduto(produtoComUID);
-      console.log("Produto enviado:", resultado); // agora mostra {message, carrinho}
+      console.log("Produto enviado:", resultado);
     } catch (erro) {
       console.error("Erro ao enviar produto:", erro);
     }
   
     onClose();
   };
+  
   
   
 
