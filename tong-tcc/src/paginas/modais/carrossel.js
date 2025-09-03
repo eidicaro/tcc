@@ -3,12 +3,15 @@ import styled from 'styled-components';
 import axios from 'axios';
 import InfosProd from './infos-prod';
 import '../../style.css';
+import { useCarrinho } from '../hooks/useCarrinho'; // importa o hook
 
-const Carrossel = ({ adicionarProduto }) => {
+const Carrossel = () => {
   const [produtos, setProdutos] = useState(Array(9).fill(null));
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [adicionais, setAdicionais] = useState([]);
+
+  const { adicionarProduto } = useCarrinho(); // pega do hook
 
   useEffect(() => {
     const ids = [1, 5, 8, 12, 15, 18, 22, 19, 20];
@@ -33,16 +36,13 @@ const Carrossel = ({ adicionarProduto }) => {
     setProdutoSelecionado(null);
   };
 
-  
-
-  // Carregar adicionais (todos iguais para todos os produtos)
+  // Carregar adicionais (iguais para todos os produtos)
   useEffect(() => {
     axios.get('http://localhost:8000/api/adicionais')
       .then(res => setAdicionais(res.data))
       .catch(err => console.error("Erro ao carregar adicionais:", err));
   }, []);
 
-  
   return (
     <StyledWrapper>
       <div
@@ -75,14 +75,14 @@ const Carrossel = ({ adicionarProduto }) => {
           ))}
         </div>
 
-           {mostrarModal && produtoSelecionado && (
-        <InfosProd
-          produto={produtoSelecionado}
-          adicionais={adicionais}
-          onClose={fecharModal}
-          adicionarProduto={adicionarProduto}
-        />)}
-
+        {mostrarModal && produtoSelecionado && (
+          <InfosProd
+            produto={produtoSelecionado}
+            adicionais={adicionais}
+            onClose={fecharModal}
+            adicionarProduto={adicionarProduto} // vem do hook
+          />
+        )}
       </div>
     </StyledWrapper>
   );
@@ -104,7 +104,6 @@ const StyledWrapper = styled.div`
     font-size: 18px;
     color: white;
   }
-
 
   .slider {
     width: 100%;
