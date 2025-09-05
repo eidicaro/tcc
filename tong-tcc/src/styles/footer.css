@@ -16,6 +16,8 @@
 /* FOOTER */
 
 .footer-container {
+  display: flex;
+  flex-direction: column;
   background-color: #000;
   color: #fff;
   padding: 2rem 1rem;
@@ -35,6 +37,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 50px;
+  margin-bottom: 10%;
 }
 
 .footer-section ul li a {

@@ -29,8 +29,8 @@ const Footer = () => {
 
           {/* Ícones sociais */}
           <div className="footer-icons">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram size={24} color="#fff" style={{ marginRight: '20px' }} /></a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebookF size={24} color="#fff"  style={{ marginRight: '20px' }} /> </a>
+            <a href="https://instagram.com" target="_blank" rel="https://www.instagram.com/tongsushidelivery"><FaInstagram size={24} color="#fff" style={{ marginRight: '20px' }} /></a>
+            <a href="https://facebook.com" target="_blank" rel="https://www.facebook.com/diddyacasadoyakisoba?locale=pt_BR"><FaFacebookF size={24} color="#fff"  style={{ marginRight: '20px' }} /> </a>
             <a href="https://wa.me/SEUNUMERO" target="_blank" rel="noopener noreferrer"><FaWhatsapp size={24} color="#fff" style={{ marginRight: '20px' }} /></a>
           </div>
         </div>

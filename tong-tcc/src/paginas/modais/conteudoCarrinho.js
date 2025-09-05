@@ -79,7 +79,7 @@ const ConteudoCarrinho = () => {
       {carrinho.length > 0 && (
         <div className="total-finalizar">
           <h3>Total: R$ {total.toFixed(2)}</h3>
-          <button className="btn-finalizar">Finalizar Pedido</button>
+          <button className="btn-finalizar">Realizar Pagamento</button>
         </div>
       )}
     </div>
