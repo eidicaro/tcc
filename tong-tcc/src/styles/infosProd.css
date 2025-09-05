@@ -81,7 +81,7 @@
   display: flex;
   background: #cccccc;
   border-radius: 10px;
-  padding: 20px;
+  padding: 30px;
   width: 100%;
   gap: 5%;
   height: 90%;
@@ -116,7 +116,7 @@
 .modal-header{
   display: flex;
   flex-direction: column;
-  max-width: 25%;
+  max-width: 30%;
 }
 
 .modal-header button{
@@ -142,7 +142,9 @@
 .produto-desc {
   font-size: 20px;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
+  max-height: 10%;
+  overflow-y: auto;
 }
 
 .adicionais-lista {

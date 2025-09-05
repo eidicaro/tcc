@@ -72,7 +72,7 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
           <button className="btn-avancar" onClick={handleAdicionarCarrinho}>Avançar</button>
         </div>
         <div className="modal-body">
-          <h2 className="produto-nome">{produto.nome}</h2>
+          <h3 className="produto-nome">{produto.nome}</h3>
           <p className="produto-preco">R$ {Number(produto.preco).toFixed(2)}</p>
           <p className="produto-desc">{produto.descricao}</p>
 

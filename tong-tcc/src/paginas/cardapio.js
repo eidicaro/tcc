@@ -116,7 +116,10 @@ function Cardapio() {
                         />
                         <article>
                           <h1>{p.nome}</h1>
-                          <p className='descricao'>{p.descricao}</p>
+                          <div className='text-descricao'>
+                            <p className='descricao'>{p.descricao}</p>
+
+                          </div>
                           <section>
                             <p>{p.preco}</p>
                             <button className="botao" onClick={() => abrirModalProduto(p)}>Saiba Mais</button>
