@@ -1,18 +1,10 @@
-import React, { useState } from "react";
 import styled from "styled-components";
-import Payment from "../modais/pagamento";
 
 const Carrinho = () => {
-  const [showCart, setShowCart] = useState(false);       // controla visibilidade do carrinho
-  const [showPayment, setShowPayment] = useState(false); // controla modal de pagamento
-
-  const subtotal = 91.8; // exemplo
-
   return (
-    <Wrapper>
-      {/* Botão do ícone do carrinho */}
+    <StyledWrapper>
       <div className="button-container">
-        <button className="button" onClick={() => setShowCart(!showCart)}>
+        <button className="button">
           <svg
             className="icon"
             stroke="currentColor"
@@ -31,29 +23,11 @@ const Carrinho = () => {
           </svg>
         </button>
       </div>
-
-      {/* Carrinho */}
-      {showCart && (
-        <Cart>
-          {/* Itens do carrinho */}
-          <p>Itens do carrinho...</p>
-
-          {/* Botão para abrir modal de pagamento */}
-          <button className="finalizar-btn" onClick={() => setShowPayment(true)}>
-            Finalizar Pedido
-          </button>
-        </Cart>
-      )}
-
-      {/* Modal de pagamento */}
-      {showPayment && <Payment subtotal={subtotal} onClose={() => setShowPayment(false)} />}
-    </Wrapper>
+    </StyledWrapper>
   );
 };
 
-const Wrapper = styled.div`
-  position: relative;
-
+const StyledWrapper = styled.div`
   .button-container {
     display: flex;
     background-color: black;
@@ -79,34 +53,12 @@ const Wrapper = styled.div`
     cursor: pointer;
   }
 
-  .button:hover { transform: translateY(-3px); }
-  .icon { font-size: 50px; }
-`;
-
-const Cart = styled.div`
-  position: absolute; 
-  top: 60px; 
-  right: 0;
-  width: 300px;
-  background: #f5f5f5;
-  padding: 15px;
-  border-radius: 10px;
-  z-index: 10;
-
-  .finalizar-btn {
-    margin-top: 10px;
-    width: 100%;
-    padding: 12px;
-    background: #043d16;
-    color: #fff;
-    border: none;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
+  .button:hover {
+    transform: translateY(-3px);
   }
-  .finalizar-btn:hover {
-    background: #03520f;
+
+  .icon {
+    font-size: 50px;
   }
 `;
 

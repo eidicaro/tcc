@@ -15,7 +15,7 @@ import './styles/mediaScreen/md_home.css'
 const App = () => {
   const [loading, setLoading] = useState(true);
 
-  // ✅ Hook do carrinho (centralizado)
+
   const { carrinho, adicionarProduto, limparCarrinho } = useCarrinho();
 
   // Estado dos produtos

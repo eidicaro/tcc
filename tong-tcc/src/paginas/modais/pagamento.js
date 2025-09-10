@@ -1,156 +1,184 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const Payment = ({ subtotal, onClose }) => {
+const PaymentPage = ({ subtotal, onClose }) => {
   const [deliveryFee] = useState(2);
   const [paymentMethod, setPaymentMethod] = useState("");
 
-  const total = subtotal + deliveryFee;
+  const total = Number(subtotal) + Number(deliveryFee);
 
-  // Evita o re-render infinito se alguém clicar sem querer
   const handlePayment = () => {
     alert(`Pagamento de R$${total.toFixed(2)} realizado!`);
-    onClose();
+    onClose(); // fecha modal após confirmar pagamento
   };
 
   return (
     <Overlay>
-      <Modal>
+      <Card>
         <Header>
           <h2>Finalizar pedido</h2>
           <button className="close-btn" onClick={onClose}>×</button>
         </Header>
 
-        <Section>
-          <label>Adicione uma localização</label>
-          <input type="text" placeholder="Digite seu endereço..." />
-        </Section>
+        <Content>
+          <SmallNote>Hoje: 40 - 60 min</SmallNote>
 
-        <Section>
-          <label>Selecione uma forma de Pagamento</label>
-          <Options>
-            {["Cartão Débito/Crédito", "Pix", "Boleto", "Dinheiro"].map((method) => (
-              <Option key={method}>
-                <input
-                  type="radio"
-                  id={method}
-                  name="payment"
-                  value={method}
-                  checked={paymentMethod === method}
-                  onChange={() => setPaymentMethod(method)}
-                />
-                <label htmlFor={method}>{method}</label>
-              </Option>
-            ))}
-          </Options>
-        </Section>
+          <Field>
+            <label>Adicione uma localização</label>
+            <input type="text" placeholder="Digite seu endereço..." />
+          </Field>
 
-        <Summary>
-          <Row>
-            <span>Subtotal:</span>
-            <span>R$ {subtotal.toFixed(2)}</span>
-          </Row>
-          <Row>
-            <span>Taxa de entrega:</span>
-            <span>R$ {deliveryFee.toFixed(2)}</span>
-          </Row>
-          <TotalRow>
-            <span>Total:</span>
-            <span>R$ {total.toFixed(2)}</span>
-          </TotalRow>
-        </Summary>
+          <Field>
+            <label>Selecione uma forma de Pagamento</label>
+            <Options>
+              {["Cartão Débito/Crédito", "Pix", "Boleto", "Dinheiro"].map((m) => (
+                <Option key={m}>
+                  <input
+                    type="radio"
+                    id={m}
+                    name="payment"
+                    value={m}
+                    checked={paymentMethod === m}
+                    onChange={() => setPaymentMethod(m)}
+                  />
+                  <label htmlFor={m}>{m}</label>
+                </Option>
+              ))}
+            </Options>
+          </Field>
+        </Content>
 
-        <Button onClick={handlePayment}>Realizar Pagamento</Button>
-      </Modal>
+        <Footer>
+          <Totals>
+            <div>
+              <span>Subtotal:</span>
+              <strong>R$ {Number(subtotal).toFixed(2)}</strong>
+            </div>
+            <div>
+              <span>Taxa de entrega</span>
+              <strong>R$ {deliveryFee.toFixed(2)}</strong>
+            </div>
+            <hr />
+            <div className="total-row">
+              <span>Total:</span>
+              <strong>R$ {total.toFixed(2)}</strong>
+            </div>
+          </Totals>
+
+          <PayButton onClick={handlePayment}>Realizar Pagamento</PayButton>
+        </Footer>
+      </Card>
     </Overlay>
   );
 };
 
-export default Payment;
+export default PaymentPage;
 
-// --- Styled Components (sem alterações) ---
+// ================== STYLED COMPONENTS ==================
+
 const Overlay = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
+  inset: 0;
+  background: rgba(0,0,0,0.6);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 999;
+  justify-content: center;
+  z-index: 9999;
+  padding: 24px;
 `;
 
-const Modal = styled.div`
-  width: 400px;
+const Card = styled.div`
+  width: 760px;
+  max-width: calc(100% - 48px);
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
-`;
-
-const Header = styled.div`
-  background: #f5f5f5;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  h2 { margin: 0; }
-  .close-btn {
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-  }
-`;
-
-const Section = styled.div`
-  padding: 15px 20px;
-  label { display: block; margin-bottom: 8px; font-weight: 500; }
-  input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-`;
-
-const Options = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const Option = styled.div`
-  margin: 5px 0;
-  input { margin-right: 10px; }
-`;
-
-const Summary = styled.div`
-  background: #f7941d;
-  padding: 15px 20px;
-  color: #fff;
-`;
-
-const Row = styled.div`
+const Header = styled.div`
+  background: #e9e9e9;
+  padding: 18px 24px;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  h2 { margin: 0; font-weight: 700; }
+
+  .close-btn {
+    position: absolute;
+    right: 18px;
+    top: 14px;
+    border: none;
+    background: transparent;
+    font-size: 22px;
+    cursor: pointer;
+  }
 `;
 
-const TotalRow = styled(Row)`
-  font-weight: 700;
-  border-top: 1px solid rgba(255,255,255,0.5);
-  padding-top: 5px;
+const Content = styled.div`
+  padding: 18px 28px;
+  background: #ececec;
 `;
 
-const Button = styled.button`
-  width: 100%;
-  padding: 15px;
-  background: #043d16;
+const SmallNote = styled.div`
+  color: #333;
+  margin-bottom: 12px;
+  font-size: 14px;
+`;
+
+const Field = styled.div`
+  margin-top: 14px;
+  label { display: block; margin-bottom: 8px; font-weight: 600; }
+  input[type="text"] {
+    width: 100%;
+    height: 14px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #cfcfcf;
+  }
+`;
+
+const Options = styled.div`
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Option = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  input { width: 16px; height: 16px; }
+`;
+
+const Footer = styled.div`
+  background: #f07f2d; /* laranja da sua imagem */
+  padding: 18px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+`;
+
+const Totals = styled.div`
+  color: #fff;
+  div { display:flex; justify-content: space-between; align-items:center; margin:6px 0; }
+  hr { border: none; border-top: 1px solid rgba(255,255,255,0.3); margin: 8px 0; }
+  .total-row { font-weight: 700; font-size: 18px; }
+`;
+
+const PayButton = styled.button`
+  align-self: center;
+  width: 260px;
+  padding: 12px 16px;
+  background: #0b4e31; /* verde */
   color: #fff;
   border: none;
-  font-size: 16px;
+  border-radius: 8px;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.3s;
-  &:hover { background: #03520f; }
 `;
