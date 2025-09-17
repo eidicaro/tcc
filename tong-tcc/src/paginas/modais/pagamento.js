@@ -31,7 +31,7 @@ const PaymentPage = ({ subtotal, onClose }) => {
           <Field>
             <label>Selecione uma forma de Pagamento</label>
             <Options>
-              {["Cartão Débito/Crédito", "Pix", "Boleto", "Dinheiro"].map((m) => (
+              {["Cartão Débito/Crédito", "Pix", "Dinheiro"].map((m) => (
                 <Option key={m}>
                   <input
                     type="radio"
@@ -41,7 +41,7 @@ const PaymentPage = ({ subtotal, onClose }) => {
                     checked={paymentMethod === m}
                     onChange={() => setPaymentMethod(m)}
                   />
-                  <label htmlFor={m}>{m}</label>
+                  <span>{m}</span>
                 </Option>
               ))}
             </Options>
@@ -74,7 +74,7 @@ const PaymentPage = ({ subtotal, onClose }) => {
 
 export default PaymentPage;
 
-// ================== STYLED COMPONENTS ==================
+// STYLED COMPONENTS
 
 const Overlay = styled.div`
   position: fixed;
@@ -150,14 +150,19 @@ const Options = styled.div`
 const Option = styled.label`
   display: flex;
   align-items: center;
-  gap: 10px;
   margin-bottom: 8px;
   cursor: pointer;
-  input { width: 16px; height: 16px; }
+
+  input {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px; 
+  }
 `;
 
+
 const Footer = styled.div`
-  background: #f07f2d; /* laranja da sua imagem */
+  background: #f07f2d; 
   padding: 18px 28px;
   display: flex;
   flex-direction: column;
@@ -175,7 +180,7 @@ const PayButton = styled.button`
   align-self: center;
   width: 260px;
   padding: 12px 16px;
-  background: #0b4e31; /* verde */
+  background: #0b4e31; 
   color: #fff;
   border: none;
   border-radius: 8px;
