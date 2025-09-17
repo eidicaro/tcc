@@ -4,13 +4,26 @@ import styled from "styled-components";
 const PaymentPage = ({ subtotal, onClose }) => {
   const [deliveryFee] = useState(2);
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [address, setAddress] = useState("");
 
   const total = Number(subtotal) + Number(deliveryFee);
 
   const handlePayment = () => {
+    // validações antes de prosseguir com o pagamento
+    if (!address.trim()) {
+      alert("Por favor, insira a localização.");
+      return;
+    }
+    if (!paymentMethod) {
+      alert("Por favor, selecione um método de pagamento.");
+      return;
+    }
+
     alert(`Pagamento de R$${total.toFixed(2)} realizado!`);
     onClose(); // fecha modal após confirmar pagamento
   };
+
+  const isPayDisabled = !address.trim() || !paymentMethod;
 
   return (
     <Overlay>
@@ -25,7 +38,12 @@ const PaymentPage = ({ subtotal, onClose }) => {
 
           <Field>
             <label>Adicione uma localização</label>
-            <input type="text" placeholder="Digite seu endereço..." />
+            <input
+              type="text"
+              placeholder="Digite seu endereço..."
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
           </Field>
 
           <Field>
@@ -65,7 +83,9 @@ const PaymentPage = ({ subtotal, onClose }) => {
             </div>
           </Totals>
 
-          <PayButton onClick={handlePayment}>Realizar Pagamento</PayButton>
+          <PayButton onClick={handlePayment} disabled={isPayDisabled}>
+            Realizar Pagamento
+          </PayButton>
         </Footer>
       </Card>
     </Overlay>
@@ -74,7 +94,7 @@ const PaymentPage = ({ subtotal, onClose }) => {
 
 export default PaymentPage;
 
-// STYLED COMPONENTS
+// ================== STYLED COMPONENTS ==================
 
 const Overlay = styled.div`
   position: fixed;
@@ -156,13 +176,12 @@ const Option = styled.label`
   input {
     width: 16px;
     height: 16px;
-    margin-right: 8px; 
+    margin-right: 8px; /* espaço entre bolinha e texto */
   }
 `;
 
-
 const Footer = styled.div`
-  background: #f07f2d; 
+  background: #f07f2d; /* laranja da sua imagem */
   padding: 18px 28px;
   display: flex;
   flex-direction: column;
@@ -180,10 +199,15 @@ const PayButton = styled.button`
   align-self: center;
   width: 260px;
   padding: 12px 16px;
-  background: #0b4e31; 
+  background: #0b4e31; /* verde */
   color: #fff;
   border: none;
   border-radius: 8px;
   font-weight: 700;
   cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 `;
