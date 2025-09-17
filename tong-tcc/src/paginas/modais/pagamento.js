@@ -9,7 +9,6 @@ const PaymentPage = ({ subtotal, onClose }) => {
   const total = Number(subtotal) + Number(deliveryFee);
 
   const handlePayment = () => {
-    // validações antes de prosseguir com o pagamento
     if (!address.trim()) {
       alert("Por favor, insira a localização.");
       return;
@@ -20,7 +19,7 @@ const PaymentPage = ({ subtotal, onClose }) => {
     }
 
     alert(`Pagamento de R$${total.toFixed(2)} realizado!`);
-    onClose(); // fecha modal após confirmar pagamento
+    onClose(); 
   };
 
   const isPayDisabled = !address.trim() || !paymentMethod;
