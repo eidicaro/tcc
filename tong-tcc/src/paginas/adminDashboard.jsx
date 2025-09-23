@@ -1,7 +1,16 @@
-// import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./../styles/adminDashboard.css";
 
 export default function AdminDashboard() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    fetch("http://localhost:8000/api/logout", {
+      method: "POST",
+      credentials: "include",
+    }).finally(() => navigate("/login"));
+  };
+
   return (
     <div className="admin-container">
       <header className="admin-header">
@@ -12,24 +21,17 @@ export default function AdminDashboard() {
       </header>
 
       <main className="admin-main">
-        <div className="card">PRODUTOS</div>
-        <div className="card">PEDIDOS</div>
-        <div className="card">CLIENTES</div>
+        <Link to="/admin/produtos" className="card">PRODUTOS</Link>
+        <Link to="/admin/pedidos" className="card">PEDIDOS</Link>
+        <Link to="/admin/clientes" className="card">CLIENTES</Link>
       </main>
 
       <footer>
-        <button
-          className="logout"
-          onClick={() => {
-            fetch("http://localhost:8000/api/logout", {
-              method: "POST",
-              credentials: "include",
-            }).finally(() => (window.location.href = "/login"));
-          }}
-        >
+        <button className="logout" onClick={handleLogout}>
           SAIR
         </button>
       </footer>
     </div>
   );
 }
+
