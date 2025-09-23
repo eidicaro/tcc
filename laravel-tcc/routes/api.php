@@ -6,6 +6,7 @@ use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\AdicionalController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CarrinhoController;
+use App\Http\Controllers\PedidosController;
 use Illuminate\Session\Middleware\StartSession;
 
 
@@ -30,6 +31,12 @@ Route::prefix('carrinho')->group(function() {
     Route::delete('/remover/{uid}', [CarrinhoController::class, 'remover']);
     Route::delete('/limpar', [CarrinhoController::class, 'limpar']);
 });
+
+
+// rotas de pagamento
+Route::get('/pedidos', [PedidoController::class, 'listarPedidos']); // listar pedidos no admin
+Route::post('/pedidos/finalizar', [PedidoController::class, 'finalizarPedido']);
+
 
 
 

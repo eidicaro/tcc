@@ -1,28 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
-const PaymentPage = ({ subtotal, onClose }) => {
+const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   const [deliveryFee] = useState(2);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [address, setAddress] = useState("");
+  const [needChange, setNeedChange] = useState(""); // sim/não
+  const [changeValue, setChangeValue] = useState(""); // valor para troco
 
   const total = Number(subtotal) + Number(deliveryFee);
 
-  const handlePayment = () => {
-    if (!address.trim()) {
-      alert("Por favor, insira a localização.");
+  useEffect(() => {
+    // pega CSRF cookie antes de enviar qualquer POST
+    axios.get("http://localhost:8000/sanctum/csrf-cookie", { withCredentials: true });
+  }, []);
+
+  
+  const handlePayment = async () => {
+    if (!address.trim() || !paymentMethod) {
+      alert("Preencha todos os campos");
       return;
     }
-    if (!paymentMethod) {
-      alert("Por favor, selecione um método de pagamento.");
+    if (paymentMethod === "Dinheiro" && needChange === "Sim" && !changeValue) {
+      alert("Por favor, informe o valor para o troco.");
       return;
     }
 
-    alert(`Pagamento de R$${total.toFixed(2)} realizado!`);
-    onClose(); 
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/pedidos/finalizar",
+        { endereco: address, forma_pagamento: paymentMethod, total, carrinho },
+        { withCredentials: true } // garante que o cookie CSRF seja enviado
+      );
+
+      alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
+      onClose();
+    } catch (err) {
+      console.error(err.response ? err.response.data : err);
+      alert("Erro ao finalizar pedido");
+    }
   };
 
-  const isPayDisabled = !address.trim() || !paymentMethod;
+  const isPayDisabled =
+    !address.trim() ||
+    !paymentMethod ||
+    (paymentMethod === "Dinheiro" && needChange === "Sim" && !changeValue);
 
   return (
     <Overlay>
@@ -36,43 +59,83 @@ const PaymentPage = ({ subtotal, onClose }) => {
           <SmallNote>Hoje: 40 - 60 min</SmallNote>
 
           <Field>
-            <label>Adicione uma localização</label>
+            <label>Endereço</label>
             <input
               type="text"
-              placeholder="Digite seu endereço..."
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={e => setAddress(e.target.value)}
             />
           </Field>
 
           <Field>
-            <label>Selecione uma forma de Pagamento</label>
+            <label>Forma de Pagamento</label>
             <Options>
-              {["Cartão Débito/Crédito", "Pix", "Dinheiro"].map((m) => (
+              {["Cartão Débito/Crédito", "Pix", "Dinheiro"].map(m => (
                 <Option key={m}>
                   <input
                     type="radio"
-                    id={m}
                     name="payment"
                     value={m}
                     checked={paymentMethod === m}
-                    onChange={() => setPaymentMethod(m)}
+                    onChange={() => {
+                      setPaymentMethod(m);
+                      setNeedChange("");
+                      setChangeValue("");
+                    }}
                   />
                   <span>{m}</span>
                 </Option>
               ))}
             </Options>
           </Field>
+
+          {/* Opções extras se escolher Dinheiro */}
+          {paymentMethod === "Dinheiro" && (
+            <Field>
+              <label>Deseja dinheiro de troco?</label>
+              <Options>
+                {["Sim", "Não"].map((opt) => (
+                  <Option key={opt}>
+                    <input
+                      type="radio"
+                      id={opt}
+                      name="needChange"
+                      value={opt}
+                      checked={needChange === opt}
+                      onChange={() => {
+                        setNeedChange(opt);
+                        if (opt === "Não") setChangeValue("");
+                      }}
+                    />
+                    <span>{opt}</span>
+                  </Option>
+                ))}
+              </Options>
+
+              {needChange === "Sim" && (
+                <div style={{ marginTop: "8px" }}>
+                  <label>Valor para troco:</label>
+                  <input
+                    type="number"
+                    placeholder="Ex: 200"
+                    value={changeValue}
+                    onChange={(e) => setChangeValue(e.target.value)}
+                    style={{ marginTop: "6px", width: "100%", padding: "8px" }}
+                  />
+                </div>
+              )}
+            </Field>
+          )}
         </Content>
 
         <Footer>
           <Totals>
             <div>
               <span>Subtotal:</span>
-              <strong>R$ {Number(subtotal).toFixed(2)}</strong>
+              <strong>R$ {subtotal.toFixed(2)}</strong>
             </div>
             <div>
-              <span>Taxa de entrega</span>
+              <span>Taxa de entrega:</span>
               <strong>R$ {deliveryFee.toFixed(2)}</strong>
             </div>
             <hr />
@@ -94,7 +157,6 @@ const PaymentPage = ({ subtotal, onClose }) => {
 export default PaymentPage;
 
 // ================== STYLED COMPONENTS ==================
-
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
@@ -151,7 +213,7 @@ const SmallNote = styled.div`
 const Field = styled.div`
   margin-top: 14px;
   label { display: block; margin-bottom: 8px; font-weight: 600; }
-  input[type="text"] {
+  input[type="text"], input[type="number"] {
     width: 100%;
     height: 14px;
     padding: 10px;
@@ -175,12 +237,12 @@ const Option = styled.label`
   input {
     width: 16px;
     height: 16px;
-    margin-right: 8px; /* espaço entre bolinha e texto */
+    margin-right: 8px;
   }
 `;
 
 const Footer = styled.div`
-  background: #f07f2d; /* laranja da sua imagem */
+  background: #f07f2d;
   padding: 18px 28px;
   display: flex;
   flex-direction: column;
@@ -198,7 +260,7 @@ const PayButton = styled.button`
   align-self: center;
   width: 260px;
   padding: 12px 16px;
-  background: #0b4e31; /* verde */
+  background: #0b4e31;
   color: #fff;
   border: none;
   border-radius: 8px;

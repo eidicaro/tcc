@@ -12,9 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pedidos', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_pedido');
+            $table->string('endereco');
+            $table->string('forma_pagamento');
+            $table->enum('status_pagamento', ['pendente', 'pago', 'cancelado'])->default('pendente');
+            $table->decimal('total', 10, 2);
             $table->timestamps();
         });
+        
     }
 
     /**
