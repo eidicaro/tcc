@@ -131,55 +131,78 @@
 
 
 
-/* ----------- MOBILE (até 768px) ----------- */
-@media screen and (max-width: 768px) {
-  .prod {
+/* --- DESKTOP (padrão) --- */
+.prod-desktop {
+  display: flex;
+}
+
+.prod-mobile {
+  display: none;
+}
+
+/* --- MOBILE --- */
+@media (max-width: 768px) {
+  .prod-desktop {
+    display: none; /* esconde o layout desktop */
+  }
+
+  .prod-mobile {
     display: flex;
-  margin: auto;
-  height: 32vh;
-  width: 85%;
-  border-radius: 10px;
-  background-color: #D9D9D9;
-  padding:2%;
-  font-weight: 700; /* também é negrito */
-  margin-bottom: 4%;
+    flex-direction: column;
+    background: #d9d9d9;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
   }
 
-  .prod img {
-    width: 40%; /* imagem menor */
-    max-width: 140px;
-    border-radius: 8px;
-  }
-
-  .prod article {
-   
-  }
-
-  .prod h1 {
+  .prod-mobile h1 {
     font-size: 16px;
-    margin: 0 0 6px 0;
+    margin-bottom: 8px;
     color: #F48347;
   }
 
-  .prod article .descricao {
-    font-size: 13px;
-    margin: 6px 0;
-  }
-
-  .prod article section {
+  .prod-content {
     display: flex;
-    align-items: center;
-    margin-top: 8px;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
   }
 
-  .prod article section p {
-    font-size: 14px;
-    font-weight: bold;
-  }
-
-  .botao {
-    font-size: 13px;
-    padding: 6px 10px;
+  .prod-content img {
+    width: 100px;
+    height: auto;
     border-radius: 6px;
   }
+
+  .prod-content .descricao {
+    font-size: 13px;
+    flex: 1;
+  }
+
+  .prod-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .prod-footer p {
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .prod-footer .botao {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .descricao {
+    font-size: 13px;
+    max-height: 55px;
+    overflow-y: auto;
+  }
+  
+  
+  
 }
+
