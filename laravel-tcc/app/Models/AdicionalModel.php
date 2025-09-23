@@ -21,4 +21,10 @@ class AdicionalModel extends Model
             'id_produto'
         );
     }
+
+    public function adicionais()
+{
+    return $this->hasMany(PedidoItemAdicional::class);
+}
+
 }

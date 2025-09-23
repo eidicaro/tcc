@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class PedidosModel extends Model
 {
-    use HasFactory;
+    protected $table = 'pedidos';
+    protected $fillable = ['endereco', 'forma_pagamento', 'status_pagamento', 'total'];
+
+    public function itens() {
+        return $this->hasMany(PedidoItem::class, 'id_pedido');
+    }
+
 }

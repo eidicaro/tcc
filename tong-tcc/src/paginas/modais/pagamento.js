@@ -1,25 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
-const PaymentPage = ({ subtotal, onClose }) => {
+const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   const [deliveryFee] = useState(2);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [address, setAddress] = useState("");
 
   const total = Number(subtotal) + Number(deliveryFee);
 
-  const handlePayment = () => {
-    if (!address.trim()) {
-      alert("Por favor, insira a localização.");
-      return;
-    }
-    if (!paymentMethod) {
-      alert("Por favor, selecione um método de pagamento.");
+  useEffect(() => {
+    // pega CSRF cookie antes de enviar qualquer POST
+    axios.get("http://localhost:8000/sanctum/csrf-cookie", { withCredentials: true });
+  }, []);
+
+  const handlePayment = async () => {
+    if (!address.trim() || !paymentMethod) {
+      alert("Preencha todos os campos");
       return;
     }
 
-    alert(`Pagamento de R$${total.toFixed(2)} realizado!`);
-    onClose(); 
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/pedidos/finalizar",
+        { endereco: address, forma_pagamento: paymentMethod, total, carrinho },
+        { withCredentials: true } // garante que o cookie CSRF seja enviado
+      );
+
+      alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
+      onClose();
+    } catch (err) {
+      console.error(err.response ? err.response.data : err);
+      alert("Erro ao finalizar pedido");
+    }
   };
 
   const isPayDisabled = !address.trim() || !paymentMethod;
@@ -36,23 +49,21 @@ const PaymentPage = ({ subtotal, onClose }) => {
           <SmallNote>Hoje: 40 - 60 min</SmallNote>
 
           <Field>
-            <label>Adicione uma localização</label>
+            <label>Endereço</label>
             <input
               type="text"
-              placeholder="Digite seu endereço..."
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={e => setAddress(e.target.value)}
             />
           </Field>
 
           <Field>
-            <label>Selecione uma forma de Pagamento</label>
+            <label>Forma de Pagamento</label>
             <Options>
-              {["Cartão Débito/Crédito", "Pix", "Dinheiro"].map((m) => (
+              {["Cartão Débito/Crédito", "Pix", "Dinheiro"].map(m => (
                 <Option key={m}>
                   <input
                     type="radio"
-                    id={m}
                     name="payment"
                     value={m}
                     checked={paymentMethod === m}
@@ -69,10 +80,10 @@ const PaymentPage = ({ subtotal, onClose }) => {
           <Totals>
             <div>
               <span>Subtotal:</span>
-              <strong>R$ {Number(subtotal).toFixed(2)}</strong>
+              <strong>R$ {subtotal.toFixed(2)}</strong>
             </div>
             <div>
-              <span>Taxa de entrega</span>
+              <span>Taxa de entrega:</span>
               <strong>R$ {deliveryFee.toFixed(2)}</strong>
             </div>
             <hr />
