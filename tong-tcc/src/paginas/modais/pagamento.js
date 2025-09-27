@@ -18,29 +18,49 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
 
   
   const handlePayment = async () => {
-    if (!address.trim() || !paymentMethod) {
-      alert("Preencha todos os campos");
-      return;
-    }
-    if (paymentMethod === "Dinheiro" && needChange === "Sim" && !changeValue) {
-      alert("Por favor, informe o valor para o troco.");
-      return;
-    }
+  if (!address.trim() || !paymentMethod) {
+    alert("Preencha todos os campos");
+    return;
+  }
+  if (paymentMethod === "Dinheiro" && needChange === "Sim" && !changeValue) {
+    alert("Por favor, informe o valor para o troco.");
+    return;
+  }
 
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/api/pedidos/finalizar",
-        { endereco: address, forma_pagamento: paymentMethod, total, carrinho },
-        { withCredentials: true } // garante que o cookie CSRF seja enviado
-      );
-
-      alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
-      onClose();
-    } catch (err) {
-      console.error(err.response ? err.response.data : err);
-      alert("Erro ao finalizar pedido");
-    }
+  // Monta o JSON que o backend espera
+  const pedidoJSON = {
+    endereco: address,
+    forma_pagamento: paymentMethod,
+    total,
+    carrinho: carrinho.map(item => ({
+      produto_id: item.id_produto, // garantindo o nome correto
+      quantidade: item.quantidade,
+      preco: item.preco,
+      adicionais: item.adicionais?.map(add => ({
+        adicional_id: add.id_adicional, // nome correto para o backend
+        preco: add.preco
+      })) || []
+    }))
   };
+
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/pedidos/finalizar",
+      JSON.stringify(pedidoJSON), // envia como JSON puro
+      {
+        headers: { "Content-Type": "application/json" }, // obrigatório
+        withCredentials: true, // garante envio do cookie CSRF
+      }
+    );
+
+    alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
+    onClose();
+  } catch (err) {
+    console.error(err.response ? err.response.data : err);
+    alert("Erro ao finalizar pedido");
+  }
+};
+
 
   const isPayDisabled =
     !address.trim() ||

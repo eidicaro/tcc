@@ -96,6 +96,7 @@ const ConteudoCarrinho = () => {
       {showPayment && (
         <PaymentPage
           subtotal={total}
+          carrinho={carrinho}   // manda pro back
           onClose={() => setShowPayment(false)}
         />
       )}

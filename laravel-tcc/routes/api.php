@@ -34,8 +34,8 @@ Route::prefix('carrinho')->group(function() {
 
 
 // rotas de pagamento
-Route::get('/pedidos', [PedidoController::class, 'listarPedidos']); // listar pedidos no admin
-Route::post('/pedidos/finalizar', [PedidoController::class, 'finalizarPedido']);
+Route::get('/pedidos', [PedidosController::class, 'listarPedidos']); // listar pedidos no admin
+Route::post('/pedidos/finalizar', [PedidosController::class, 'finalizar']);
 
 
 
@@ -44,5 +44,9 @@ Route::post('/pedidos/finalizar', [PedidoController::class, 'finalizarPedido']);
 Route::get('/csrf-cookie', function() {
     return response()->json(['csrf_token' => csrf_token()]);
 });
+
+
+
+
 
 

@@ -38,3 +38,9 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
     return response()->json(['message' => 'Logout efetuado com sucesso']);
 });
 
+
+
+Route::get('/debug-carrinho', function () {
+    dd(session()->all());
+});
+
