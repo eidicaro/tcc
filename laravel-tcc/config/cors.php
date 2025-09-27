@@ -15,21 +15,27 @@ return [
     |
     */
 
-'paths' => ['api/*'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'carrinho', 'carrinho/*', '*', 'pedidos/'],
 
-'allowed_methods' => ['*'],
 
-'allowed_origins' => ['*'],
+    'allowed_methods' => ['*'],
 
-'allowed_origins_patterns' => [],
 
-'allowed_headers' => ['*'],
+    'allowed_origins' => ['http://localhost:3000'], //react
 
-'exposed_headers' => [],
+    
+    'allowed_origins_patterns' => [],
 
-'max_age' => 0,
 
-'supports_credentials' => false,
+    'allowed_headers' => ['*'],
 
+
+    'exposed_headers' => [],
+
+
+    'max_age' => 0,
+
+
+    'supports_credentials' => true, // habilita os cookies
 
 ];
