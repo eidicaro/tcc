@@ -16,26 +16,34 @@ return [
     */
 
     'paths' => ['api/*', 'sanctum/csrf-cookie', 'carrinho', 'carrinho/*', '*', 'pedidos/'],
+    // 'paths' => ['*'],
 
 
+    // 'allowed_methods' => ['*'],
     'allowed_methods' => ['*'],
 
 
     'allowed_origins' => ['http://localhost:3000'], //react
+    // 'allowed_origins' => ['*'], //react
 
     
+    // 'allowed_origins_patterns' => [],
     'allowed_origins_patterns' => [],
 
 
+    // 'allowed_headers' => ['*'],
     'allowed_headers' => ['*'],
 
 
+    // 'exposed_headers' => [],
     'exposed_headers' => [],
 
 
+    // 'max_age' => 0,
     'max_age' => 0,
 
 
     'supports_credentials' => true, // habilita os cookies
+    // 'supports_credentials' => false, // habilita os cookies
 
 ];
