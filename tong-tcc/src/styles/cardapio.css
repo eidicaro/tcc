@@ -43,7 +43,8 @@
 
   /* MODAIS PRODUTOS */
 
-.produtos{
+/* --- MODAIS PRODUTOS --- */
+.produtos {
   padding: 4%;
   margin-bottom: 5%;
   margin-left: 15%;
@@ -53,60 +54,71 @@
   overflow-y: auto; 
 }
 
-.prod{
+/* --- DESKTOP (padrão) --- */
+.prod {
   display: flex;
+  flex-direction: row;
+  align-items: stretch; /* garante que os elementos estiquem igualmente */
   margin: auto;
   height: 32vh;
   width: 85%;
   border-radius: 10px;
   background-color: #D9D9D9;
-  padding:2%;
-  font-weight: 700; /* também é negrito */
+  padding: 2%;
+  font-weight: 700;
   margin-bottom: 4%;
 }
 
+.prod-desktop {
+  display: flex;
+  flex: 1;
+}
 
 .prod article {
   margin-left: 2.5%;
   font-weight: 700; 
   font-size: 20px;
   width: 70%;
+
+  /* garante que conteúdo distribua corretamente */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.prod article h1{
+.prod article h1 {
   margin-left: 2.5%;
   font-weight: 700; 
   font-size: 24px;
   width: 100%;
+  color: #F48347;
 }
 
-.prod article .descricao{
+.prod article .descricao {
   margin-left: 2.5%;
   font-weight: 700; 
   font-size: 12px;
   width: 70%;
-  
   max-width: 90%;
   padding-right: 5%;
-  
 }
 
-.text-descricao{
+.text-descricao {
   max-height: 25%;
   overflow-y: auto;
 }
 
-
-.prod article section{
+.prod article section {
+  margin-top: auto; /* fixa o preço + botão no rodapé */
   display: flex;
-  padding: 20px;
-  margin-top: 2%;
   justify-content: space-between;
+  align-items: center;
   font-weight: 700; 
   font-size: 20px;
-  
+  padding: 20px;
 }
 
+/* botão */
 .botao {
   background-color: #03391D;
   color: white;
@@ -117,31 +129,24 @@
   cursor: pointer;
   transition: 0.4s;
 }
-.botao:hover{
+
+.botao:hover {
   background-color: #033903;
   padding: 1.5% 2.5%;
   border-radius: 12px;
   transition: 0.2s;
 }
 
-.prod article h1{
-  color:#F48347;
-  font-weight: 700; 
-}
-
-
-
-/* --- DESKTOP (padrão) --- */
-.prod-desktop {
-  display: flex;
-}
-
+/* --- MOBILE --- */
 .prod-mobile {
   display: none;
 }
 
-/* --- MOBILE --- */
 @media (max-width: 768px) {
+  .prod {
+    height: auto; /* altura ajusta ao conteúdo no mobile */
+  }
+
   .prod-desktop {
     display: none; /* esconde o layout desktop */
   }
@@ -201,8 +206,4 @@
     max-height: 55px;
     overflow-y: auto;
   }
-  
-  
-  
 }
-
