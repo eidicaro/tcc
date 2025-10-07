@@ -90,4 +90,65 @@ class PedidosController extends Controller
             }
         }
 
+            /**
+     * Exibe um pedido específico com todos os detalhes
+     */
+    public function mostrarPedido($id_pedido)
+    {
+        try {
+            $pedido = PedidosModel::with(['itens.produto', 'itens.adicionais.adicional'])
+                ->findOrFail($id_pedido);
+
+            return response()->json(['success' => true, 'pedido' => $pedido]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Erro ao buscar pedido: ' . $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Atualiza informações de um pedido (como status, forma de pagamento, endereço)
+     */
+    public function atualizarPedido(Request $request, $id_pedido)
+    {
+        try {
+            $pedido = PedidosModel::findOrFail($id_pedido);
+
+            $data = $request->validate([
+                'endereco' => 'sometimes|string|max:255',
+                'forma_pagamento' => 'sometimes|string|max:50',
+                'status_pagamento' => 'sometimes|string|max:50',
+                'total' => 'sometimes|numeric|min:0'
+            ]);
+
+            $pedido->update($data);
+
+            return response()->json(['success' => true, 'message' => 'Pedido atualizado com sucesso', 'pedido' => $pedido]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Erro ao atualizar pedido: ' . $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Exclui um pedido e seus relacionamentos (itens e adicionais)
+     */
+    public function excluirPedido($id_pedido)
+    {
+        try {
+            $pedido = PedidosModel::with('itens.adicionais')->findOrFail($id_pedido);
+
+            // Deleta os adicionais e itens relacionados
+            foreach ($pedido->itens as $item) {
+                $item->adicionais()->delete();
+                $item->delete();
+            }
+
+            $pedido->delete();
+
+            return response()->json(['success' => true, 'message' => 'Pedido excluído com sucesso']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Erro ao excluir pedido: ' . $e->getMessage()]);
+        }
+    }
+
+
 }

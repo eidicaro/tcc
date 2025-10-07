@@ -39,6 +39,13 @@ Route::post('/pedidos/finalizar', [PedidosController::class, 'finalizar']);
 
 
 
+Route::prefix('admin')->group(function () {
+    Route::get('/pedidos', [PedidosController::class, 'listarPedidos']);
+    Route::get('/pedidos/{id}', [PedidosController::class, 'mostrarPedido']);
+    Route::put('/pedidos/{id}', [PedidosController::class, 'atualizarPedido']);
+    Route::delete('/pedidos/{id}', [PedidosController::class, 'excluirPedido']);
+});
+
 
 // rota para o token
 Route::get('/csrf-cookie', function() {
