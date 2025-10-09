@@ -140,3 +140,15 @@
     margin-top: 1%;
     font-size: 20px;
 }
+
+.lista-adicionais {
+  margin: 5px 0 0 10px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.lista-adicionais li {
+  margin-bottom: 3px;
+}

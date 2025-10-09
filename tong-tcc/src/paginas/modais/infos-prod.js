@@ -10,6 +10,7 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
   const [quantidades, setQuantidades] = useState({});
   const { adicionarProduto } = useCarrinho();
 
+  // --- adiciona ou remove um adicional do array selecionado ---
   const toggleAdicional = (adicional) => {
     const existe = adicionaisSelecionados.find(a => a.id_adicional === adicional.id_adicional);
     if (existe) {
@@ -19,16 +20,21 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
     }
   };
 
+  // --- aumenta quantidade ---
   const handleAdd = (adicional) => {
-    setQuantidades((prev) => ({
+    setQuantidades(prev => ({
       ...prev,
       [adicional.id_adicional]: (prev[adicional.id_adicional] || 0) + 1,
     }));
-    toggleAdicional(adicional);
+
+    if (!adicionaisSelecionados.some(a => a.id_adicional === adicional.id_adicional)) {
+      setAdicionaisSelecionados(prev => [...prev, adicional]);
+    }
   };
 
+  // --- diminui quantidade ---
   const handleRemove = (adicional) => {
-    setQuantidades((prev) => {
+    setQuantidades(prev => {
       const novaQtd = (prev[adicional.id_adicional] || 0) - 1;
       if (novaQtd <= 0) {
         const { [adicional.id_adicional]: _, ...rest } = prev;
@@ -37,33 +43,35 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
       return { ...prev, [adicional.id_adicional]: novaQtd };
     });
 
-    // Remove o adicional se chegar a 0
-    setAdicionaisSelecionados((prev) =>
-      prev.filter((a) => a.id_adicional !== adicional.id_adicional)
+    // Remove da lista se chegar a 0
+    setAdicionaisSelecionados(prev =>
+      prev.filter(a => a.id_adicional !== adicional.id_adicional)
     );
   };
 
+  // --- envia para o carrinho ---
   const handleAdicionarCarrinho = async () => {
-    const precoAdicionais = adicionaisSelecionados.reduce((total, adicional) => {
-      const precoNum = parseFloat(adicional.preco) || 0;
-      return total + precoNum;
-    }, 0);
+    // monta adicionais com suas quantidades reais
+    const adicionaisEnvio = adicionaisSelecionados.map(adicional => ({
+      id_adicional: adicional.id_adicional,
+      nome: adicional.nome,
+      preco: Number(adicional.preco || 0),
+      quantidade: Number(quantidades[adicional.id_adicional] || 1),
+    }));
 
-    const precoFinal = parseFloat(produto.preco) + precoAdicionais;
+    // preço base (sem adicionais!)
+    const precoBase = parseFloat(produto.preco) || 0;
 
     const produtoComUID = {
       ...produto,
-      preco: precoFinal,
-      adicionais: adicionaisSelecionados,
+      preco: precoBase, // somente o preço do produto
+      adicionais: adicionaisEnvio,
       quantidade: 1,
       uid: produto.uid || `${produto.id_produto}-${Date.now()}`,
     };
 
-    console.log("Produto montado no InfosProd:", produtoComUID);
-
     try {
-      const resultado = await adicionarProduto(produtoComUID);
-      console.log("Produto enviado:", resultado);
+      await adicionarProduto(produtoComUID);
     } catch (erro) {
       console.error("Erro ao enviar produto:", erro);
     }
