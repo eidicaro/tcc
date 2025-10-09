@@ -62,3 +62,122 @@
     text-decoration: underline;
   }
   
+
+
+ /* Fundo do modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Caixa principal do modal */
+.modal-content {
+  background: #f47e3e; /* Laranja principal */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  width: 650px;
+  max-width: 90%;
+  color: #fff;
+  text-align: center;
+  position: relative;
+}
+
+/* Título */
+.modal-content h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+/* Área do formulário */
+.modal-body {
+  background: #fff;
+  border-radius: 8px;
+  padding: 30px 40px;
+  text-align: left;
+  color: #333;
+}
+
+/* Labels */
+.modal-body label {
+  display: block;
+  font-weight: 700;
+  color: #f47e3e;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+/* Inputs, selects e textarea */
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+/* Textarea com altura maior */
+.modal-body textarea {
+  height: 80px;
+  resize: none;
+}
+
+/* Botão de selecionar imagem */
+.upload-btn {
+  background: #f47e3e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-bottom: 15px;
+}
+.upload-btn:hover {
+  background: #e66c25;
+}
+
+/* Botão de salvar */
+.save-btn {
+  background: #083d1f; /* Verde escuro */
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 25px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  float: right;
+}
+.save-btn:hover {
+  background: #062e17;
+}
+
+/* Botão sair (fora do modal) */
+.logout-btn {
+  margin-top: 30px;
+  background: transparent;
+  border: none;
+  font-weight: 700;
+  color: #083d1f;
+  cursor: pointer;
+  font-size: 18px;
+}
+.logout-btn:hover {
+  text-decoration: underline;
+}
