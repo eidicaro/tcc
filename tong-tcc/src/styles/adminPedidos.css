@@ -1,0 +1,160 @@
+/* Container geral */
+.admin-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Título */
+  .titulo-admin {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Tabela de pedidos */
+  .tabela-container {
+    overflow-x: auto;
+  }
+  
+  .tabela-pedidos {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .tabela-pedidos th,
+  .tabela-pedidos td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .tabela-pedidos th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  /* Linha principal do pedido */
+  .pedido-principal {
+    background-color: #fafafa;
+    font-weight: bold;
+  }
+  
+  /* Produtos do pedido */
+  .detalhes-produtos {
+    background-color: #fff;
+    padding: 10px;
+  }
+  
+  .produto-item {
+    border-bottom: 1px solid #eee;
+    padding: 5px 0;
+  }
+  
+  .produto-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .adicionais-lista {
+    margin-left: 15px;
+    margin-top: 5px;
+  }
+  
+  .adicionais-lista li {
+    font-size: 0.9em;
+  }
+  
+  /* Botões */
+  .btn {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85em;
+    margin-left: 5px;
+    transition: all 0.2s ease;
+  }
+  
+  .btn.excluir {
+    background-color: #e74c3c;
+    color: #fff;
+  }
+  
+  .btn.editar {
+    background-color: #3498db;
+    color: #fff;
+  }
+  
+  .btn.salvar {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+  
+  .btn.cancelar {
+    background-color: #95a5a6;
+    color: #fff;
+  }
+  
+  .btn:hover {
+    opacity: 0.9;
+  }
+  
+  /* Modal overlay */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Modal interno */
+  .modal {
+    background-color: #fff;
+    padding: 25px;
+    width: 400px;
+    max-width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  
+  .modal h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  /* Inputs */
+  .modal input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    margin-left: 10px;
+  }
+  
+  /* Adicionais dentro do modal */
+  .adicionais-edicao {
+    margin-top: 15px;
+  }
+  
+  .adicionais-edicao label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+  }
+  
+  /* Botões do modal */
+  .modal-botoes {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .modal-botoes .btn {
+    margin-left: 10px;
+  }
+  

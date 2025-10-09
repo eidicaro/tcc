@@ -1,151 +1,186 @@
-import React, { useState, useEffect } from "react";
-import Modal from "../components/modal";
-import PedidoForm from "../components/pedidoForm";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./../styles/adminPedidos.css";
 
-export default function PedidosPage() {
+const AdminPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [pedidoSelecionado, setPedidoSelecionado] = useState(null);
-  const API_URL = "http://localhost:8000/api/admin/pedidos";
-
-  // 🔹 Carregar pedidos do backend
-  const carregarPedidos = async () => {
-    try {
-      const res = await axios.get(API_URL);
-      console.log("Pedidos carregados:", res.data);
-      setPedidos(res.data.pedidos || []);
-    } catch (err) {
-      console.error("Erro ao carregar pedidos:", err);
-    }
-  };
+  const [produtoEditando, setProdutoEditando] = useState(null);
+  const [quantidade, setQuantidade] = useState(1);
+  const [adicionaisSelecionados, setAdicionaisSelecionados] = useState([]);
 
   useEffect(() => {
     carregarPedidos();
   }, []);
 
-  // 🔹 Criar ou atualizar pedido
-  const handleSave = async (pedido) => {
+  const carregarPedidos = async () => {
     try {
-      if (pedidoSelecionado) {
-        // Atualizar pedido existente
-        await axios.put(`${API_URL}/${pedidoSelecionado.id_pedido}`, pedido);
-      } else {
-        // Criar novo pedido
-        await axios.post(API_URL, pedido);
-      }
-
-      // Recarrega pedidos atualizados
-      await carregarPedidos();
-    } catch (err) {
-      console.error("Erro ao salvar pedido:", err);
+      const response = await axios.get("http://localhost:8000/api/admin/pedidos");
+      setPedidos(response.data.pedidos || []);
+    } catch (error) {
+      console.error("Erro ao carregar pedidos:", error);
     }
-
-    setModalOpen(false);
-    setPedidoSelecionado(null);
   };
 
-  // 🔹 Editar pedido
-  const handleEdit = (pedido) => {
-    setPedidoSelecionado(pedido);
-    setModalOpen(true);
-  };
-
-  // 🔹 Excluir pedido
-  const handleDelete = async (id) => {
+  const excluirPedido = async (id) => {
     if (!window.confirm("Tem certeza que deseja excluir este pedido?")) return;
-
     try {
-      await axios.delete(`${API_URL}/${id}`);
-      setPedidos(pedidos.filter((p) => p.id_pedido !== id));
-    } catch (err) {
-      console.error("Erro ao excluir pedido:", err);
+      await axios.delete(`http://localhost:8000/api/admin/pedidos/${id}`);
+      carregarPedidos();
+    } catch (error) {
+      console.error("Erro ao excluir pedido:", error);
     }
   };
 
-  // 🔹 Ver detalhes (exemplo simples)
-  const handleView = (pedido) => {
-    alert(`
-      Endereço: ${pedido.endereco}
-      Pagamento: ${pedido.forma_pagamento}
-      Status: ${pedido.status_pagamento}
-      Total: R$ ${Number(pedido.total).toFixed(2)}
-    `);
+  const abrirModalEdicao = (produto) => {
+    setProdutoEditando(produto);
+    setQuantidade(produto.pivot?.quantidade || 1);
+    setAdicionaisSelecionados(produto.adicionais?.map(a => a.id_nome) || []);
+  };
+
+  const fecharModalEdicao = () => {
+    setProdutoEditando(null);
+    setQuantidade(1);
+    setAdicionaisSelecionados([]);
+  };
+
+  const salvarEdicao = async () => {
+    try {
+      await axios.put(
+        `http://localhost:8000/api/admin/pedidos/${produtoEditando.pivot.id_pedido}/produto/${produtoEditando.id_nome}`,
+        { quantidade, adicionais: adicionaisSelecionados }
+      );
+      carregarPedidos();
+      fecharModalEdicao();
+    } catch (error) {
+      console.error("Erro ao atualizar produto:", error);
+    }
+  };
+
+  const toggleAdicional = (id) => {
+    setAdicionaisSelecionados(prev =>
+      prev.includes(id) ? prev.filter(a => a !== id) : [...prev, id]
+    );
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>🛒 Gerenciar Pedidos</h2>
-      <button onClick={() => setModalOpen(true)}>Adicionar Pedido</button>
+    <div className="admin-container">
+      <h2 className="titulo-admin">Pedidos Recebidos</h2>
 
-      <table border="1" cellPadding="8" style={{ marginTop: 20, width: "100%" }}>
-        <thead>
-          <tr>
-            <th>Endereço</th>
-            <th>Produtos</th>
-            <th>Adicionais</th>
-            <th>Valor Total</th>
-            <th>Forma de Pagamento</th>
-            <th>Status</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pedidos.length > 0 ? (
-            pedidos.map((p) => (
-              <tr key={p.id_pedido}>
-                <td>{p.endereco}</td>
-                <td>
-                  {p.itens && p.itens.length > 0
-                    ? p.itens
-                        .map(
-                          (item) =>
-                            `${item.produto?.nome || "Produto"} (x${item.quantidade})`
-                        )
-                        .join(", ")
-                    : "—"}
-                </td>
-                <td>
-                  {p.itens && p.itens.length > 0
-                    ? p.itens
-                        .map((item) => {
-                          const adicionaisArray = Array.isArray(item.adicionais)
-                            ? item.adicionais
-                            : [];
-                          const nomesAdicionais = adicionaisArray
-                            .map((a) => a.adicional?.nome)
-                            .filter(Boolean)
-                            .join(", ");
-                          return nomesAdicionais || "—";
-                        })
-                        .join(" | ")
-                    : "—"}
-                </td>
-                <td>R$ {Number(p.total).toFixed(2)}</td>
-                <td>{p.forma_pagamento}</td>
-                <td>{p.status_pagamento}</td>
-                <td>
-                  <button onClick={() => handleView(p)}>Ver</button>
-                  <button onClick={() => handleEdit(p)}>Editar</button>
-                  <button onClick={() => handleDelete(p.id_pedido)}>Excluir</button>
-                </td>
-              </tr>
-            ))
-          ) : (
+      <div className="tabela-container">
+        <table className="tabela-pedidos">
+          <thead>
             <tr>
-              <td colSpan="7" style={{ textAlign: "center" }}>
-                Nenhum pedido encontrado.
-              </td>
+              <th>ID</th>
+              <th>Endereço</th>
+              <th>Pagamento</th>
+              <th>Status</th>
+              <th>Total</th>
+              <th>Data</th>
+              <th>Ações</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {pedidos.map((pedido) => (
+              <React.Fragment key={pedido.id_pedido}>
+                <tr className="pedido-principal">
+                  <td>{pedido.id_pedido}</td>
+                  <td>{pedido.endereco}</td>
+                  <td>{pedido.forma_pagamento}</td>
+                  <td>{pedido.status_pagamento}</td>
+                  <td>R$ {parseFloat(pedido.total).toFixed(2)}</td>
+                  <td>
+                    {new Date(pedido.created_at).toLocaleDateString("pt-BR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </td>
+                  <td>
+                    <button
+                      className="btn excluir"
+                      onClick={() => excluirPedido(pedido.id_pedido)}
+                    >
+                      Excluir
+                    </button>
+                  </td>
+                </tr>
 
-      {modalOpen && (
-        <Modal title="Pedido" onClose={() => setModalOpen(false)}>
-          <PedidoForm onSubmit={handleSave} initialData={pedidoSelecionado} />
-        </Modal>
+                {/* Produtos e adicionais */}
+                <tr>
+                  <td colSpan="7" className="detalhes-produtos">
+                    {pedido.produtos?.length > 0 ? (
+                      pedido.produtos.map((produto) => (
+                        <div key={produto.id_nome} className="produto-item">
+                          <div className="produto-header">
+                            <strong>{produto.nome}</strong> — R$ {parseFloat(produto.preco).toFixed(2)}
+                            {produto.pivot?.quantidade && <span> x{produto.pivot.quantidade}</span>}
+                            <button className="btn editar" onClick={() => abrirModalEdicao(produto)}>
+                              Editar
+                            </button>
+                          </div>
+
+                          {produto.adicionais?.length > 0 && (
+                            <ul className="adicionais-lista">
+                              {produto.adicionais.map((adicional) => (
+                                <li key={adicional.id_nome}>
+                                  {adicional.nome} — R$ {parseFloat(adicional.preco).toFixed(2)}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      <p>Nenhum produto encontrado neste pedido.</p>
+                    )}
+                  </td>
+                </tr>
+              </React.Fragment>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Modal */}
+      {produtoEditando && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Editar Produto: {produtoEditando.nome}</h3>
+            <label>
+              Quantidade:
+              <input
+                type="number"
+                min="1"
+                value={quantidade}
+                onChange={(e) => setQuantidade(parseInt(e.target.value))}
+              />
+            </label>
+
+            {produtoEditando.adicionais?.length > 0 && (
+              <div className="adicionais-edicao">
+                <p>Adicionais:</p>
+                {produtoEditando.adicionais.map((adicional) => (
+                  <label key={adicional.id_nome}>
+                    <input
+                      type="checkbox"
+                      checked={adicionaisSelecionados.includes(adicional.id_nome)}
+                      onChange={() => toggleAdicional(adicional.id_nome)}
+                    />
+                    {adicional.nome} — R$ {parseFloat(adicional.preco).toFixed(2)}
+                  </label>
+                ))}
+              </div>
+            )}
+
+            <div className="modal-botoes">
+              <button className="btn salvar" onClick={salvarEdicao}>Salvar</button>
+              <button className="btn cancelar" onClick={fecharModalEdicao}>Cancelar</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
-}
+};
+
+export default AdminPedidos;
