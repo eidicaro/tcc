@@ -6,15 +6,40 @@ import PaymentPage from './pagamento';
 
 // ================== COMPONENTE ITEM CARRINHO ==================
 const ItemCarrinho = ({ item, incrementar, decrementar, remover }) => {
-  const adicionaisTexto = item.adicionais?.map(a => a.nome || a) || [];
+  const adicionais = item.adicionais || [];
+  const quantidadeProduto = Number(item.quantidade || 1);
+  const precoBase = Number(item.preco || 0);
+
+  // Soma dos adicionais POR UNIDADE do produto
+  const adicionaisPorUnidade = adicionais.reduce((acc, ad) => {
+    const precoAd = Number(ad.preco || 0);
+    const qtdAd = Number(ad.quantidade || 1); // quantidade por unidade
+    return acc + precoAd * qtdAd;
+  }, 0);
+
+  // subtotal do item = (preço base + soma adicionais por unidade) * quantidade de produto
+  const subtotalItem = (precoBase + adicionaisPorUnidade) * quantidadeProduto;
 
   return (
     <div className="item-carrinho">
       <div className="item-carrinho-info">
         <strong>{item.nome}</strong>
-        {adicionaisTexto.length > 0 && (
-          <ul>
-            {adicionaisTexto.map((ad, index) => <li key={index}>{ad}</li>)}
+
+        {/* mostra adicionais (quantidade por unidade e preço por unidade) */}
+        {adicionais.length > 0 && (
+          <ul className="lista-adicionais">
+            {adicionais.map((ad, index) => {
+              const precoAd = Number(ad.preco || 0);
+              const qtdAd = Number(ad.quantidade || 1); // por unidade
+              return (
+                <li key={index}>
+                  {qtdAd}x {ad.nome} — R$ {(precoAd * qtdAd).toFixed(2)} por unidade
+                  {quantidadeProduto > 1 && (
+                    <> — total: R$ {(precoAd * qtdAd * quantidadeProduto).toFixed(2)}</>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>
@@ -26,10 +51,10 @@ const ItemCarrinho = ({ item, incrementar, decrementar, remover }) => {
 
         <div className="quantidade">
           <span className="menos" onClick={() => decrementar(item.uid)}>–</span>
-          <span>{item.quantidade || 1}</span>
+          <span>{quantidadeProduto}</span>
           <span className="mais" onClick={() => incrementar(item.uid)}>+</span>
           <span className="preco">
-            R$ {(Number(item.preco) * (item.quantidade || 1)).toFixed(2)}
+            R$ {subtotalItem.toFixed(2)}
           </span>
         </div>
       </div>
@@ -37,6 +62,7 @@ const ItemCarrinho = ({ item, incrementar, decrementar, remover }) => {
   );
 };
 
+// ================== COMPONENTE PRINCIPAL ==================
 const ConteudoCarrinho = () => {
   const { carrinho, removerProduto, atualizarQuantidade } = useCarrinho();
   const [showPayment, setShowPayment] = useState(false);
@@ -57,14 +83,21 @@ const ConteudoCarrinho = () => {
 
   const remover = (uid) => removerProduto(uid);
 
-  const total = carrinho.reduce(
-    (acc, item) => acc + (item.preco * (item.quantidade || 1)),
-    0
-  );
+  // Total geral: soma (preco base + adicionais POR UNIDADE) * quantidade do produto
+  const total = carrinho.reduce((acc, item) => {
+    const precoBase = Number(item.preco || 0);
+    const qtdProduto = Number(item.quantidade || 1);
+
+    const adicionaisPorUnidade = (item.adicionais || []).reduce((s, ad) => {
+      return s + (Number(ad.preco || 0) * Number(ad.quantidade || 1));
+    }, 0);
+
+    return acc + (precoBase + adicionaisPorUnidade) * qtdProduto;
+  }, 0);
 
   return (
     <div className="conteudo-carrinho">
-      <div className='itens-carrinho'>
+      <div className="itens-carrinho">
         {carrinho.length === 0 ? (
           <p>Carrinho vazio</p>
         ) : (
@@ -92,11 +125,10 @@ const ConteudoCarrinho = () => {
         </div>
       )}
 
-      {/* Renderiza o modal de pagamento */}
       {showPayment && (
         <PaymentPage
           subtotal={total}
-          carrinho={carrinho}   // manda pro back
+          carrinho={carrinho}
           onClose={() => setShowPayment(false)}
         />
       )}
