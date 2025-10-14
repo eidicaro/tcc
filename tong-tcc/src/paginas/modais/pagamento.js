@@ -18,48 +18,59 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
 
   
   const handlePayment = async () => {
-  if (!address.trim() || !paymentMethod) {
-    alert("Preencha todos os campos");
-    return;
-  }
-  if (paymentMethod === "Dinheiro" && needChange === "Sim" && !changeValue) {
-    alert("Por favor, informe o valor para o troco.");
-    return;
-  }
-
-  // Monta o JSON que o backend espera
-  const pedidoJSON = {
-    endereco: address,
-    forma_pagamento: paymentMethod,
-    total,
-    carrinho: carrinho.map(item => ({
-      produto_id: item.id_produto, // garantindo o nome correto
-      quantidade: item.quantidade,
-      preco: item.preco,
-      adicionais: item.adicionais?.map(add => ({
-        adicional_id: add.id_adicional, // nome correto para o backend
-        preco: add.preco
-      })) || []
-    }))
+    if (!address.trim() || !paymentMethod) {
+      alert("Preencha todos os campos");
+      return;
+    }
+  
+    if (paymentMethod === "Dinheiro" && needChange === "Sim" && !changeValue) {
+      alert("Por favor, informe o valor para o troco.");
+      return;
+    }
+  
+    // ✅ backend espera "carrinho" com produto_id e adicional_id
+    const carrinhoPayload = carrinho.map(item => ({
+      produto_id: item.id_produto || item.produto_id, // corrigido
+      nome: item.nome,
+      preco: Number(item.preco || 0),
+      quantidade: Number(item.quantidade || 1),
+      adicionais: (item.adicionais || []).map(add => ({
+        adicional_id: add.id_adicional || add.adicional_id, // corrigido
+        nome: add.nome,
+        preco: Number(add.preco || 0),
+        quantidade: Number(add.quantidade || 1),
+      })),
+    }));
+  
+    const pedidoJSON = {
+      endereco: address,
+      forma_pagamento: paymentMethod,
+      total,
+      carrinho: carrinhoPayload,
+    };
+  
+    console.log("🛰️ Enviando pedido:", pedidoJSON);
+  
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/pedidos/finalizar",
+        pedidoJSON,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+  
+      alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
+      onClose();
+    } catch (err) {
+      console.error("Erro ao finalizar pedido:", err.response?.data || err);
+      alert("Erro ao finalizar pedido");
+    }
   };
-
-  try {
-    const response = await axios.post(
-      "http://localhost:8000/api/pedidos/finalizar",
-      JSON.stringify(pedidoJSON), // envia como JSON puro
-      {
-        headers: { "Content-Type": "application/json" }, // obrigatório
-        withCredentials: true, // garante envio do cookie CSRF
-      }
-    );
-
-    alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
-    onClose();
-  } catch (err) {
-    console.error(err.response ? err.response.data : err);
-    alert("Erro ao finalizar pedido");
-  }
-};
+  
+  
+  
 
 
   const isPayDisabled =
