@@ -31,10 +31,12 @@ const AdminPedidos = () => {
     }
   };
 
-  const abrirModalEdicao = (produto) => {
-    setProdutoEditando(produto);
-    setQuantidade(produto.pivot?.quantidade || 1);
-    setAdicionaisSelecionados(produto.adicionais?.map(a => a.id_nome) || []);
+  const abrirModalEdicao = (item) => {
+    setProdutoEditando(item);
+    setQuantidade(item.quantidade || 1);
+    setAdicionaisSelecionados(
+      item.adicionais?.map((a) => a.id_adicional) || []
+    );
   };
 
   const fecharModalEdicao = () => {
@@ -46,7 +48,7 @@ const AdminPedidos = () => {
   const salvarEdicao = async () => {
     try {
       await axios.put(
-        `http://localhost:8000/api/admin/pedidos/${produtoEditando.pivot.id_pedido}/produto/${produtoEditando.id_nome}`,
+        `http://localhost:8000/api/admin/pedidos/${produtoEditando.id_pedido}/produto/${produtoEditando.id_produto}`,
         { quantidade, adicionais: adicionaisSelecionados }
       );
       carregarPedidos();
@@ -57,8 +59,10 @@ const AdminPedidos = () => {
   };
 
   const toggleAdicional = (id) => {
-    setAdicionaisSelecionados(prev =>
-      prev.includes(id) ? prev.filter(a => a !== id) : [...prev, id]
+    setAdicionaisSelecionados((prev) =>
+      prev.includes(id)
+        ? prev.filter((a) => a !== id)
+        : [...prev, id]
     );
   };
 
@@ -105,33 +109,48 @@ const AdminPedidos = () => {
                   </td>
                 </tr>
 
-                {/* Produtos e adicionais */}
+                {/* Itens do pedido */}
                 <tr>
                   <td colSpan="7" className="detalhes-produtos">
-                    {pedido.produtos?.length > 0 ? (
-                      pedido.produtos.map((produto) => (
-                        <div key={produto.id_nome} className="produto-item">
+                    {pedido.itens?.length > 0 ? (
+                      pedido.itens.map((item) => (
+                        <div key={item.id} className="produto-item">
                           <div className="produto-header">
-                            <strong>{produto.nome}</strong> — R$ {parseFloat(produto.preco).toFixed(2)}
-                            {produto.pivot?.quantidade && <span> x{produto.pivot.quantidade}</span>}
-                            <button className="btn editar" onClick={() => abrirModalEdicao(produto)}>
+                            <strong>{item.produto?.nome}</strong>
+                            <span> x{item.quantidade}</span>
+                            <span className="preco-produto">
+                              {" "}
+                              — R$ {parseFloat(item.preco_unitario).toFixed(2)}
+                            </span>
+                            <button
+                              className="btn editar"
+                              onClick={() => abrirModalEdicao(item)}
+                            >
                               Editar
                             </button>
                           </div>
 
-                          {produto.adicionais?.length > 0 && (
-                            <ul className="adicionais-lista">
-                              {produto.adicionais.map((adicional) => (
-                                <li key={adicional.id_nome}>
-                                  {adicional.nome} — R$ {parseFloat(adicional.preco).toFixed(2)}
-                                </li>
-                              ))}
-                            </ul>
+                          {/* Adicionais */}
+                          {item.adicionais?.length > 0 && (
+                            <div className="adicionais-container">
+                              <p className="titulo-adicionais">Adicionais:</p>
+                              <ul className="adicionais-lista">
+                                {item.adicionais.map((ad) => (
+                                  <li key={ad.id}>
+                                    {ad.adicional?.nome}{" "}
+                                    <span>x{ad.quantidade}</span> — R${" "}
+                                    {parseFloat(
+                                      ad.preco_unitario
+                                    ).toFixed(2)}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
                           )}
                         </div>
                       ))
                     ) : (
-                      <p>Nenhum produto encontrado neste pedido.</p>
+                      <p>Nenhum item encontrado neste pedido.</p>
                     )}
                   </td>
                 </tr>
@@ -145,36 +164,45 @@ const AdminPedidos = () => {
       {produtoEditando && (
         <div className="modal-overlay">
           <div className="modal">
-            <h3>Editar Produto: {produtoEditando.nome}</h3>
+            <h3>Editar Produto: {produtoEditando.produto?.nome}</h3>
             <label>
               Quantidade:
               <input
                 type="number"
                 min="1"
                 value={quantidade}
-                onChange={(e) => setQuantidade(parseInt(e.target.value))}
+                onChange={(e) =>
+                  setQuantidade(parseInt(e.target.value))
+                }
               />
             </label>
 
             {produtoEditando.adicionais?.length > 0 && (
               <div className="adicionais-edicao">
                 <p>Adicionais:</p>
-                {produtoEditando.adicionais.map((adicional) => (
-                  <label key={adicional.id_nome}>
+                {produtoEditando.adicionais.map((ad) => (
+                  <label key={ad.id}>
                     <input
                       type="checkbox"
-                      checked={adicionaisSelecionados.includes(adicional.id_nome)}
-                      onChange={() => toggleAdicional(adicional.id_nome)}
+                      checked={adicionaisSelecionados.includes(
+                        ad.id_adicional
+                      )}
+                      onChange={() => toggleAdicional(ad.id_adicional)}
                     />
-                    {adicional.nome} — R$ {parseFloat(adicional.preco).toFixed(2)}
+                    {ad.adicional?.nome} — R${" "}
+                    {parseFloat(ad.preco_unitario).toFixed(2)}
                   </label>
                 ))}
               </div>
             )}
 
             <div className="modal-botoes">
-              <button className="btn salvar" onClick={salvarEdicao}>Salvar</button>
-              <button className="btn cancelar" onClick={fecharModalEdicao}>Cancelar</button>
+              <button className="btn salvar" onClick={salvarEdicao}>
+                Salvar
+              </button>
+              <button className="btn cancelar" onClick={fecharModalEdicao}>
+                Cancelar
+              </button>
             </div>
           </div>
         </div>

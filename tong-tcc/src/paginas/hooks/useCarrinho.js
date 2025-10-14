@@ -37,17 +37,30 @@ export function useCarrinho() {
 
   // adiciona produto (espera receber preco DO PRODUTO POR UNIDADE + adicionais com quantidade por unidade)
   const adicionarProduto = (produto) => {
-    const produtoParaEnviar = {
+    const produtoFormatado = {
       ...produto,
       preco: Number(produto.preco || 0),
       quantidade: Number(produto.quantidade || 1),
-      adicionais: _normalizaAdicionais(produto.adicionais || [])
+      adicionais: (produto.adicionais || []).map(a => ({
+        id_adicional: a.id_adicional,
+        nome: a.nome,
+        preco: Number(a.preco || 0),
+        quantidade: Number(a.quantidade || 1)
+      }))
     };
-
-    axios.post(`${API}/adicionar`, { produto: produtoParaEnviar })
-      .then(res => setCarrinho(res.data.carrinho || []))
-      .catch(err => console.error('Erro ao adicionar produto:', err));
+  
+    return axios.post("http://localhost:8000/api/carrinho/adicionar", { produto: produtoFormatado })
+      .then(res => {
+        setCarrinho(res.data.carrinho || []);
+        return res.data;
+      })
+      .catch(err => {
+        console.error("Erro ao adicionar produto:", err);
+        throw err;
+      });
   };
+  
+
 
   const removerProduto = (uid) => {
     axios.delete(`${API}/remover/${uid}`)
