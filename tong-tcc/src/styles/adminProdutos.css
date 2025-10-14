@@ -47,94 +47,10 @@
     transform: scale(1.02);
   }
   
-  /* Botão sair (fora do card) */
-  .logout-btn {
-    margin-top: 20px;
-    background: none;
-    border: none;
-    color: #004d26; /* verde escuro */
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .logout-btn:hover {
-    text-decoration: underline;
-  }
   
 
 
- /* Fundo do modal */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-/* Caixa principal do modal */
-.modal-content {
-  background: #f47e3e; /* Laranja principal */
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-  width: 650px;
-  max-width: 90%;
-  color: #fff;
-  text-align: center;
-  position: relative;
-}
-
-/* Título */
-.modal-content h2 {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: #fff;
-}
-
-/* Área do formulário */
-.modal-body {
-  background: #fff;
-  border-radius: 8px;
-  padding: 30px 40px;
-  text-align: left;
-  color: #333;
-}
-
-/* Labels */
-.modal-body label {
-  display: block;
-  font-weight: 700;
-  color: #f47e3e;
-  margin-bottom: 5px;
-  font-size: 16px;
-}
-
-/* Inputs, selects e textarea */
-.modal-body input,
-.modal-body select,
-.modal-body textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 15px;
-  margin-bottom: 15px;
-  outline: none;
-}
-
-/* Textarea com altura maior */
-.modal-body textarea {
-  height: 80px;
-  resize: none;
-}
+ 
 
 /* Botão de selecionar imagem */
 .upload-btn {
@@ -180,4 +96,149 @@
 }
 .logout-btn:hover {
   text-decoration: underline;
+}
+
+/* ====== MODAL DE FORMULÁRIO ====== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #f58242; /* mesma cor do painel */
+  border-radius: 10px;
+  width: 450px;
+  max-width: 90%;
+  padding: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  color: white;
+  text-align: center;
+}
+
+.modal-content h2 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+/* ====== INPUTS ====== */
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.modal-content input:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
+  box-shadow: 0 0 0 2px #bf5b0a;
+}
+
+/* ====== BOTÕES ====== */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-buttons .confirmar {
+  background-color: #ffffff;
+  color: #f58242;
+}
+
+.modal-buttons .confirmar:hover {
+  background-color: #ffe3d1;
+}
+
+.modal-buttons .cancelar {
+  background-color: #333;
+  color: #fff;
+}
+
+.modal-buttons .cancelar:hover {
+  background-color: #555;
+}
+
+
+/* Modal interno do criar produto */
+.produto-form {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  color: #333;
+  text-align: left;
+}
+
+.produto-form label {
+  display: block;
+  font-weight: 700;
+  color: #f57c3a;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.produto-form input,
+.produto-form select,
+.produto-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  outline: none;
+}
+
+.produto-form textarea {
+  height: 70px;
+  resize: none;
+}
+
+.produto-form input[type="file"] {
+  padding: 5px;
+}
+
+.save-btn {
+  background-color: #083d1f;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 25px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  float: right;
+}
+
+.save-btn:hover {
+  background-color: #062e17;
 }
