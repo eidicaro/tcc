@@ -38,7 +38,7 @@
     font-weight: bold;
   }
   .detalhes-produtos {
-    background-color: #f8f8f8;
+    background-color: #e4e4e4;
     padding: 10px 20px;
   }
   
@@ -82,3 +82,19 @@
     margin-bottom: 3px;
   }
   
+.btn-excluir{
+  background-color: #d32424;
+  border-radius: 5px;
+  border-style: none;
+  color: #fff;
+  padding: 9%; 
+} 
+
+.btn-salvar-status{
+  background-color: #1d680e;
+  border-radius: 5px;
+  border-style: none;
+  color: #fff;
+  padding: 2%;
+  margin: 2px;
+}

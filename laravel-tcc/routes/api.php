@@ -43,6 +43,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/pedidos', [PedidosController::class, 'listarPedidos']);
     Route::get('/pedidos/{id}', [PedidosController::class, 'mostrarPedido']);
     Route::put('/pedidos/{id}', [PedidosController::class, 'atualizarPedido']);
+    Route::put('/pedidos/{id}/status', [PedidosController::class, 'atualizarStatus']);
     Route::delete('/pedidos/{id}', [PedidosController::class, 'excluirPedido']);
 });
 

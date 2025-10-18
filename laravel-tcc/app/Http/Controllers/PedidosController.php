@@ -128,6 +128,33 @@ class PedidosController extends Controller
         }
     }
 
+
+    // atualizar somente o status
+    public function atualizarStatus(Request $request, $id)
+{
+    try {
+        $request->validate([
+            'status_pagamento' => 'required|string'
+        ]);
+
+        PedidosModel::where('id_pedido', $id)
+            ->update(['status_pagamento' => $request->status_pagamento]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status atualizado com sucesso!'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Erro ao atualizar status',
+            'erro' => $e->getMessage()
+        ], 500);
+    }
+}
+
+
+
     /**
      * Exclui um pedido e seus relacionamentos (itens e adicionais)
      */
