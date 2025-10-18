@@ -10,7 +10,7 @@ export default function Sidebar() {
 
   // carrega as categorias
   useEffect(() => {
-    axios.get('http://localhost:8000/api/categoria')
+    axios.get('http://192.168.1.105:8000/api/categoria')
       .then(res => {
         setCategorias(res.data);
       })

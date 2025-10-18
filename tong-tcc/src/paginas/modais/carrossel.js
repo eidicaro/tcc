@@ -17,7 +17,7 @@ const Carrossel = () => {
     const ids = [1, 5, 8, 12, 15, 18, 22, 19, 20];
 
     axios
-      .get(`http://localhost:8000/api/produtos/by-ids?ids=${ids.join(',')}`)
+      .get(`http://192.168.1.105:8000/api/produtos/by-ids?ids=${ids.join(',')}`)
       .then((response) => {
         setProdutos(response.data);
       })
@@ -38,7 +38,7 @@ const Carrossel = () => {
 
   // Carregar adicionais (iguais para todos os produtos)
   useEffect(() => {
-    axios.get('http://localhost:8000/api/adicionais')
+    axios.get('http://192.168.1.105:8000/api/adicionais')
       .then(res => setAdicionais(res.data))
       .catch(err => console.error("Erro ao carregar adicionais:", err));
   }, []);

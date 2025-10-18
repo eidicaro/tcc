@@ -19,7 +19,7 @@ const AdminPedidos = () => {
 
   const carregarPedidos = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/admin/pedidos");
+      const response = await axios.get("http://192.168.1.105:8000/api/admin/pedidos");
       setPedidos(response.data.pedidos || []);
     } catch (error) {
       console.error("Erro ao carregar pedidos:", error);
@@ -29,7 +29,7 @@ const AdminPedidos = () => {
   const excluirPedido = async (id) => {
     if (!window.confirm("Tem certeza que deseja excluir este pedido?")) return;
     try {
-      await axios.delete(`http://localhost:8000/api/admin/pedidos/${id}`);
+      await axios.delete(`http://192.168.1.105:8000/api/admin/pedidos/${id}`);
       carregarPedidos();
     } catch (error) {
       console.error("Erro ao excluir pedido:", error);
@@ -51,7 +51,7 @@ const AdminPedidos = () => {
   const salvarEdicao = async () => {
     try {
       await axios.put(
-        `http://localhost:8000/api/admin/pedidos/${produtoEditando.id_pedido}/produto/${produtoEditando.id_produto}`,
+        `http://192.168.1.105:8000/api/admin/pedidos/${produtoEditando.id_pedido}/produto/${produtoEditando.id_produto}`,
         { quantidade, adicionais: adicionaisSelecionados }
       );
       carregarPedidos();
@@ -65,7 +65,7 @@ const AdminPedidos = () => {
   const atualizarStatus = async (id_pedido, novoStatus) => {
     try {
       await axios.put(
-        `http://localhost:8000/api/admin/pedidos/${id_pedido}/status`,
+        `http://192.168.1.105:8000/api/admin/pedidos/${id_pedido}/status`,
         { status_pagamento: novoStatus },
         { headers: { "Content-Type": "application/json" } }
       );

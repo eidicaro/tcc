@@ -5,7 +5,7 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    fetch("http://localhost:8000/api/logout", {
+    fetch("http://192.168.1.105:8000/api/logout", {
       method: "POST",
       credentials: "include",
     }).finally(() => navigate("/login"));

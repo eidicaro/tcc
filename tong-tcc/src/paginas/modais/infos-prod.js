@@ -97,7 +97,7 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
         <button className="fechar" onClick={handleClose}>×</button>
 
         <div className="modal-header">
-          <img src={`http://127.0.0.1:8000/storage/${produto.imagem}`} alt={produto.nome} />
+          <img src={`http://192.168.1.105:8000/storage/${produto.imagem}`} alt={produto.nome} />
           <button className="btn-avancar" onClick={handleAdicionarCarrinho}>Avançar</button>
         </div>
 
@@ -111,7 +111,7 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
               adicionais.map((adicional) => (
                 <div className="adicional-item" key={adicional.id_adicional}>
                   <img
-                    src={`http://127.0.0.1:8000/storage/${adicional.imagem}`}
+                    src={`http://192.168.1.105:8000/storage/${adicional.imagem}`}
                     alt={adicional.nome}
                   />
                   <span className="adicional-nome">{adicional.nome}</span>

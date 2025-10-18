@@ -48,7 +48,7 @@ export default function ProdutosPage() {
       <button
         className="logout-btn"
         onClick={() => {
-          fetch("http://localhost:8000/api/logout", {
+          fetch("http://192.168.1.105:8000/api/logout", {
             method: "POST",
             credentials: "include",
           }).finally(() => (window.location.href = "/admin"));

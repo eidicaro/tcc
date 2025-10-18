@@ -19,7 +19,7 @@ function Cardapio() {
   const [adicionais, setAdicionais] = useState([]);
   const [adicionarProduto] = useState(false);
 
-  const API = 'http://localhost:8000/api/carrinho';
+  const API = 'http://192.168.1.105:8000/api/carrinho';
   // eslint-disable-next-line no-unused-vars
   const [carrinho, setCarrinho] = useState([]);
 
@@ -30,7 +30,7 @@ function Cardapio() {
 
   // Carregar produtos
   useEffect(() => {
-    axios.get('http://localhost:8000/api/produtos')
+    axios.get('http://192.168.1.105:8000/api/produtos')
       .then(res => {
         setProdutos(res.data);
         setLoading(false);
@@ -43,14 +43,14 @@ function Cardapio() {
 
   // Carregar categorias
   useEffect(() => {
-    axios.get('http://localhost:8000/api/categoria')
+    axios.get('http://192.168.1.105:8000/api/categoria')
       .then(res => setCategorias(res.data))
       .catch(err => console.error("Erro ao carregar categorias:", err));
   }, []);
 
   // Carregar adicionais
   useEffect(() => {
-    axios.get('http://localhost:8000/api/adicionais')
+    axios.get('http://192.168.1.105:8000/api/adicionais')
       .then(res => setAdicionais(res.data))
       .catch(err => console.error("Erro ao carregar adicionais:", err));
   }, []);
@@ -59,7 +59,7 @@ function Cardapio() {
   useEffect(() => {
     const fetchCarrinho = async () => {
       try {
-        await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
+        await axios.get('http://192.168.1.105:8000/sanctum/csrf-cookie', { withCredentials: true });
         const res = await axios.get(`${API}/listar`, { withCredentials: true });
         setCarrinho(res.data.carrinho || []);
       } catch (err) {
@@ -91,7 +91,7 @@ function Cardapio() {
                     {/* Layout Desktop */}
                     <div className="prod-desktop">
                       <img
-                        src={`http://localhost:8000/storage/${p.imagem}`}
+                        src={`http://192.168.1.105:8000/storage/${p.imagem}`}
                         alt={p.nome}
                         style={{ width: '200px', borderRadius: '10px' }}
                       />
@@ -112,7 +112,7 @@ function Cardapio() {
                       <h1>{p.nome}</h1>
                       <div className="prod-content">
                         <img
-                          src={`http://localhost:8000/storage/${p.imagem}`}
+                          src={`http://192.168.1.105:8000/storage/${p.imagem}`}
                           alt={p.nome}
                         />
                         <p className='descricao'>{p.descricao}</p>

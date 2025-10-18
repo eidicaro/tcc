@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
-const API = 'http://localhost:8000/api/carrinho';
+const API = 'http://192.168.1.105:8000/api/carrinho';
 
 export function useCarrinho() {
   const [carrinho, setCarrinho] = useState([]);
@@ -49,7 +49,7 @@ export function useCarrinho() {
       }))
     };
   
-    return axios.post("http://localhost:8000/api/carrinho/adicionar", { produto: produtoFormatado })
+    return axios.post("http://192.168.1.105:8000/api/carrinho/adicionar", { produto: produtoFormatado })
       .then(res => {
         setCarrinho(res.data.carrinho || []);
         return res.data;

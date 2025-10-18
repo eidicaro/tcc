@@ -13,7 +13,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
 
   useEffect(() => {
     // pega CSRF cookie antes de enviar qualquer POST
-    axios.get("http://localhost:8000/sanctum/csrf-cookie", { withCredentials: true });
+    axios.get("http://192.168.1.105:8000/sanctum/csrf-cookie", { withCredentials: true });
   }, []);
 
   
@@ -53,7 +53,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/pedidos/finalizar",
+        "http://192.168.1.105:8000/api/pedidos/finalizar",
         pedidoJSON,
         {
           headers: { "Content-Type": "application/json" },
