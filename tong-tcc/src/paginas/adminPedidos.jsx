@@ -94,6 +94,20 @@ const AdminPedidos = () => {
   return (
     <div className="admin-container">
 
+       {/* Botão sair */}
+       <button
+        className="logout-btn"
+        onClick={() => {
+          fetch("http://localhost:8000/api/logout", {
+            method: "POST",
+            credentials: "include",
+          }).finally(() => (window.location.href = "/admin"));
+        }}
+      >
+        SAIR
+      </button>
+
+
       <h2 className="titulo-admin">Pedidos Recebidos</h2>
 
       <div className="tabela-container">

@@ -37,7 +37,7 @@ Route::prefix('carrinho')->group(function() {
 Route::get('/pedidos', [PedidosController::class, 'listarPedidos']); // listar pedidos no admin
 Route::post('/pedidos/finalizar', [PedidosController::class, 'finalizar']);
 
-
+// rotas de admim
 
 Route::prefix('admin')->group(function () {
     Route::get('/pedidos', [PedidosController::class, 'listarPedidos']);
@@ -46,6 +46,15 @@ Route::prefix('admin')->group(function () {
     Route::put('/pedidos/{id}/status', [PedidosController::class, 'atualizarStatus']);
     Route::delete('/pedidos/{id}', [PedidosController::class, 'excluirPedido']);
 });
+
+// Produtos - CRUD admin
+Route::prefix('admin')->group(function () {
+    Route::get('/produtos', [ProdutosController::class, 'index']); // já existe
+    Route::post('/produtos', [ProdutosController::class, 'store']); // criar
+    Route::put('/produtos/{id}', [ProdutosController::class, 'update']); // editar
+    Route::delete('/produtos/{id}', [ProdutosController::class, 'destroy']); // excluir
+});
+
 
 
 // rota para o token

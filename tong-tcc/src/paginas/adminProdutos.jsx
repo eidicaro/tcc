@@ -1,37 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Modal from "../components/modal";
-import ProdutoForm from "../components/produtoForm";
+import ProdutoForm from "./produtoForm.jsx";
+import EditProdutoForm from "./editProdutoForm.jsx";
 import "./../styles/adminProdutos.css";
 
 export default function ProdutosPage() {
-  const [modalOpen, setModalOpen] = useState(null); // null, "criar", "editar", "promocao"
+  const [modalOpen, setModalOpen] = useState(null); // null, "criar", "editar"
   const [produtos, setProdutos] = useState([]);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
-  // Salvar produto
-  const handleSave = (produto) => {
-    if (produtoSelecionado) {
-      setProdutos(
-        produtos.map((p) =>
-          p.id === produtoSelecionado.id ? { ...produto, id: p.id } : p
-        )
+  // Carregar produtos do backend
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/admin/produtos")
+      .then((res) => setProdutos(res.data))
+      .catch((err) => console.error(err));
+  }, []);
+
+  // Criar produto
+  const handleSave = async (formData) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/admin/produtos",
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
-    } else {
-      setProdutos([...produtos, { ...produto, id: Date.now() }]);
+      setProdutos((prev) => [...prev, res.data]);
+      setModalOpen(null);
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao criar produto!");
     }
-    setModalOpen(null);
-    setProdutoSelecionado(null);
   };
 
-  // Editar produto existente
-  const handleEdit = (produto) => {
-    setProdutoSelecionado(produto);
-    setModalOpen("criar"); // reabre o modal de criar com dados preenchidos
+  // Atualizar produto
+  const handleUpdate = async (id, formData) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:8000/api/admin/produtos/${id}?_method=PUT`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      setProdutos((prev) =>
+        prev.map((p) => (p.id_produto === id ? res.data : p))
+      );
+      setModalOpen(null);
+      setProdutoSelecionado(null);
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao atualizar produto!");
+    }
   };
 
   // Excluir produto
-  const handleDelete = (id) => {
-    setProdutos(produtos.filter((p) => p.id !== id));
+  const handleDelete = async (id) => {
+    if (!window.confirm("Deseja realmente excluir este produto?")) return;
+    try {
+      await axios.delete(`http://localhost:8000/api/admin/produtos/${id}`);
+      setProdutos((prev) => prev.filter((p) => p.id_produto !== id));
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao excluir produto!");
+    }
   };
 
   return (
@@ -39,88 +70,36 @@ export default function ProdutosPage() {
       {/* Card principal */}
       <div className="produtos-card">
         <h2>PRODUTOS</h2>
-        <button onClick={() => setModalOpen("criar")}>CRIAR PRODUTO</button>
-        <button onClick={() => setModalOpen("editar")}>EDITAR PRODUTO</button>
-        <button onClick={() => setModalOpen("promocao")}>CRIAR PROMOÇÃO</button>
+        <div className="produtos-buttons">
+          <button onClick={() => setModalOpen("criar")}>CRIAR PRODUTO</button>
+          <button onClick={() => setModalOpen("editar")}>EDITAR PRODUTO</button>
+        </div>
       </div>
-
-      {/* Botão sair */}
-      <button
-        className="logout-btn"
-        onClick={() => {
-          fetch("http://localhost:8000/api/logout", {
-            method: "POST",
-            credentials: "include",
-          }).finally(() => (window.location.href = "/admin"));
-        }}
-      >
-        SAIR
-      </button>
 
       {/* Modal Criar Produto */}
       {modalOpen === "criar" && (
-        <Modal title="CRIAR PRODUTO" onClose={() => setModalOpen(null)}>
-          <ProdutoForm onSubmit={handleSave} initialData={produtoSelecionado} />
+        <Modal
+          title="CRIAR PRODUTO"
+          onClose={() => setModalOpen(null)}
+        >
+          <ProdutoForm onSubmit={handleSave} />
         </Modal>
       )}
 
       {/* Modal Editar Produto */}
       {modalOpen === "editar" && (
-        <Modal title="EDITAR PRODUTO" onClose={() => setModalOpen(null)}>
-          {produtos.length === 0 ? (
-            <p>Nenhum produto cadastrado.</p>
-          ) : (
-            <table border="1" cellPadding="8" style={{ width: "100%" }}>
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Preço</th>
-                  <th>Categoria</th>
-                  <th>Descrição</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {produtos.map((p) => (
-                  <tr key={p.id}>
-                    <td>{p.nome}</td>
-                    <td>{p.preco}</td>
-                    <td>{p.categoria}</td>
-                    <td>{p.descricao}</td>
-                    <td>
-                      <button onClick={() => handleEdit(p)}>Editar</button>
-                      <button onClick={() => handleDelete(p.id)}>Excluir</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </Modal>
-      )}
-
-      {/* Modal Criar Promoção */}
-      {modalOpen === "promocao" && (
-        <Modal title="CRIAR PROMOÇÃO" onClose={() => setModalOpen(null)}>
-          <form
-            className="produto-form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert("Promoção criada com sucesso!");
-              setModalOpen(null);
-            }}
-          >
-            <label>Nome da Promoção:</label>
-            <input type="text" required />
-
-            <label>Desconto (%):</label>
-            <input type="number" required />
-
-            <label>Validade:</label>
-            <input type="date" required />
-
-            <button type="submit" className="save-btn">Salvar</button>
-          </form>
+        <Modal
+          title="EDITAR PRODUTO"
+          onClose={() => {
+            setModalOpen(null);
+            setProdutoSelecionado(null);
+          }}
+        >
+          <EditProdutoForm
+            produtos={produtos}
+            onSubmit={handleUpdate}
+            onDelete={handleDelete}
+          />
         </Modal>
       )}
     </div>
