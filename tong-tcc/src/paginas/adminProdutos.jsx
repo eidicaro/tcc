@@ -67,6 +67,21 @@ export default function ProdutosPage() {
 
   return (
     <div className="produtos-container">
+
+      {/* Botão sair */}
+      <button
+        className="logout-btn"
+        onClick={() => {
+          fetch("http://localhost:8000/api/logout", {
+            method: "POST",
+            credentials: "include",
+          }).finally(() => (window.location.href = "/admin"));
+        }}
+      >
+        SAIR
+      </button>
+
+
       {/* Card principal */}
       <div className="produtos-card">
         <h2>PRODUTOS</h2>
