@@ -11,12 +11,15 @@ use Illuminate\Support\Facades\DB;
 class PedidosController extends Controller
 {
     /**
-     * Finaliza um pedido com itens e adicionais
+     * Finaliza um pedido (local ou delivery)
      */
     public function finalizar(Request $request)
     {
+        // 🔹 Agora tratamos automaticamente o tipo do pedido com base no endereço
+        $tipo_pedido = $request->filled('endereco') ? 'delivery' : 'local';
+
         $data = $request->validate([
-            'endereco' => 'required|string|max:255',
+            'endereco' => 'nullable|string|max:255', // endereço opcional (local)
             'forma_pagamento' => 'required|string|max:50',
             'total' => 'required|numeric|min:0',
             'carrinho' => 'required|array|min:1',
@@ -28,18 +31,27 @@ class PedidosController extends Controller
             'carrinho.*.adicionais.*.preco' => 'required_with:carrinho.*.adicionais|numeric|min:0',
         ]);
 
+        // 🔒 Se for delivery, endereço passa a ser obrigatório
+        if ($tipo_pedido === 'delivery' && empty($request->endereco)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'O endereço é obrigatório para pedidos de delivery.'
+            ], 422);
+        }
+
         DB::beginTransaction();
 
         try {
-            // Cria o pedido
+            // 🧾 Criação do pedido principal
             $pedido = PedidosModel::create([
-                'endereco' => $data['endereco'],
+                'endereco' => $data['endereco'] ?? null,
                 'forma_pagamento' => $data['forma_pagamento'],
                 'total' => $data['total'],
                 'status_pagamento' => 'pendente',
+                'tipo_pedido' => $tipo_pedido, // novo campo (adicione no banco se ainda não existir)
             ]);
 
-            // Cria os itens do pedido
+            // 🛒 Itens do pedido
             foreach ($data['carrinho'] as $item) {
                 $pedidoItem = PedidoItem::create([
                     'id_pedido' => $pedido->id_pedido,
@@ -48,13 +60,13 @@ class PedidosController extends Controller
                     'preco_unitario' => $item['preco'],
                 ]);
 
-                // Cria os adicionais do item (se houver)
+                // ➕ Adicionais (se houver)
                 if (!empty($item['adicionais'])) {
                     foreach ($item['adicionais'] as $adicional) {
                         PedidoItemAdicional::create([
                             'id_pedido_item' => $pedidoItem->id,
                             'id_adicional' => $adicional['adicional_id'],
-                            'quantidade' => 1, // cada adicional vale 1
+                            'quantidade' => 1,
                             'preco_unitario' => $adicional['preco'],
                         ]);
                     }
@@ -66,6 +78,7 @@ class PedidosController extends Controller
             return response()->json([
                 'success' => true,
                 'pedido_id' => $pedido->id_pedido,
+                'tipo_pedido' => $tipo_pedido,
                 'message' => 'Pedido finalizado com sucesso!'
             ], 201);
 
@@ -79,19 +92,20 @@ class PedidosController extends Controller
     }
 
     /**
-     * Lista todos os pedidos para o admin, com itens e adicionais
+     * Lista todos os pedidos (admin)
      */
-        public function listarPedidos() {
-            try {
-                $pedidos = PedidosModel::with(['itens.produto', 'itens.adicionais.adicional'])->get();
-                return response()->json(['success' => true, 'pedidos' => $pedidos]);
-            } catch (\Exception $e) {
-                return response()->json(['success' => false, 'message' => 'Erro ao listar pedidos: ' . $e->getMessage()]);
-            }
+    public function listarPedidos()
+    {
+        try {
+            $pedidos = PedidosModel::with(['itens.produto', 'itens.adicionais.adicional'])->get();
+            return response()->json(['success' => true, 'pedidos' => $pedidos]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Erro ao listar pedidos: ' . $e->getMessage()]);
         }
+    }
 
-            /**
-     * Exibe um pedido específico com todos os detalhes
+    /**
+     * Exibe um pedido específico
      */
     public function mostrarPedido($id_pedido)
     {
@@ -106,7 +120,7 @@ class PedidosController extends Controller
     }
 
     /**
-     * Atualiza informações de um pedido (como status, forma de pagamento, endereço)
+     * Atualiza dados do pedido
      */
     public function atualizarPedido(Request $request, $id_pedido)
     {
@@ -114,10 +128,11 @@ class PedidosController extends Controller
             $pedido = PedidosModel::findOrFail($id_pedido);
 
             $data = $request->validate([
-                'endereco' => 'sometimes|string|max:255',
+                'endereco' => 'sometimes|nullable|string|max:255',
                 'forma_pagamento' => 'sometimes|string|max:50',
                 'status_pagamento' => 'sometimes|string|max:50',
-                'total' => 'sometimes|numeric|min:0'
+                'total' => 'sometimes|numeric|min:0',
+                'tipo_pedido' => 'sometimes|string|in:local,delivery'
             ]);
 
             $pedido->update($data);
@@ -128,42 +143,40 @@ class PedidosController extends Controller
         }
     }
 
-
-    // atualizar somente o status
+    /**
+     * Atualiza apenas o status do pagamento
+     */
     public function atualizarStatus(Request $request, $id)
-{
-    try {
-        $request->validate([
-            'status_pagamento' => 'required|string'
-        ]);
+    {
+        try {
+            $request->validate([
+                'status_pagamento' => 'required|string'
+            ]);
 
-        PedidosModel::where('id_pedido', $id)
-            ->update(['status_pagamento' => $request->status_pagamento]);
+            PedidosModel::where('id_pedido', $id)
+                ->update(['status_pagamento' => $request->status_pagamento]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Status atualizado com sucesso!'
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Erro ao atualizar status',
-            'erro' => $e->getMessage()
-        ], 500);
+            return response()->json([
+                'success' => true,
+                'message' => 'Status atualizado com sucesso!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao atualizar status',
+                'erro' => $e->getMessage()
+            ], 500);
+        }
     }
-}
-
-
 
     /**
-     * Exclui um pedido e seus relacionamentos (itens e adicionais)
+     * Exclui um pedido e seus relacionamentos
      */
     public function excluirPedido($id_pedido)
     {
         try {
             $pedido = PedidosModel::with('itens.adicionais')->findOrFail($id_pedido);
 
-            // Deleta os adicionais e itens relacionados
             foreach ($pedido->itens as $item) {
                 $item->adicionais()->delete();
                 $item->delete();
@@ -176,6 +189,4 @@ class PedidosController extends Controller
             return response()->json(['success' => false, 'message' => 'Erro ao excluir pedido: ' . $e->getMessage()]);
         }
     }
-
-
 }

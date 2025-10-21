@@ -6,51 +6,54 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   const [deliveryFee] = useState(2);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [address, setAddress] = useState("");
-  const [needChange, setNeedChange] = useState(""); // sim/não
-  const [changeValue, setChangeValue] = useState(""); // valor para troco
+  const [needChange, setNeedChange] = useState("");
+  const [changeValue, setChangeValue] = useState("");
+  const [isLocalOrder, setIsLocalOrder] = useState(false); // 🟢 novo estado
 
-  const total = Number(subtotal) + Number(deliveryFee);
+  const total = Number(subtotal) + (isLocalOrder ? 0 : Number(deliveryFee));
 
   useEffect(() => {
-    // pega CSRF cookie antes de enviar qualquer POST
     axios.get("http://localhost:8000/sanctum/csrf-cookie", { withCredentials: true });
   }, []);
 
-  
   const handlePayment = async () => {
-    if (!address.trim() || !paymentMethod) {
+    // Validação adaptada
+    if (!isLocalOrder && (!address.trim() || !paymentMethod)) {
       alert("Preencha todos os campos");
       return;
     }
-  
+    if (isLocalOrder && !paymentMethod) {
+      alert("Selecione a forma de pagamento");
+      return;
+    }
     if (paymentMethod === "Dinheiro" && needChange === "Sim" && !changeValue) {
       alert("Por favor, informe o valor para o troco.");
       return;
     }
-  
-    // ✅ backend espera "carrinho" com produto_id e adicional_id
+
     const carrinhoPayload = carrinho.map(item => ({
-      produto_id: item.id_produto || item.produto_id, // corrigido
+      produto_id: item.id_produto || item.produto_id,
       nome: item.nome,
       preco: Number(item.preco || 0),
       quantidade: Number(item.quantidade || 1),
       adicionais: (item.adicionais || []).map(add => ({
-        adicional_id: add.id_adicional || add.adicional_id, // corrigido
+        adicional_id: add.id_adicional || add.adicional_id,
         nome: add.nome,
         preco: Number(add.preco || 0),
         quantidade: Number(add.quantidade || 1),
       })),
     }));
-  
+
     const pedidoJSON = {
-      endereco: address,
+      tipo_pedido: isLocalOrder ? "local" : "delivery", // 🟢 indica o tipo
+      endereco: isLocalOrder ? null : address,
       forma_pagamento: paymentMethod,
       total,
       carrinho: carrinhoPayload,
     };
-  
+
     console.log("🛰️ Enviando pedido:", pedidoJSON);
-  
+
     try {
       const response = await axios.post(
         "http://localhost:8000/api/pedidos/finalizar",
@@ -60,7 +63,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
           withCredentials: true,
         }
       );
-  
+
       alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
       onClose();
     } catch (err) {
@@ -68,14 +71,10 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
       alert("Erro ao finalizar pedido");
     }
   };
-  
-  
-  
-
 
   const isPayDisabled =
-    !address.trim() ||
     !paymentMethod ||
+    (!isLocalOrder && !address.trim()) ||
     (paymentMethod === "Dinheiro" && needChange === "Sim" && !changeValue);
 
   return (
@@ -89,19 +88,33 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
         <Content>
           <SmallNote>Hoje: 40 - 60 min</SmallNote>
 
-          <Field>
-            <label>Endereço</label>
+          {/* 🟢 Checkbox de Pedido Local */}
+          <Option>
             <input
-              type="text"
-              value={address}
-              onChange={e => setAddress(e.target.value)}
+              type="checkbox"
+              id="localOrder"
+              checked={isLocalOrder}
+              onChange={() => setIsLocalOrder(!isLocalOrder)}
             />
-          </Field>
+            <span>Pedido Local</span>
+          </Option>
+
+          {/* 🟠 Só mostra o endereço se NÃO for local */}
+          {!isLocalOrder && (
+            <Field>
+              <label>Endereço</label>
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </Field>
+          )}
 
           <Field>
             <label>Forma de Pagamento</label>
             <Options>
-              {["Cartão Débito/Crédito", "Pix", "Dinheiro"].map(m => (
+              {["Cartão Débito/Crédito", "Pix", "Dinheiro"].map((m) => (
                 <Option key={m}>
                   <input
                     type="radio"
@@ -120,7 +133,6 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
             </Options>
           </Field>
 
-          {/* Opções extras se escolher Dinheiro */}
           {paymentMethod === "Dinheiro" && (
             <Field>
               <label>Deseja dinheiro de troco?</label>
@@ -167,7 +179,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
             </div>
             <div>
               <span>Taxa de entrega:</span>
-              <strong>R$ {deliveryFee.toFixed(2)}</strong>
+              <strong>R$ {isLocalOrder ? "0.00" : deliveryFee.toFixed(2)}</strong>
             </div>
             <hr />
             <div className="total-row">
@@ -187,11 +199,11 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
 
 export default PaymentPage;
 
-// ================== STYLED COMPONENTS ==================
+// ============ STYLED COMPONENTS ============
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -217,7 +229,10 @@ const Header = styled.div`
   align-items: center;
   position: relative;
 
-  h2 { margin: 0; font-weight: 700; }
+  h2 {
+    margin: 0;
+    font-weight: 700;
+  }
 
   .close-btn {
     position: absolute;
@@ -243,8 +258,13 @@ const SmallNote = styled.div`
 
 const Field = styled.div`
   margin-top: 14px;
-  label { display: block; margin-bottom: 8px; font-weight: 600; }
-  input[type="text"], input[type="number"] {
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  input[type="text"],
+  input[type="number"] {
     width: 100%;
     height: 14px;
     padding: 10px;
@@ -282,9 +302,21 @@ const Footer = styled.div`
 
 const Totals = styled.div`
   color: #fff;
-  div { display:flex; justify-content: space-between; align-items:center; margin:6px 0; }
-  hr { border: none; border-top: 1px solid rgba(255,255,255,0.3); margin: 8px 0; }
-  .total-row { font-weight: 700; font-size: 18px; }
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 6px 0;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 8px 0;
+  }
+  .total-row {
+    font-weight: 700;
+    font-size: 18px;
+  }
 `;
 
 const PayButton = styled.button`
