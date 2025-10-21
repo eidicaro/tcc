@@ -51,33 +51,33 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
 
   // --- envia para o carrinho ---
   const handleAdicionarCarrinho = async () => {
+    // monta adicionais com suas quantidades reais
+    const adicionaisEnvio = adicionaisSelecionados.map(adicional => ({
+      id_adicional: adicional.id_adicional,
+      nome: adicional.nome,
+      preco: Number(adicional.preco || 0),
+      quantidade: Number(quantidades[adicional.id_adicional] || 1),
+    }));
+
+    // preço base (sem adicionais!)
+    const precoBase = parseFloat(produto.preco) || 0;
+
+    const produtoComUID = {
+      ...produto,
+      preco: precoBase, // somente o preço do produto
+      adicionais: adicionaisEnvio,
+      quantidade: 1,
+      uid: produto.uid || `${produto.id_produto}-${Date.now()}`,
+    };
+
     try {
-      const adicionaisEnvio = adicionaisSelecionados.map(adicional => ({
-        id_adicional: adicional.id_adicional, // ✅ nome correto
-        nome: adicional.nome,
-        preco: adicional.preco,
-        quantidade: adicional.quantidade || 1,
-      }));
-  
-      const produtoComUID = {
-        id_produto: produto.id_produto, // ✅ backend usa assim
-        nome: produto.nome,
-        preco: produto.preco,
-        quantidade: 1,
-        adicionais: adicionaisEnvio,
-        uid: Date.now(),
-      };
-  
-      console.log("Produto sendo adicionado:", produtoComUID);
-  
       await adicionarProduto(produtoComUID);
-      alert("Produto adicionado ao carrinho!");
-      onClose();
-    } catch (error) {
-      console.error("Erro ao adicionar produto:", error);
+    } catch (erro) {
+      console.error("Erro ao enviar produto:", erro);
     }
+
+    onClose();
   };
-  
 
   useEffect(() => {
     setIsOpen(true);
