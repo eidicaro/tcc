@@ -96,4 +96,21 @@ class ProdutosController extends Controller
         $produto->delete();
         return response()->json(['success' => true]);
     }
+
+    // rota para o carrossel 
+    public function getByIds(Request $request)
+    {
+        $ids = explode(',', $request->query('ids'));
+
+        $produtos = ProdutoModel::whereIn('id_produto', $ids)
+            ->get()
+            ->map(function ($p) {
+                // monta a URL completa da imagem
+                $p->imagem_url = asset('storage/' . $p->imagem);
+                return $p; // precisa retornar o objeto dentro do map!
+            });
+
+        return response()->json($produtos);
+}
+
 }
