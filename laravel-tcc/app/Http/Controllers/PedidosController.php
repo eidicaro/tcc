@@ -15,11 +15,12 @@ class PedidosController extends Controller
      */
     public function finalizar(Request $request)
     {
-        // 🔹 Agora tratamos automaticamente o tipo do pedido com base no endereço
+        // 🔹 Determina automaticamente o tipo do pedido (delivery se tiver endereço)
         $tipo_pedido = $request->filled('endereco') ? 'delivery' : 'local';
 
+        // 🔹 Validação dos dados recebidos
         $data = $request->validate([
-            'endereco' => 'nullable|string|max:255', // endereço opcional (local)
+            'endereco' => 'nullable|string|max:255',
             'forma_pagamento' => 'required|string|max:50',
             'total' => 'required|numeric|min:0',
             'carrinho' => 'required|array|min:1',
@@ -31,7 +32,7 @@ class PedidosController extends Controller
             'carrinho.*.adicionais.*.preco' => 'required_with:carrinho.*.adicionais|numeric|min:0',
         ]);
 
-        // 🔒 Se for delivery, endereço passa a ser obrigatório
+        // 🔒 Se for delivery, o endereço se torna obrigatório
         if ($tipo_pedido === 'delivery' && empty($request->endereco)) {
             return response()->json([
                 'success' => false,
@@ -48,13 +49,13 @@ class PedidosController extends Controller
                 'forma_pagamento' => $data['forma_pagamento'],
                 'total' => $data['total'],
                 'status_pagamento' => 'pendente',
-                'tipo_pedido' => $tipo_pedido, // novo campo (adicione no banco se ainda não existir)
+                'tipo_pedido' => $tipo_pedido,
             ]);
 
             // 🛒 Itens do pedido
             foreach ($data['carrinho'] as $item) {
                 $pedidoItem = PedidoItem::create([
-                    'id_pedido' => $pedido->id_pedido,
+                    'id_pedido' => $pedido->id, // <-- Corrigido para 'id'
                     'id_produto' => $item['produto_id'],
                     'quantidade' => $item['quantidade'],
                     'preco_unitario' => $item['preco'],
@@ -77,7 +78,7 @@ class PedidosController extends Controller
 
             return response()->json([
                 'success' => true,
-                'pedido_id' => $pedido->id_pedido,
+                'pedido_id' => $pedido->id,
                 'tipo_pedido' => $tipo_pedido,
                 'message' => 'Pedido finalizado com sucesso!'
             ], 201);
@@ -107,11 +108,11 @@ class PedidosController extends Controller
     /**
      * Exibe um pedido específico
      */
-    public function mostrarPedido($id_pedido)
+    public function mostrarPedido($id)
     {
         try {
             $pedido = PedidosModel::with(['itens.produto', 'itens.adicionais.adicional'])
-                ->findOrFail($id_pedido);
+                ->findOrFail($id);
 
             return response()->json(['success' => true, 'pedido' => $pedido]);
         } catch (\Exception $e) {
@@ -122,10 +123,10 @@ class PedidosController extends Controller
     /**
      * Atualiza dados do pedido
      */
-    public function atualizarPedido(Request $request, $id_pedido)
+    public function atualizarPedido(Request $request, $id)
     {
         try {
-            $pedido = PedidosModel::findOrFail($id_pedido);
+            $pedido = PedidosModel::findOrFail($id);
 
             $data = $request->validate([
                 'endereco' => 'sometimes|nullable|string|max:255',
@@ -153,7 +154,7 @@ class PedidosController extends Controller
                 'status_pagamento' => 'required|string'
             ]);
 
-            PedidosModel::where('id_pedido', $id)
+            PedidosModel::where('id', $id)
                 ->update(['status_pagamento' => $request->status_pagamento]);
 
             return response()->json([
@@ -172,10 +173,10 @@ class PedidosController extends Controller
     /**
      * Exclui um pedido e seus relacionamentos
      */
-    public function excluirPedido($id_pedido)
+    public function excluirPedido($id)
     {
         try {
-            $pedido = PedidosModel::with('itens.adicionais')->findOrFail($id_pedido);
+            $pedido = PedidosModel::with('itens.adicionais')->findOrFail($id);
 
             foreach ($pedido->itens as $item) {
                 $item->adicionais()->delete();

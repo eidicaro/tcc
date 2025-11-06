@@ -11,20 +11,18 @@ class PedidosModel extends Model
     use HasFactory;
 
     protected $table = 'pedidos';
-    protected $primaryKey = 'id_pedido';
+    protected $primaryKey = 'id'; // <-- corrigido para o nome real da PK
 
-    // 🔹 Incluímos 'tipo_pedido' aqui
     protected $fillable = [
         'endereco',
         'forma_pagamento',
         'status_pagamento',
         'total',
-        'tipo_pedido', // novo campo
+        'tipo_pedido',
     ];
 
-    // 🔹 Relacionamento: um pedido tem muitos itens
     public function itens()
     {
-        return $this->hasMany(PedidoItem::class, 'id_pedido', 'id_pedido');
+        return $this->hasMany(PedidoItem::class, 'id_pedido', 'id');
     }
 }
