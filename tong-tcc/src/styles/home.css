@@ -89,3 +89,12 @@ main p{
   font-weight: 800; /* Extrabold */
   text-align: center;
 } 
+
+
+.modal-backdrop {
+  z-index: 1040 !important;
+}
+
+.modal {
+  z-index: 1050 !important;
+}

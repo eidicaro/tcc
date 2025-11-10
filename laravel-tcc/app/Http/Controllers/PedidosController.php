@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class PedidosController extends Controller
 {
     /**
-     * Finaliza um pedido com itens e adicionais
+     * Finaliza um pedido com itens, adicionais e vincula ao cliente
      */
     public function finalizar(Request $request)
     {
@@ -26,6 +26,9 @@ class PedidosController extends Controller
             'carrinho.*.adicionais' => 'nullable|array',
             'carrinho.*.adicionais.*.adicional_id' => 'required_with:carrinho.*.adicionais|integer|exists:adicional,id_adicional',
             'carrinho.*.adicionais.*.preco' => 'required_with:carrinho.*.adicionais|numeric|min:0',
+
+            // novo campo:
+            'cliente_id' => 'nullable|exists:clientes,id'
         ]);
 
         DB::beginTransaction();
@@ -33,6 +36,7 @@ class PedidosController extends Controller
         try {
             // Cria o pedido
             $pedido = PedidosModel::create([
+                'cliente_id' => $data['cliente_id'] ?? null, // vincula cliente
                 'endereco' => $data['endereco'],
                 'forma_pagamento' => $data['forma_pagamento'],
                 'total' => $data['total'],
@@ -54,14 +58,37 @@ class PedidosController extends Controller
                         PedidoItemAdicional::create([
                             'id_pedido_item' => $pedidoItem->id,
                             'id_adicional' => $adicional['adicional_id'],
-                            'quantidade' => 1, // cada adicional vale 1
+                            'quantidade' => 1,
                             'preco_unitario' => $adicional['preco'],
                         ]);
                     }
                 }
             }
 
-            DB::commit();
+            DB::commit();   
+
+                        // Montar mensagem para WhatsApp
+            // $mensagem = "Pedido nº {$pedido->id_pedido}\n\n";
+            // $mensagem .= "Itens:\n";
+
+            // foreach ($pedido->itens as $item) {
+            //     $produtoNome = $item->produto->nome ?? 'Produto';
+            //     $mensagem .= "➡ {$item->quantidade}x {$produtoNome}\n";
+
+            //     // Adicionais
+            //     foreach ($item->adicionais as $adicional) {
+            //         $adicionalNome = $adicional->adicional->nome ?? 'Adicional';
+            //         $mensagem .= "   + {$adicionalNome}\n";
+            //     }
+            // }
+
+            // $mensagem .= "\nObservação: (" . ($request->observacao ?? 'Sem observações') . ")\n\n";
+            // $mensagem .= "💳 {$pedido->forma_pagamento}\n\n";
+            // $mensagem .= "🏠 {$pedido->endereco}\n";
+            // $mensagem .= "🛵 Delivery\n\n";
+            // $mensagem .= "Total: R$ " . number_format($pedido->total, 2, ',', '.') . "\n\n";
+            // $mensagem .= "Obrigado pela preferência! 😊";
+
 
             return response()->json([
                 'success' => true,
@@ -79,16 +106,26 @@ class PedidosController extends Controller
     }
 
     /**
-     * Lista todos os pedidos para o admin, com itens e adicionais
+     * Lista todos os pedidos com cliente, itens e adicionais
      */
-        public function listarPedidos() {
-            try {
-                $pedidos = PedidosModel::with(['itens.produto', 'itens.adicionais.adicional'])->get();
-                return response()->json(['success' => true, 'pedidos' => $pedidos]);
-            } catch (\Exception $e) {
-                return response()->json(['success' => false, 'message' => 'Erro ao listar pedidos: ' . $e->getMessage()]);
-            }
+    public function listarPedidos()
+    {
+        try {
+            $pedidos = PedidosModel::with([
+                'cliente', // <--- adiciona o relacionamento
+                'itens.produto',
+                'itens.adicionais.adicional'
+            ])->get();
+
+           return response()->json([
+                'success' => true,
+                'pedidos' => $pedidos,
+                'message' => 'Pedido finalizado com sucesso!'
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Erro ao listar pedidos: ' . $e->getMessage()]);
         }
+    }
 
             /**
      * Exibe um pedido específico com todos os detalhes

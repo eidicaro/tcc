@@ -10,10 +10,15 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import  { useCarrinho }  from './paginas/hooks/useCarrinho';
 import './styles/home.css'
-import './styles/mediaScreen/md_home.css'
+import './styles/mediaScreen/md_home.css';
+import ClienteModal from './paginas/modais/clienteModal.js';
+
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+
+  const [cliente, setCliente] = useState(null);
+
 
 
   const { carrinho, adicionarProduto, limparCarrinho } = useCarrinho();
@@ -38,20 +43,26 @@ const App = () => {
   
 
   // Finalizar pedido
-  const finalizarPedido = async (idCliente) => {
-    try {
-      const res = await axios.post('http://localhost:8000/api/carrinho/finalizar', {
-        id_cliente: idCliente,
-        itens: carrinho
-      });
-      console.log('Pedido finalizado:', res.data);
-      limparCarrinho();
-      alert('Pedido enviado com sucesso!');
-    } catch (err) {
-      console.error('Erro ao finalizar pedido:', err);
-      alert('Erro ao enviar pedido.');
-    }
-  };
+const finalizarPedido = async () => {
+  if (!cliente) {
+    alert("Identifique-se antes de finalizar o pedido!");
+    return;
+  }
+
+  try {
+    const res = await axios.post('http://localhost:8000/api/carrinho/finalizar', {
+      id_cliente: cliente.id,
+      itens: carrinho
+    });
+    console.log('Pedido finalizado:', res.data);
+    limparCarrinho();
+    alert('Pedido enviado com sucesso!');
+  } catch (err) {
+    console.error('Erro ao finalizar pedido:', err);
+    alert('Erro ao enviar pedido.');
+  }
+};
+
 
   // 🔍 Teste para verificar se o carrinho foi criado
   useEffect(() => {
@@ -63,6 +74,9 @@ const App = () => {
   return (
     <div>
       <Header carrinho={carrinho} finalizarPedido={finalizarPedido} />
+
+      <ClienteModal onConfirm={(dadosCliente) => setCliente(dadosCliente)} />
+
 
       <main className="container mt-5">
         <h1>Seja Bem-Vindo!</h1>

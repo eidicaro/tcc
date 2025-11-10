@@ -14,10 +14,17 @@ class PedidosModel extends Model
 
     protected $table = 'pedidos';
     protected $primaryKey = 'id_pedido'; // garantir que o Eloquent use a PK correta
-    protected $fillable = ['endereco', 'forma_pagamento', 'status_pagamento', 'total'];
+    protected $fillable = ['endereco', 'forma_pagamento', 'status_pagamento', 'total', 'cliente_id'];
 
     // Um pedido tem muitos itens
     public function itens() {
         return $this->hasMany(PedidoItem::class, 'id_pedido', 'id_pedido');
     }
+
+public function cliente()
+{
+    return $this->belongsTo(ClienteModel::class, 'cliente_id', 'id');
+}
+
+
 }

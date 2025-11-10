@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('forma_pagamento');
             $table->enum('status_pagamento', ['pendente', 'pago', 'cancelado'])->default('pendente');
             $table->decimal('total', 10, 2);
+             $table->unsignedBigInteger('cliente_id')->nullable();
+            $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('set null');
             $table->timestamps();
         });
         

@@ -83,12 +83,18 @@
   }
   
 .btn-excluir{
-  background-color: #d32424;
+   background-color: #d61818;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  margin-left: 5px;
   border-radius: 5px;
-  border-style: none;
-  color: #fff;
-  padding: 9%; 
+  cursor: pointer;
+  font-weight: bold;
 } 
+.btn-excluir:hover{
+  background-color: #8f0f0f;
+}
 
 .btn-salvar-status{
   background-color: #1d680e;
@@ -97,4 +103,18 @@
   color: #fff;
   padding: 2%;
   margin: 2px;
+}
+
+.btn-whats {
+  background-color: #25d366;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  margin-left: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-whats:hover {
+  background-color: #1da851;
 }

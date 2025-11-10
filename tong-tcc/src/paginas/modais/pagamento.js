@@ -9,6 +9,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   const [needChange, setNeedChange] = useState(""); // sim/não
   const [changeValue, setChangeValue] = useState(""); // valor para troco
 
+
   const total = Number(subtotal) + Number(deliveryFee);
 
   useEffect(() => {
@@ -41,12 +42,21 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
         quantidade: Number(add.quantidade || 1),
       })),
     }));
+
+      const cliente = JSON.parse(localStorage.getItem("cliente"));
+
+    if (!cliente || !cliente.id) {
+      alert("Erro: cliente não encontrado. Faça o cadastro novamente.");
+      return;
+    }
   
     const pedidoJSON = {
       endereco: address,
       forma_pagamento: paymentMethod,
       total,
       carrinho: carrinhoPayload,
+      cliente_id: cliente.id, // ou o nome correto do campo
+
     };
   
     console.log("🛰️ Enviando pedido:", pedidoJSON);

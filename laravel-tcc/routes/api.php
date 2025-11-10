@@ -7,6 +7,7 @@ use App\Http\Controllers\AdicionalController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\PedidosController;
+use App\Http\Controllers\ClienteController;
 use Illuminate\Session\Middleware\StartSession;
 
 
@@ -22,6 +23,8 @@ Route::get('/categoria', [CategoriaController::class, 'index']);
 // Adicionais
 Route::get('/adicionais', [AdicionalController::class, 'index']);
 
+// Clientes
+Route::post('/cliente', [ClienteController::class, 'store']);
 
 
 // Rotas de carrinho com sessão ativa

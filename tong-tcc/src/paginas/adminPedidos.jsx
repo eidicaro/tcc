@@ -96,6 +96,75 @@ const carregarPedidos = async () => {
     );
   };
 
+  // gerar mensagem do whats
+//   const gerarMensagemPedido = (pedido) => {
+//   let mensagem = `Pedido nº ${pedido.id_pedido}\n\nItens:\n`;
+
+//   pedido.itens?.forEach((item) => {
+//     mensagem += `➡ ${item.quantidade}x ${item.produto?.nome}\n`;
+
+//     if (item.adicionais?.length > 0) {
+//       item.adicionais.forEach((ad) => {
+//         mensagem += `    + ${ad.adicional?.nome}\n`;
+//       });
+//     }
+//   });
+
+//   mensagem += `\nObservação: (${pedido.observacao || "Sem observações"})\n\n`;
+//   mensagem += `💳 ${pedido.forma_pagamento}\n\n`;
+//   mensagem += `🛵 Delivery\n`;
+//   mensagem += `🏠 ${pedido.endereco}\n\n`;
+//   mensagem += `Total: R$ ${parseFloat(pedido.total).toFixed(2)}\n\n`;
+//   mensagem += `Obrigado pela preferência! 😊`;
+
+//   return mensagem;
+// };
+
+// mandar mensagem do whats
+const enviarWhatsApp = (pedido) => {
+  if (!pedido.cliente || !pedido.cliente.telefone) {
+    alert("Telefone do cliente não encontrado.");
+    return;
+  }
+
+  const numero = pedido.cliente.telefone.replace(/\D/g, ""); // só números
+
+  const itensTexto = pedido.itens
+    ?.map((item) => {
+      let texto = `➡ ${item.quantidade}x ${item.produto?.nome?.toUpperCase() || "Produto"}`;
+      if (item.adicionais?.length > 0) {
+        const adicionais = item.adicionais
+          .map((ad) => `      ${ad.quantidade}x ${ad.adicional?.nome}`)
+          .join("\n");
+        texto += `\n${adicionais}`;
+      }
+      return texto;
+    })
+    .join("\n") || "Nenhum item listado.";
+
+  const mensagem = `Pedido nº ${pedido.id_pedido}
+
+Itens:
+${itensTexto}
+
+Observação: (${pedido.observacao || "Nenhuma"})
+
+💳 ${pedido.forma_pagamento}
+🛵 Delivery (taxa de: R$ ${pedido.taxa_entrega ?? "0,00"})
+🏠 ${pedido.endereco}
+(Estimativa: entre 40~80 minutos)
+
+Total: R$ ${parseFloat(pedido.total).toFixed(2)}
+
+Obrigado pela preferência, se precisar de algo é só chamar!`;
+
+  const url = `https://wa.me/55${numero}?text=${encodeURIComponent(mensagem)}`;
+  window.open(url, "_blank");
+};
+
+
+
+
   return (
     <div className="admin-container">
 
@@ -179,7 +248,15 @@ const carregarPedidos = async () => {
                     >
                       Excluir
                     </button>
+
+                    <button
+                      className="btn-whats"
+                      onClick={() => enviarWhatsApp(pedido)}
+                    >
+                       Enviar WhatsApp
+                    </button>
                   </td>
+
                 </tr>
 
                 {/* Itens do pedido */}
