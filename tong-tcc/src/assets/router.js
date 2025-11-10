@@ -8,6 +8,7 @@ import PrivateRoute from "../paginas/privateRoute";
 import ProdutosPage from "../paginas/adminProdutos";
 import PedidosPage from "../paginas/adminPedidos";
 import ClientesPage from "../paginas/adminClientes";
+import GerenciarPage from "../paginas/adminGerenciarItens";
 
 export default function AppRoutes() {
   return (
@@ -46,6 +47,15 @@ export default function AppRoutes() {
           element={
             <PrivateRoute>
               <ClientesPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/admin/gerenciaritens"
+          element={
+            <PrivateRoute>
+              <GerenciarPage />
             </PrivateRoute>
           }
         />

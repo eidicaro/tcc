@@ -49,10 +49,24 @@ Route::prefix('admin')->group(function () {
 
 // Produtos - CRUD admin
 Route::prefix('admin')->group(function () {
+        //produtos
     Route::get('/produtos', [ProdutosController::class, 'index']); // já existe
     Route::post('/produtos', [ProdutosController::class, 'store']); // criar
     Route::put('/produtos/{id}', [ProdutosController::class, 'update']); // editar
     Route::delete('/produtos/{id}', [ProdutosController::class, 'destroy']); // excluir
+
+      // Categorias
+    Route::get('/categorias', [CategoriaController::class, 'index']);
+    Route::post('/categorias', [CategoriaController::class, 'store']);
+    Route::put('/categorias/{id}', [CategoriaController::class, 'update']);
+    Route::delete('/categorias/{id}', [CategoriaController::class, 'destroy']);
+
+    // Adicionais
+    Route::get('/adicionais', [AdicionalController::class, 'index']);
+    Route::post('/adicionais', [AdicionalController::class, 'store']);
+    Route::put('/adicionais/{id}', [AdicionalController::class, 'update']);
+    Route::delete('/adicionais/{id}', [AdicionalController::class, 'destroy']);
+
 });
 
 

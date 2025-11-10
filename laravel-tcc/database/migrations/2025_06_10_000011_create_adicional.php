@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->string('nome', 100);
             $table->decimal('preco', 10, 2);
             $table->string('imagem', 255)->nullable();
+            $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
     }

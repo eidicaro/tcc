@@ -17,14 +17,19 @@ const AdminPedidos = () => {
 
 
 
-  const carregarPedidos = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/api/admin/pedidos");
-      setPedidos(response.data.pedidos || []);
-    } catch (error) {
-      console.error("Erro ao carregar pedidos:", error);
-    }
-  };
+const carregarPedidos = async () => {
+  try {
+    const response = await axios.get("http://localhost:8000/api/admin/pedidos");
+
+    // inverte a ordem, mostrando os mais recentes primeiro
+    const pedidosOrdenados = (response.data.pedidos || []).reverse();
+
+    setPedidos(pedidosOrdenados);
+  } catch (error) {
+    console.error("Erro ao carregar pedidos:", error);
+  }
+};
+
 
   const excluirPedido = async (id) => {
     if (!window.confirm("Tem certeza que deseja excluir este pedido?")) return;

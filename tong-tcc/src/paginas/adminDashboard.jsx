@@ -24,6 +24,7 @@ export default function AdminDashboard() {
         <Link to="/admin/produtos" className="card">PRODUTOS</Link>
         <Link to="/admin/pedidos" className="card">PEDIDOS</Link>
         <Link to="/admin/clientes" className="card">CLIENTES</Link>
+        <Link to="/admin/gerenciaritens" className="card">GERENCIAR ITENS</Link>
       </main>
 
       <footer>

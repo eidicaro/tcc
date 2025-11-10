@@ -4,14 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PedidoItemAdicionalModel;
 
 class AdicionalModel extends Model
 {
-    protected $table = 'adicional';
-    protected $fillable = ['nome', 'preco', 'imagem'];
-    protected $primaryKey = 'id_adicional';
     use HasFactory;
+
+    protected $table = 'adicional';
+    protected $primaryKey = 'id_adicional';
+
+    protected $fillable = [
+        'nome',
+        'preco',
+        'imagem',
+        'ativo',
+    ];
+
+        use HasFactory;
 
     public function produtos()
     {
@@ -27,5 +35,5 @@ class AdicionalModel extends Model
 {
     return $this->hasMany(PedidoItemAdicional::class);
 }
-
 }
+
