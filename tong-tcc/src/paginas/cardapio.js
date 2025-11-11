@@ -102,7 +102,7 @@ function Cardapio() {
                         </div>
                         <section>
                           <p>R$ {p.preco}</p>
-                          <button className="botao" onClick={() => abrirModalProduto(p)}>Saiba Mais</button>
+                          <button className="botao" onClick={() => abrirModalProduto(p)}>Adicionar</button>
                         </section>
                       </article>
                     </div>
@@ -119,7 +119,7 @@ function Cardapio() {
                       </div>
                       <div className="prod-footer">
                         <p>R$ {p.preco}</p>
-                        <button className="botao" onClick={() => abrirModalProduto(p)}>Saiba Mais</button>
+                        <button className="botao" onClick={() => abrirModalProduto(p)}>Adicionar</button>
                       </div>
                     </div>
 

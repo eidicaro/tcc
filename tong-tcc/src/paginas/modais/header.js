@@ -6,12 +6,17 @@ import '../../styles/mediaScreen/md_navbar.css';
 import Carrinho from './carrinho';
 import { Modal } from './modal_carrinho';
 import tong from './../../images/tong-2.svg';
-import ConteudoCarrinho from './conteudoCarrinho'; // novo import
-
+import ConteudoCarrinho from './conteudoCarrinho';
+import { useCarrinho } from '../hooks/useCarrinho'; // ✅ Importa o hook global
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
+
+  const { carrinho } = useCarrinho(); // ✅ Pega o carrinho global
+
+  // ✅ Calcula o total de itens no carrinho (soma de quantidades)
+  const totalItens = carrinho.reduce((acc, item) => acc + (item.quantidade || 1), 0);
 
   return (
     <div className='navbar'>
@@ -28,8 +33,9 @@ const Header = () => {
             aria-expanded="false" 
             aria-label="Toggle navigation"
           >
-          <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
+
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
@@ -38,9 +44,19 @@ const Header = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/cardapio">Cardápio</Link>
               </li>
-              <li className="nav-item">
-                <button onClick={toggleModal} className="btn btn-link p-0">
+
+              {/* Ícone do carrinho com contador dinâmico */}
+              <li className="nav-item position-relative">
+                <button onClick={toggleModal} className="btn btn-link p-0 position-relative">
                   <Carrinho />
+                  {totalItens > 0 && (
+                    <span
+                      className="badge bg-danger rounded-circle position-absolute top-0 start-100 translate-middle"
+                      style={{ fontSize: '0.75rem', minWidth: '20px' }}
+                    >
+                      {totalItens}
+                    </span>
+                  )}
                 </button>
               </li>
             </ul>
@@ -48,16 +64,16 @@ const Header = () => {
         </div>
       </nav>
 
-    {/* Conteudo do modal do Carrinho */}
-        {isModalOpen && (
-            <Modal
-              title="Seu Carrinho"
-              subtitle="Veja as suas gostosuras"
-              isOpen={isModalOpen}
-              toggleModal={toggleModal}
-              modalContent={<ConteudoCarrinho />} // aqui usa o conteúdo real
-            />
-        )}
+      {/* Modal do Carrinho */}
+      {isModalOpen && (
+        <Modal
+          title="Seu Carrinho"
+          subtitle="Veja as suas gostosuras"
+          isOpen={isModalOpen}
+          toggleModal={toggleModal}
+          modalContent={<ConteudoCarrinho />}
+        />
+      )}
     </div>
   );
 };

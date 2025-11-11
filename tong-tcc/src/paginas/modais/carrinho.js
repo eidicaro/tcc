@@ -1,6 +1,15 @@
 import styled from "styled-components";
+import { useCarrinho } from "../hooks/useCarrinho";
 
 const Carrinho = () => {
+  const { carrinho } = useCarrinho();
+
+  // Soma todas as quantidades de produtos
+  const quantidadeTotal = carrinho.reduce(
+    (acc, item) => acc + (Number(item.quantidade) || 0),
+    0
+  );
+
   return (
     <StyledWrapper>
       <div className="button-container">
@@ -31,11 +40,14 @@ const StyledWrapper = styled.div`
   .button-container {
     display: flex;
     background-color: black;
-    width: 250px;
+    width: 100px;
     height: 40px;
     align-items: center;
     justify-content: space-around;
     border-radius: 10px;
+    position: relative;
+    margin-left: 100px;
+    
   }
 
   .button {
@@ -51,6 +63,7 @@ const StyledWrapper = styled.div`
     color: #fff;
     transition: all ease-in-out 0.3s;
     cursor: pointer;
+    position: relative;
   }
 
   .button:hover {
@@ -59,6 +72,23 @@ const StyledWrapper = styled.div`
 
   .icon {
     font-size: 50px;
+  }
+
+  .badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   }
 `;
 
