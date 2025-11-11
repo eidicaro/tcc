@@ -9,27 +9,29 @@ const AdminPedidos = () => {
   const [adicionaisSelecionados, setAdicionaisSelecionados] = useState([]);
   const [statusEditando, setStatusEditando] = useState({});
 
-
-
+  // 🔁 Atualiza pedidos automaticamente a cada 10 segundos
   useEffect(() => {
     carregarPedidos();
+
+    const intervalo = setInterval(() => {
+      carregarPedidos();
+    }, 60000); // 60 segundos
+
+    return () => clearInterval(intervalo); // limpa o intervalo ao desmontar o componente
   }, []);
 
+  const carregarPedidos = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/admin/pedidos");
 
+      const pedidosOrdenados = (response.data.pedidos || []).reverse();
+      setPedidos(pedidosOrdenados);
 
-const carregarPedidos = async () => {
-  try {
-    const response = await axios.get("http://localhost:8000/api/admin/pedidos");
-
-    // inverte a ordem, mostrando os mais recentes primeiro
-    const pedidosOrdenados = (response.data.pedidos || []).reverse();
-
-    setPedidos(pedidosOrdenados);
-  } catch (error) {
-    console.error("Erro ao carregar pedidos:", error);
-  }
-};
-
+      console.log("📦 Pedidos carregados:", response.data.pedidos);
+    } catch (error) {
+      console.error("Erro ao carregar pedidos:", error);
+    }
+  };
 
   const excluirPedido = async (id) => {
     if (!window.confirm("Tem certeza que deseja excluir este pedido?")) return;
@@ -40,12 +42,6 @@ const carregarPedidos = async () => {
       console.error("Erro ao excluir pedido:", error);
     }
   };
-
-  // const abrirModalEdicao = (item) => {
-  //   setProdutoEditando(item);
-  //   setQuantidade(item.quantidade || 1);
-  //   setAdicionaisSelecionados(item.adicionais?.map((a) => a.id_adicional) || []);
-  // };
 
   const fecharModalEdicao = () => {
     setProdutoEditando(null);
@@ -80,15 +76,10 @@ const carregarPedidos = async () => {
           p.id_pedido === id_pedido ? { ...p, status_pagamento: novoStatus } : p
         )
       );
-
-
     } catch (error) {
       console.error("Erro ao atualizar status:", error.response?.data || error);
     }
   };
-
-
-
 
   const toggleAdicional = (id) => {
     setAdicionaisSelecionados((prev) =>
@@ -96,53 +87,28 @@ const carregarPedidos = async () => {
     );
   };
 
-  // gerar mensagem do whats
-//   const gerarMensagemPedido = (pedido) => {
-//   let mensagem = `Pedido nº ${pedido.id_pedido}\n\nItens:\n`;
+  const enviarWhatsApp = (pedido) => {
+    if (!pedido.cliente || !pedido.cliente.telefone) {
+      alert("Telefone do cliente não encontrado.");
+      return;
+    }
 
-//   pedido.itens?.forEach((item) => {
-//     mensagem += `➡ ${item.quantidade}x ${item.produto?.nome}\n`;
+    const numero = pedido.cliente.telefone.replace(/\D/g, "");
 
-//     if (item.adicionais?.length > 0) {
-//       item.adicionais.forEach((ad) => {
-//         mensagem += `    + ${ad.adicional?.nome}\n`;
-//       });
-//     }
-//   });
+    const itensTexto = pedido.itens
+      ?.map((item) => {
+        let texto = `➡ ${item.quantidade}x ${item.produto?.nome?.toUpperCase() || "Produto"}`;
+        if (item.adicionais?.length > 0) {
+          const adicionais = item.adicionais
+            .map((ad) => `      ${ad.quantidade}x ${ad.adicional?.nome}`)
+            .join("\n");
+          texto += `\n${adicionais}`;
+        }
+        return texto;
+      })
+      .join("\n") || "Nenhum item listado.";
 
-//   mensagem += `\nObservação: (${pedido.observacao || "Sem observações"})\n\n`;
-//   mensagem += `💳 ${pedido.forma_pagamento}\n\n`;
-//   mensagem += `🛵 Delivery\n`;
-//   mensagem += `🏠 ${pedido.endereco}\n\n`;
-//   mensagem += `Total: R$ ${parseFloat(pedido.total).toFixed(2)}\n\n`;
-//   mensagem += `Obrigado pela preferência! 😊`;
-
-//   return mensagem;
-// };
-
-// mandar mensagem do whats
-const enviarWhatsApp = (pedido) => {
-  if (!pedido.cliente || !pedido.cliente.telefone) {
-    alert("Telefone do cliente não encontrado.");
-    return;
-  }
-
-  const numero = pedido.cliente.telefone.replace(/\D/g, ""); // só números
-
-  const itensTexto = pedido.itens
-    ?.map((item) => {
-      let texto = `➡ ${item.quantidade}x ${item.produto?.nome?.toUpperCase() || "Produto"}`;
-      if (item.adicionais?.length > 0) {
-        const adicionais = item.adicionais
-          .map((ad) => `      ${ad.quantidade}x ${ad.adicional?.nome}`)
-          .join("\n");
-        texto += `\n${adicionais}`;
-      }
-      return texto;
-    })
-    .join("\n") || "Nenhum item listado.";
-
-  const mensagem = `Pedido nº ${pedido.id_pedido}
+    const mensagem = `Pedido nº ${pedido.id_pedido}
 
 Itens:
 ${itensTexto}
@@ -152,24 +118,20 @@ Observação: (${pedido.observacao || "Nenhuma"})
 💳 ${pedido.forma_pagamento}
 🛵 Delivery (taxa de: R$ ${pedido.taxa_entrega ?? "0,00"})
 🏠 ${pedido.endereco}
-(Estimativa: entre 40~80 minutos)
+(Estimativa: entre 40~90 minutos)
 
 Total: R$ ${parseFloat(pedido.total).toFixed(2)}
 
 Obrigado pela preferência, se precisar de algo é só chamar!`;
 
-  const url = `https://wa.me/55${numero}?text=${encodeURIComponent(mensagem)}`;
-  window.open(url, "_blank");
-};
-
-
-
+    const url = `https://wa.me/55${numero}?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, "_blank");
+  };
 
   return (
     <div className="admin-container">
-
-       {/* Botão sair */}
-       <button
+      {/* Botão sair */}
+      <button
         className="logout-btn"
         onClick={() => {
           fetch("http://localhost:8000/api/logout", {
@@ -180,7 +142,6 @@ Obrigado pela preferência, se precisar de algo é só chamar!`;
       >
         VOLTAR
       </button>
-
 
       <h2 className="titulo-admin">Pedidos Recebidos</h2>
 
@@ -205,7 +166,6 @@ Obrigado pela preferência, se precisar de algo é só chamar!`;
                   <td>{pedido.endereco}</td>
                   <td>{pedido.forma_pagamento}</td>
 
-                  {/* 🔹 Campo de edição de status */}
                   <td>
                     <select
                       value={statusEditando[pedido.id_pedido] ?? pedido.status_pagamento}
@@ -249,17 +209,12 @@ Obrigado pela preferência, se precisar de algo é só chamar!`;
                       Excluir
                     </button>
 
-                    <button
-                      className="btn-whats"
-                      onClick={() => enviarWhatsApp(pedido)}
-                    >
-                       Enviar WhatsApp
+                    <button className="btn-whats" onClick={() => enviarWhatsApp(pedido)}>
+                      Enviar WhatsApp
                     </button>
                   </td>
-
                 </tr>
 
-                {/* Itens do pedido */}
                 <tr>
                   <td colSpan="7" className="detalhes-produtos">
                     {pedido.itens?.length > 0 ? (
@@ -273,19 +228,32 @@ Obrigado pela preferência, se precisar de algo é só chamar!`;
                             </span>
                           </div>
 
-                          {item.adicionais?.length > 0 && (
-                            <div className="adicionais-container">
-                              <p className="titulo-adicionais">Adicionais:</p>
-                              <ul className="adicionais-lista">
-                                {item.adicionais.map((ad) => (
-                                  <li key={ad.id}>
-                                    {ad.adicional?.nome} <span>x{ad.quantidade}</span> — R$
-                                    {parseFloat(ad.preco_unitario).toFixed(2)}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
+                          {item.adicionais?.length > 0 && (() => {
+                            const adicionaisAgrupados = item.adicionais.reduce((acc, ad) => {
+                              const id = ad.id_adicional;
+                              if (!acc[id]) {
+                                acc[id] = { ...ad, quantidade: 0 };
+                              }
+                              acc[id].quantidade += ad.quantidade;
+                              return acc;
+                            }, {});
+
+                            const listaAgrupada = Object.values(adicionaisAgrupados);
+
+                            return (
+                              <div className="adicionais-container">
+                                <p className="titulo-adicionais">Adicionais:</p>
+                                <ul className="adicionais-lista">
+                                  {listaAgrupada.map((ad) => (
+                                    <li key={ad.id_adicional}>
+                                      {ad.adicional?.nome} <span>x{ad.quantidade}</span> — R$
+                                      {parseFloat(ad.preco_unitario).toFixed(2)}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            );
+                          })()}
                         </div>
                       ))
                     ) : (
@@ -298,51 +266,6 @@ Obrigado pela preferência, se precisar de algo é só chamar!`;
           </tbody>
         </table>
       </div>
-
-      {/* Modal de edição de produto */}
-      {produtoEditando && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>Editar Produto: {produtoEditando.produto?.nome}</h3>
-            <label>
-              Quantidade:
-              <input
-                type="number"
-                min="1"
-                value={quantidade}
-                onChange={(e) => setQuantidade(parseInt(e.target.value))}
-              />
-            </label>
-
-            {produtoEditando.adicionais?.length > 0 && (
-              <div className="adicionais-edicao">
-                <p>Adicionais:</p>
-                {produtoEditando.adicionais.map((ad) => (
-                  <label key={ad.id}>
-                    <input
-                      type="checkbox"
-                      checked={adicionaisSelecionados.includes(ad.id_adicional)}
-                      onChange={() => toggleAdicional(ad.id_adicional)}
-                    />
-                    {ad.adicional?.nome} — R$
-                    {parseFloat(ad.preco_unitario).toFixed(2)}
-                  </label>
-                ))}
-              </div>
-            )}
-
-            <div className="modal-botoes">
-              <button className="btn salvar" onClick={salvarEdicao}>
-                Salvar
-              </button>
-              <button className="btn cancelar" onClick={fecharModalEdicao}>
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
     </div>
   );
 };

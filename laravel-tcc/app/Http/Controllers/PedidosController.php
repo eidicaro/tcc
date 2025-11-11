@@ -30,7 +30,7 @@ class PedidosController extends Controller
             'carrinho.*.adicionais' => 'nullable|array',
             'carrinho.*.adicionais.*.adicional_id' => 'required_with:carrinho.*.adicionais|integer',
             'carrinho.*.adicionais.*.preco' => 'required_with:carrinho.*.adicionais|numeric|min:0',
-            // novo campo:
+            'carrinho.*.adicionais.*.quantidade' => 'nullable|integer|min:1',
             'cliente_id' => 'nullable|exists:clientes,id'
         ]);
 
@@ -58,7 +58,7 @@ class PedidosController extends Controller
             // 🛒 Itens do pedido
             foreach ($data['carrinho'] as $item) {
                 $pedidoItem = PedidoItem::create([
-                    'id_pedido' => $pedido->id, // <-- Corrigido para 'id'
+                    'id_pedido' => $pedido->getKey(),
                     'id_produto' => $item['produto_id'],
                     'quantidade' => $item['quantidade'],
                     'preco_unitario' => $item['preco'],
@@ -69,42 +69,19 @@ class PedidosController extends Controller
                     foreach ($item['adicionais'] as $adicional) {
                         PedidoItemAdicional::create([
                             'id_pedido_item' => $pedidoItem->id,
-                            'id_adicional' => $adicional['adicional_id'],
-                            'quantidade' => 1,
+                            'id_adicional' => $adicional['adicional_id'], // 👈 nome correto
+                            'quantidade' => $adicional['quantidade'] ?? 1, // 👈 quantidade real
                             'preco_unitario' => $adicional['preco'],
                         ]);
                     }
                 }
             }
 
-            DB::commit();   
-
-                        // Montar mensagem para WhatsApp
-            // $mensagem = "Pedido nº {$pedido->id_pedido}\n\n";
-            // $mensagem .= "Itens:\n";
-
-            // foreach ($pedido->itens as $item) {
-            //     $produtoNome = $item->produto->nome ?? 'Produto';
-            //     $mensagem .= "➡ {$item->quantidade}x {$produtoNome}\n";
-
-            //     // Adicionais
-            //     foreach ($item->adicionais as $adicional) {
-            //         $adicionalNome = $adicional->adicional->nome ?? 'Adicional';
-            //         $mensagem .= "   + {$adicionalNome}\n";
-            //     }
-            // }
-
-            // $mensagem .= "\nObservação: (" . ($request->observacao ?? 'Sem observações') . ")\n\n";
-            // $mensagem .= "💳 {$pedido->forma_pagamento}\n\n";
-            // $mensagem .= "🏠 {$pedido->endereco}\n";
-            // $mensagem .= "🛵 Delivery\n\n";
-            // $mensagem .= "Total: R$ " . number_format($pedido->total, 2, ',', '.') . "\n\n";
-            // $mensagem .= "Obrigado pela preferência! 😊";
-
+            DB::commit();
 
             return response()->json([
                 'success' => true,
-                'pedido_id' => $pedido->id,
+                'pedido_id' => $pedido->id_pedido,
                 'tipo_pedido' => $tipo_pedido,
                 'message' => 'Pedido finalizado com sucesso!'
             ], 201);

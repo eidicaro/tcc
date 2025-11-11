@@ -4,33 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PedidoItem;
 
 class PedidosModel extends Model
 {
     use HasFactory;
 
     protected $table = 'pedidos';
-    protected $primaryKey = 'id'; // <-- corrigido para o nome real da PK
+    protected $primaryKey = 'id_pedido'; // 👈 importante!
+    public $timestamps = true;
 
     protected $fillable = [
+        'cliente_id',
         'endereco',
         'forma_pagamento',
-        'status_pagamento',
         'total',
+        'status_pagamento',
         'tipo_pedido',
-        'cliente_id',
     ];
 
+    // Relacionamentos
     public function itens()
     {
-        return $this->hasMany(PedidoItem::class, 'id_pedido', 'id');
+        return $this->hasMany(PedidoItem::class, 'id_pedido', 'id_pedido');
     }
 
-public function cliente()
-{
-    return $this->belongsTo(ClienteModel::class, 'cliente_id', 'id');
-}
-
-
+    public function cliente()
+    {
+        return $this->belongsTo(ClienteModel::class, 'cliente_id', 'id');
+    }
 }

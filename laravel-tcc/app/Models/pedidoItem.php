@@ -15,10 +15,11 @@ class PedidoItem extends Model {
     protected $table = 'pedido_itens';
     protected $fillable = ['id_pedido', 'id_produto', 'quantidade', 'preco_unitario'];
 
+
      public $timestamps = false; // <---- adicione isto
 
     // Um item pertence a um pedido
-    public function pedido()
+   public function pedido()
     {
         return $this->belongsTo(PedidosModel::class, 'id_pedido', 'id_pedido');
     }

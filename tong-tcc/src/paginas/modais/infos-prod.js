@@ -53,7 +53,7 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
   const handleAdicionarCarrinho = async () => {
     // monta adicionais com suas quantidades reais
     const adicionaisEnvio = adicionaisSelecionados.map(adicional => ({
-      id_adicional: adicional.id_adicional,
+      adicional_id: adicional.id_adicional,
       nome: adicional.nome,
       preco: Number(adicional.preco || 0),
       quantidade: Number(quantidades[adicional.id_adicional] || 1),

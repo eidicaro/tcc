@@ -63,22 +63,36 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
 
     console.log("🛰️ Enviando pedido:", pedidoJSON);
 
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/api/pedidos/finalizar",
-        pedidoJSON,
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-
-      alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
-      onClose();
-    } catch (err) {
-      console.error("Erro ao finalizar pedido:", err.response?.data || err);
-      alert("Erro ao finalizar pedido");
+try {
+  const response = await axios.post(
+    "http://localhost:8000/api/pedidos/finalizar",
+    pedidoJSON,
+    {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
     }
+  );
+
+  alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
+  onClose();
+} catch (err) {
+  // Captura o erro retornado do backend (Laravel)
+  const errorData = err.response?.data;
+
+  console.error("Erro ao finalizar pedido:", errorData || err);
+
+  if (errorData && errorData.message) {
+    console.log(
+      "⚠️ Erro ao finalizar pedido:\n" +
+        errorData.message +
+        (errorData.file ? `\nArquivo: ${errorData.file}` : "") +
+        (errorData.line ? `\nLinha: ${errorData.line}` : "")
+    );
+  } else {
+    alert("Erro ao finalizar pedido. Verifique o console para mais detalhes.");
+  }
+}
+
   };
 
   const isPayDisabled =
