@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id('id_pedido');
-            $table->string('endereco');
+            $table->string('endereco')->nullable();
             $table->string('forma_pagamento');
             $table->enum('status_pagamento', ['pendente', 'pago', 'cancelado'])->default('pendente');
+            $table->enum('tipo_pedido', ['local', 'delivery'])->default('delivery');
             $table->decimal('total', 10, 2);
             $table->timestamps();
         });

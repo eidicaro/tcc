@@ -24,11 +24,11 @@ class PedidosController extends Controller
             'forma_pagamento' => 'required|string|max:50',
             'total' => 'required|numeric|min:0',
             'carrinho' => 'required|array|min:1',
-            'carrinho.*.produto_id' => 'required|integer|exists:produto,id_produto',
+            'carrinho.*.produto_id' => 'required|integer',
             'carrinho.*.quantidade' => 'required|integer|min:1',
             'carrinho.*.preco' => 'required|numeric|min:0',
             'carrinho.*.adicionais' => 'nullable|array',
-            'carrinho.*.adicionais.*.adicional_id' => 'required_with:carrinho.*.adicionais|integer|exists:adicional,id_adicional',
+            'carrinho.*.adicionais.*.adicional_id' => 'required_with:carrinho.*.adicionais|integer',
             'carrinho.*.adicionais.*.preco' => 'required_with:carrinho.*.adicionais|numeric|min:0',
         ]);
 
