@@ -15,7 +15,7 @@ const AdminPedidos = () => {
 
     const intervalo = setInterval(() => {
       carregarPedidos();
-    }, 60000); // 60 segundos
+    }, 90000); // 90 segundos
 
     return () => clearInterval(intervalo); // limpa o intervalo ao desmontar o componente
   }, []);

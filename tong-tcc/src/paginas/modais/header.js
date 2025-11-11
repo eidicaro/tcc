@@ -8,6 +8,11 @@ import { Modal } from './modal_carrinho';
 import tong from './../../images/tong-2.svg';
 import ConteudoCarrinho from './conteudoCarrinho';
 import { useCarrinho } from '../hooks/useCarrinho'; // ✅ Importa o hook global
+import React, { useMemo } from 'react';
+
+
+
+
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +22,16 @@ const Header = () => {
 
   // ✅ Calcula o total de itens no carrinho (soma de quantidades)
   const totalItens = carrinho.reduce((acc, item) => acc + (item.quantidade || 1), 0);
+
+  const memoizedModal = useMemo(() => (
+  <Modal
+    title="Seu Carrinho"
+    subtitle="Veja as suas gostosuras"
+    isOpen={isModalOpen}
+    toggleModal={toggleModal}
+    modalContent={<ConteudoCarrinho />}
+  />
+), [isModalOpen]);
 
   return (
     <div className='navbar'>
@@ -63,17 +78,10 @@ const Header = () => {
           </div>
         </div>
       </nav>
+      
 
       {/* Modal do Carrinho */}
-      {isModalOpen && (
-        <Modal
-          title="Seu Carrinho"
-          subtitle="Veja as suas gostosuras"
-          isOpen={isModalOpen}
-          toggleModal={toggleModal}
-          modalContent={<ConteudoCarrinho />}
-        />
-      )}
+          {isModalOpen && memoizedModal}
     </div>
   );
 };
