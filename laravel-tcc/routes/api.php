@@ -70,6 +70,10 @@ Route::prefix('admin')->group(function () {
     Route::put('/adicionais/{id}', [AdicionalController::class, 'update']);
     Route::delete('/adicionais/{id}', [AdicionalController::class, 'destroy']);
 
+    // Clientes
+    Route::get('/clientes', [ClienteController::class, 'index']);
+
+
 });
 
 

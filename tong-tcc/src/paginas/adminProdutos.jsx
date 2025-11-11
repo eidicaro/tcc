@@ -78,7 +78,7 @@ export default function ProdutosPage() {
           }).finally(() => (window.location.href = "/admin"));
         }}
       >
-        SAIR
+        VOLTAR
       </button>
 
 

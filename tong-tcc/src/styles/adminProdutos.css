@@ -98,37 +98,33 @@
   text-decoration: underline;
 }
 
-/* ====== MODAL DE FORMULÁRIO ====== */
+/* ====== MODAL ====== */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding: 20px; /* adiciona espaçamento nas bordas */
   z-index: 1000;
+  overflow-y: auto; /* permite rolar quando o conteúdo é maior que a tela */
 }
 
+/* ====== CONTEÚDO DO MODAL ====== */
 .modal-content {
-  background-color: #f58242; /* mesma cor do painel */
-  border-radius: 10px;
-  width: 450px;
-  max-width: 90%;
-  padding: 30px;
+  background-color: #f58242;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 450px;
+  padding: 30px 25px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   color: white;
   text-align: center;
+  overflow-y: auto; /* rolagem interna se necessário */
+  max-height: 90vh; /* evita ultrapassar a tela */
 }
 
-.modal-content h2 {
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #fff;
-}
 
 /* ====== INPUTS ====== */
 .modal-content input,

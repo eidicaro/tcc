@@ -1,71 +1,59 @@
-import React, { useState } from "react";
-import Modal from "../components/modal";
-import ClienteForm from "../components/clienteForm";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./../styles/adminClientes.css";
 
-export default function ClientesPage() {
+export default function AdminClientes() {
   const [clientes, setClientes] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [clienteSelecionado, setClienteSelecionado] = useState(null);
 
-  const handleSave = (cliente) => {
-    if (clienteSelecionado) {
-      setClientes(
-        clientes.map((c) =>
-          c.id === clienteSelecionado.id ? { ...cliente, id: c.id } : c
-        )
-      );
-    } else {
-      setClientes([...clientes, { ...cliente, id: Date.now() }]);
-    }
-    setModalOpen(false);
-    setClienteSelecionado(null);
-  };
-
-  const handleEdit = (cliente) => {
-    setClienteSelecionado(cliente);
-    setModalOpen(true);
-  };
-
-  const handleDelete = (id) => {
-    setClientes(clientes.filter((c) => c.id !== id));
-  };
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/admin/clientes")
+      .then((res) => setClientes(res.data))
+      .catch((err) => console.error("Erro ao carregar clientes:", err));
+  }, []);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Gerenciar Clientes</h2>
-      <button onClick={() => setModalOpen(true)}>Adicionar Cliente</button>
+    <div className="clientes-container">
+      <button
+        className="logout-btn"
+        onClick={() => {
+          fetch("http://localhost:8000/api/logout", {
+            method: "POST",
+            credentials: "include",
+          }).finally(() => (window.location.href = "/admin"));
+        }}
+      >
+        VOLTAR
+      </button>
 
-      <table border="1" cellPadding="8" style={{ marginTop: 20, width: "100%" }}>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Telefone</th>
-            <th>Endereço</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clientes.map((c) => (
-            <tr key={c.id}>
-              <td>{c.nome}</td>
-              <td>{c.email}</td>
-              <td>{c.telefone}</td>
-              <td>{c.endereco}</td>
-              <td>
-                <button onClick={() => handleEdit(c)}>Editar</button>
-                <button onClick={() => handleDelete(c.id)}>Excluir</button>
-              </td>
+      <div className="clientes-card">
+        <h2>CLIENTES</h2>
+
+        <table className="clientes-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Telefone</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {modalOpen && (
-        <Modal title="Cliente" onClose={() => setModalOpen(false)}>
-          <ClienteForm onSubmit={handleSave} initialData={clienteSelecionado} />
-        </Modal>
-      )}
+          </thead>
+          <tbody>
+            {clientes.length > 0 ? (
+              clientes.map((cliente) => (
+                <tr key={cliente.id_cliente}>
+                  <td>{cliente.nome}</td>
+                  <td>{cliente.telefone}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="2" className="sem-clientes">
+                  Nenhum cliente cadastrado.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

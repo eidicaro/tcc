@@ -178,7 +178,7 @@ Obrigado pela preferência, se precisar de algo é só chamar!`;
           }).finally(() => (window.location.href = "/admin"));
         }}
       >
-        SAIR
+        VOLTAR
       </button>
 
 

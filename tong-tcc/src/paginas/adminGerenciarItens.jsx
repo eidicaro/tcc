@@ -136,7 +136,7 @@ const salvarAdicional = async () => {
           }).finally(() => (window.location.href = "/admin"));
         }}
       >
-        SAIR
+        VOLTAR
       </button>
 
       <h1>Gerenciar Itens</h1>

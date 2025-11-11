@@ -21,5 +21,10 @@ class ClienteController extends Controller
 
         return response()->json($cliente, 201);
     }
+
+    public function index() {
+    return response()->json(ClienteModel::select('id', 'nome', 'telefone')->get());
+}
+
 }
 
