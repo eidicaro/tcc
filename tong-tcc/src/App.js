@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Header from './paginas/modais/header.js';
 import Footer from './paginas/modais/footer.js';
 import Carrossel from './paginas/modais/carrossel.js';
@@ -8,13 +8,13 @@ import poke from './images/poke.png';
 import Loader from './paginas/modais/loader.js';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import  { useCarrinho }  from './paginas/hooks/useCarrinho';
-import './styles/home.css'
+import { CarrinhoProvider, useCarrinho } from './paginas/hooks/useCarrinho';
+import './styles/home.css';
 import './styles/mediaScreen/md_home.css';
 import ClienteModal from './paginas/modais/clienteModal.js';
 
 
-const App = () => {
+const ConteudoApp = () => {
   const [loading, setLoading] = useState(true);
 
   const [cliente, setCliente] = useState(null);
@@ -22,10 +22,8 @@ const App = () => {
 
 
   const { carrinho, adicionarProduto, limparCarrinho } = useCarrinho();
-
-  // Estado dos produtos
   const [produtos, setProdutos] = useState([]);
-  
+
   // Buscar produtos na API
   useEffect(() => {
     const carregarProdutos = async () => {
@@ -40,7 +38,6 @@ const App = () => {
     };
     carregarProdutos();
   }, []);
-  
 
   // Finalizar pedido
 const finalizarPedido = async () => {
@@ -63,20 +60,18 @@ const finalizarPedido = async () => {
   }
 };
 
-
-  // 🔍 Teste para verificar se o carrinho foi criado
+ // 🔍 Teste para verificar se o carrinho foi criado
   useEffect(() => {
     console.log("Carrinho atual:", carrinho);
   }, [carrinho]);
 
   if (loading) return <Loader loading={true} />;
-    
+
   return (
     <div>
       <Header carrinho={carrinho} finalizarPedido={finalizarPedido} />
 
       <ClienteModal onConfirm={(dadosCliente) => setCliente(dadosCliente)} />
-
 
       <main className="container mt-5">
         <h1>Seja Bem-Vindo!</h1>
@@ -86,7 +81,6 @@ const finalizarPedido = async () => {
         </p>
       </main>
 
-      {/* Carrossel recebe produtos e a função de adicionar */}
       <Carrossel produtos={produtos} adicionarProduto={adicionarProduto} />
 
       <h1 className='horario-h1'>Horário de Atendimento</h1>
@@ -105,19 +99,25 @@ const finalizarPedido = async () => {
           <p>Rua Orlando Sartorelli 45, Centro</p>
           <p>Iperó/SP</p>
         </div>
-
-        <iframe 
-          id="localization" 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4356.226877656857!2d-47.6898667!3d-23.3514105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8396108f88ca8cb3%3A0x87a04fcb137e595!2sTong%20Sushi%20Iper%C3%B3!5e0!3m2!1spt-BR!2sbr!4v1709918912454!5m2!1spt-BR!2sbr" 
-          width="30%" height="272px" 
-          allowFullScreen="" loading="lazy" 
-          referrerPolicy="no-referrer-when-downgrade">
-        </iframe>
+        <iframe
+          id="localization"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4356.226877656857!2d-47.6898667!3d-23.3514105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8396108f88ca8cb3%3A0x87a04fcb137e595!2sTong%20Sushi%20Iper%C3%B3!5e0!3m2!1spt-BR!2sbr!4v1709918912454!5m2!1spt-BR!2sbr"
+          width="30%" height="272px"
+          allowFullScreen="" loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
       </div>
 
       <Footer />
     </div>
   );
 };
+
+// 🔹 Aqui o Provider envolve TODO o app
+const App = () => (
+  <CarrinhoProvider>
+    <ConteudoApp />
+  </CarrinhoProvider>
+);
 
 export default App;
