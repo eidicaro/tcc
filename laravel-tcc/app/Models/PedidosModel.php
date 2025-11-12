@@ -14,13 +14,16 @@ class PedidosModel extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'cliente_id',
-        'endereco',
-        'forma_pagamento',
-        'total',
-        'status_pagamento',
-        'tipo_pedido',
-    ];
+    'cliente_id',
+    'endereco',
+    'forma_pagamento',
+    'troco', 
+    'observacao', 
+    'total',
+    'status_pagamento',
+    'tipo_pedido',
+];
+
 
     // Relacionamentos
     public function itens()

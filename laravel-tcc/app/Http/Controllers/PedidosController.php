@@ -10,90 +10,87 @@ use Illuminate\Support\Facades\DB;
 
 class PedidosController extends Controller
 {
-    /**
-     * Finaliza um pedido com itens, adicionais e vincula ao cliente
-     */
+    
     public function finalizar(Request $request)
-    {
-        // 🔹 Determina automaticamente o tipo do pedido (delivery se tiver endereço)
-        $tipo_pedido = $request->filled('endereco') ? 'delivery' : 'local';
+{
+    $tipo_pedido = $request->filled('endereco') ? 'delivery' : 'local';
 
-        // 🔹 Validação dos dados recebidos
-        $data = $request->validate([
-            'endereco' => 'nullable|string|max:255',
-            'forma_pagamento' => 'required|string|max:50',
-            'total' => 'required|numeric|min:0',
-            'carrinho' => 'required|array|min:1',
-            'carrinho.*.produto_id' => 'required|integer',
-            'carrinho.*.quantidade' => 'required|integer|min:1',
-            'carrinho.*.preco' => 'required|numeric|min:0',
-            'carrinho.*.adicionais' => 'nullable|array',
-            'carrinho.*.adicionais.*.adicional_id' => 'required_with:carrinho.*.adicionais|integer',
-            'carrinho.*.adicionais.*.preco' => 'required_with:carrinho.*.adicionais|numeric|min:0',
-            'carrinho.*.adicionais.*.quantidade' => 'nullable|integer|min:1',
-            'cliente_id' => 'nullable|exists:clientes,id'
+    $data = $request->validate([
+        'endereco' => 'nullable|string|max:255',
+        'forma_pagamento' => 'required|string|max:50',
+        'troco' => 'nullable|numeric|min:0', 
+        'observacao' => 'nullable|string|max:500', 
+        'total' => 'required|numeric|min:0',
+        'carrinho' => 'required|array|min:1',
+        'carrinho.*.produto_id' => 'required|integer',
+        'carrinho.*.quantidade' => 'required|integer|min:1',
+        'carrinho.*.preco' => 'required|numeric|min:0',
+        'carrinho.*.adicionais' => 'nullable|array',
+        'carrinho.*.adicionais.*.adicional_id' => 'required_with:carrinho.*.adicionais|integer',
+        'carrinho.*.adicionais.*.preco' => 'required_with:carrinho.*.adicionais|numeric|min:0',
+        'carrinho.*.adicionais.*.quantidade' => 'nullable|integer|min:1',
+        'cliente_id' => 'nullable|exists:clientes,id'
+    ]);
+
+    if ($tipo_pedido === 'delivery' && empty($request->endereco)) {
+        return response()->json([
+            'success' => false,
+            'message' => 'O endereço é obrigatório para pedidos de delivery.'
+        ], 422);
+    }
+
+    DB::beginTransaction();
+
+    try {
+        $pedido = PedidosModel::create([
+            'cliente_id' => $data['cliente_id'] ?? null,
+            'endereco' => $data['endereco'] ?? null,
+            'forma_pagamento' => $data['forma_pagamento'],
+            'troco' => $data['troco'] ?? null, 
+            'observacao' => $data['observacao'] ?? null, 
+            'total' => $data['total'],
+            'status_pagamento' => 'pendente',
+            'tipo_pedido' => $tipo_pedido,
         ]);
 
-        // 🔒 Se for delivery, o endereço se torna obrigatório
-        if ($tipo_pedido === 'delivery' && empty($request->endereco)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'O endereço é obrigatório para pedidos de delivery.'
-            ], 422);
-        }
-
-        DB::beginTransaction();
-
-        try {
-            // 🧾 Criação do pedido principal
-            $pedido = PedidosModel::create([
-                'cliente_id' => $data['cliente_id'] ?? null, // vincula cliente
-                'endereco' => $data['endereco'] ?? null,
-                'forma_pagamento' => $data['forma_pagamento'],
-                'total' => $data['total'],
-                'status_pagamento' => 'pendente',
-                'tipo_pedido' => $tipo_pedido,
+        foreach ($data['carrinho'] as $item) {
+            $pedidoItem = PedidoItem::create([
+                'id_pedido' => $pedido->getKey(),
+                'id_produto' => $item['produto_id'],
+                'quantidade' => $item['quantidade'],
+                'preco_unitario' => $item['preco'],
             ]);
 
-            // 🛒 Itens do pedido
-            foreach ($data['carrinho'] as $item) {
-                $pedidoItem = PedidoItem::create([
-                    'id_pedido' => $pedido->getKey(),
-                    'id_produto' => $item['produto_id'],
-                    'quantidade' => $item['quantidade'],
-                    'preco_unitario' => $item['preco'],
-                ]);
-
-                // ➕ Adicionais (se houver)
-                if (!empty($item['adicionais'])) {
-                    foreach ($item['adicionais'] as $adicional) {
-                        PedidoItemAdicional::create([
-                            'id_pedido_item' => $pedidoItem->id,
-                            'id_adicional' => $adicional['adicional_id'], // 👈 nome correto
-                            'quantidade' => $adicional['quantidade'] ?? 1, // 👈 quantidade real
-                            'preco_unitario' => $adicional['preco'],
-                        ]);
-                    }
+            if (!empty($item['adicionais'])) {
+                foreach ($item['adicionais'] as $adicional) {
+                    PedidoItemAdicional::create([
+                        'id_pedido_item' => $pedidoItem->id,
+                        'id_adicional' => $adicional['adicional_id'],
+                        'quantidade' => $adicional['quantidade'] ?? 1,
+                        'preco_unitario' => $adicional['preco'],
+                    ]);
                 }
             }
-
-            DB::commit();
-
-            return response()->json([
-                'success' => true,
-                'pedido_id' => $pedido->id_pedido,
-                'tipo_pedido' => $tipo_pedido,
-                'message' => 'Pedido finalizado com sucesso!'
-            ], 201);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro ao finalizar pedido: ' . $e->getMessage()
-            ], 500);
         }
+
+        DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'pedido_id' => $pedido->id_pedido,
+            'tipo_pedido' => $tipo_pedido,
+            'message' => 'Pedido finalizado com sucesso!'
+        ], 201);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'success' => false,
+            'message' => 'Erro ao finalizar pedido: ' . $e->getMessage()
+        ], 500);
     }
+}
+
 
     /**
      * Lista todos os pedidos para o admin, com itens e adicionais

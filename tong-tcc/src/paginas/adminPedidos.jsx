@@ -9,21 +9,20 @@ const AdminPedidos = () => {
   // const [adicionaisSelecionados, setAdicionaisSelecionados] = useState([]);
   const [statusEditando, setStatusEditando] = useState({});
 
-  // 🔁 Atualiza pedidos automaticamente a cada 10 segundos
+  // 🔁 Atualiza pedidos automaticamente a cada 90 segundos
   useEffect(() => {
     carregarPedidos();
 
     const intervalo = setInterval(() => {
       carregarPedidos();
-    }, 90000); // 90 segundos
+    }, 90000);
 
-    return () => clearInterval(intervalo); // limpa o intervalo ao desmontar o componente
+    return () => clearInterval(intervalo);
   }, []);
 
   const carregarPedidos = async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/admin/pedidos");
-
       const pedidosOrdenados = (response.data.pedidos || []).reverse();
       setPedidos(pedidosOrdenados);
 
@@ -62,7 +61,7 @@ const AdminPedidos = () => {
   //   }
   // };
 
-  // 🔹 Atualiza apenas o status do pedido
+  // 🔹 Atualiza o status do pedido
   const atualizarStatus = async (id_pedido, novoStatus) => {
     try {
       await axios.put(
@@ -116,6 +115,9 @@ ${itensTexto}
 Observação: (${pedido.observacao || "Nenhuma"})
 
 💳 ${pedido.forma_pagamento}
+
+${pedido.troco ? `💰 Troco para: R$ ${Number(pedido.troco).toFixed(2)}` : ""}
+🛵 Delivery (taxa: R$ ${pedido.taxa_entrega ?? "0,00"})
 🛵 Delivery (taxa de: R$ 3,00)
 🏠 ${pedido.endereco}
 (Estimativa: entre 40~90 minutos)
@@ -130,7 +132,7 @@ Obrigado pela preferência, se precisar de algo é só chamar!`;
 
   return (
     <div className="admin-container">
-      {/* Botão sair */}
+      {/* Botão voltar */}
       <button
         className="logout-btn"
         onClick={() => {
@@ -164,7 +166,21 @@ Obrigado pela preferência, se precisar de algo é só chamar!`;
                 <tr className="pedido-principal">
                   <td>{pedido.id_pedido}</td>
                   <td>{pedido.endereco}</td>
-                  <td>{pedido.forma_pagamento}</td>
+                  
+                  {/* 🔹 Forma de pagamento + troco + observação */}
+                  <td>
+                    <div>{pedido.forma_pagamento}</div>
+                    {pedido.troco ? (
+                      <div style={{ fontSize: "12px", color: "#555" }}>
+                        💰 Troco para: R$ {Number(pedido.troco).toFixed(2)}
+                      </div>
+                    ) : null}
+                    {pedido.observacao ? (
+                      <div style={{ fontSize: "12px", color: "#555", marginTop: "4px" }}>
+                        📝 Obs: {pedido.observacao}
+                      </div>
+                    ) : null}
+                  </td>
 
                   <td>
                     <select

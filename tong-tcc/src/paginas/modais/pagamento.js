@@ -8,6 +8,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   const [address, setAddress] = useState("");
   const [needChange, setNeedChange] = useState("");
   const [changeValue, setChangeValue] = useState("");
+  const [observation, setObservation] = useState(""); // 🟢 novo campo
   const [isLocalOrder, setIsLocalOrder] = useState(false);
   const [status, setStatus] = useState({ type: "", message: "" }); // 🟢 novo estado de feedback
 
@@ -38,11 +39,11 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
       return;
     }
 
-    const cliente = JSON.parse(localStorage.getItem("cliente"));
-    if (!cliente || !cliente.id) {
-      setStatus({ type: "error", message: "Erro: cliente não encontrado." });
-      return;
-    }
+    // const cliente = JSON.parse(localStorage.getItem("cliente"));
+    // if (!cliente || !cliente.id) {
+    //   setStatus({ type: "error", message: "Erro: cliente não encontrado." });
+    //   return;
+    // }
 
     const carrinhoPayload = carrinho.map(item => ({
       produto_id: item.id_produto || item.produto_id,
@@ -57,13 +58,24 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
       })),
     }));
 
+    const cliente = JSON.parse(localStorage.getItem("cliente"));
+
+    if (!cliente || !cliente.id) {
+      alert("Erro: cliente não encontrado. Faça o cadastro novamente.");
+      return;
+    }
+
+
     const pedidoJSON = {
+      tipo_pedido: isLocalOrder ? "local" : "delivery",
       tipo_pedido: isLocalOrder ? "local" : "delivery",
       endereco: isLocalOrder ? null : address,
       forma_pagamento: paymentMethod,
       total,
       carrinho: carrinhoPayload,
       cliente_id: cliente.id,
+      valor_troco: paymentMethod === "Dinheiro" && needChange === "Sim" ? changeValue : null, // 🟢 novo campo
+      observacao: observation, // 🟢 novo campo
     };
 
     try {
@@ -182,6 +194,24 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
               )}
             </Field>
           )}
+
+          {/* 🟢 Campo de observação */}
+          <Field>
+            <label>Observações</label>
+            <textarea
+              rows="3"
+              placeholder="Ex: sem cebola, molho separado..."
+              value={observation}
+              onChange={(e) => setObservation(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px",
+                borderRadius: "6px",
+                border: "1px solid #cfcfcf",
+                resize: "none",
+              }}
+            />
+          </Field>
         </Content>
 
         <Footer>
