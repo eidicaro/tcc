@@ -116,7 +116,7 @@ ${itensTexto}
 Observação: (${pedido.observacao || "Nenhuma"})
 
 💳 ${pedido.forma_pagamento}
-🛵 Delivery (taxa de: R$ ${pedido.taxa_entrega ?? "0,00"})
+🛵 Delivery (taxa de: R$ 3,00)
 🏠 ${pedido.endereco}
 (Estimativa: entre 40~90 minutos)
 

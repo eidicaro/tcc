@@ -98,3 +98,13 @@ main p{
 .modal {
   z-index: 1050 !important;
 }
+
+
+/* bgl de numero */
+.modal-header{
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 50%;
+}
+
