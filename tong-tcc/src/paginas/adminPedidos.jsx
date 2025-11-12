@@ -284,6 +284,6 @@ Obrigado pela preferência, se precisar de algo é só chamar!`;
       </div>
     </div>
   );
-};
+};  
 
 export default AdminPedidos;
