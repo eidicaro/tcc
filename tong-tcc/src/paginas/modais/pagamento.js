@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 
 const PaymentPage = ({ subtotal, onClose, carrinho }) => {
-  const [deliveryFee] = useState(2);
+  const [deliveryFee] = useState(3);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [address, setAddress] = useState("");
   const [needChange, setNeedChange] = useState("");
@@ -97,7 +97,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
         </Header>
 
         <Content>
-          <SmallNote>Hoje: 40 - 60 min</SmallNote>
+          <SmallNote>Hoje: 40 - 90 min</SmallNote>
 
           <Option>
             <input

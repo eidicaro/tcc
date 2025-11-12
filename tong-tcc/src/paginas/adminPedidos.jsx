@@ -114,8 +114,12 @@ ${itensTexto}
 Observação: (${pedido.observacao || "Nenhuma"})
 
 💳 ${pedido.forma_pagamento}
+<<<<<<< HEAD
 ${pedido.troco ? `💰 Troco para: R$ ${Number(pedido.troco).toFixed(2)}` : ""}
 🛵 Delivery (taxa: R$ ${pedido.taxa_entrega ?? "0,00"})
+=======
+🛵 Delivery (taxa de: R$ 3,00)
+>>>>>>> 84e11b21538816d95d10eef9309f10e98495c883
 🏠 ${pedido.endereco}
 (Estimativa: entre 40~90 minutos)
 
