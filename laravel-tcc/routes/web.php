@@ -21,15 +21,6 @@ Route::get('/sanctum/csrf-cookie', function () {
     return response()->json(['csrf_token' => csrf_token()]);
 });
 
-// rotas do carrinho migradas
-// routes/web.php
-
-// Route::prefix('carrinho')->group(function() {
-//     Route::get('/', [CarrinhoController::class, 'listar']);
-//     Route::post('/adicionar', [CarrinhoController::class, 'adicionar']);
-//     Route::delete('/remover/{uid}', [CarrinhoController::class, 'remover']);
-//     Route::delete('/limpar', [CarrinhoController::class, 'limpar']);
-// });
 
 Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
     Auth::guard('web')->logout();
@@ -39,8 +30,7 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
 });
 
 
-
-Route::get('/debug-carrinho', function () {
-    dd(session()->all());
-});
+// Route::get('/debug-carrinho', function () {
+//     dd(session()->all());
+// });
 

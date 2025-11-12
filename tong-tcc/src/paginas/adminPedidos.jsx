@@ -4,9 +4,9 @@ import "./../styles/adminPedidos.css";
 
 const AdminPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
-  const [produtoEditando, setProdutoEditando] = useState(null);
-  const [quantidade, setQuantidade] = useState(1);
-  const [adicionaisSelecionados, setAdicionaisSelecionados] = useState([]);
+  // const [produtoEditando, setProdutoEditando] = useState(null);
+  // const [quantidade, setQuantidade] = useState(1);
+  // const [adicionaisSelecionados, setAdicionaisSelecionados] = useState([]);
   const [statusEditando, setStatusEditando] = useState({});
 
   // 🔁 Atualiza pedidos automaticamente a cada 10 segundos
@@ -27,7 +27,7 @@ const AdminPedidos = () => {
       const pedidosOrdenados = (response.data.pedidos || []).reverse();
       setPedidos(pedidosOrdenados);
 
-      console.log("📦 Pedidos carregados:", response.data.pedidos);
+      // console.log("📦 Pedidos carregados:", response.data.pedidos);
     } catch (error) {
       console.error("Erro ao carregar pedidos:", error);
     }
@@ -43,24 +43,24 @@ const AdminPedidos = () => {
     }
   };
 
-  const fecharModalEdicao = () => {
-    setProdutoEditando(null);
-    setQuantidade(1);
-    setAdicionaisSelecionados([]);
-  };
+  // const fecharModalEdicao = () => {
+  //   setProdutoEditando(null);
+  //   setQuantidade(1);
+  //   setAdicionaisSelecionados([]);
+  // };
 
-  const salvarEdicao = async () => {
-    try {
-      await axios.put(
-        `http://localhost:8000/api/admin/pedidos/${produtoEditando.id_pedido}/produto/${produtoEditando.id_produto}`,
-        { quantidade, adicionais: adicionaisSelecionados }
-      );
-      carregarPedidos();
-      fecharModalEdicao();
-    } catch (error) {
-      console.error("Erro ao atualizar produto:", error);
-    }
-  };
+  // const salvarEdicao = async () => {
+  //   try {
+  //     await axios.put(
+  //       `http://localhost:8000/api/admin/pedidos/${produtoEditando.id_pedido}/produto/${produtoEditando.id_produto}`,
+  //       { quantidade, adicionais: adicionaisSelecionados }
+  //     );
+  //     carregarPedidos();
+  //     fecharModalEdicao();
+  //   } catch (error) {
+  //     console.error("Erro ao atualizar produto:", error);
+  //   }
+  // };
 
   // 🔹 Atualiza apenas o status do pedido
   const atualizarStatus = async (id_pedido, novoStatus) => {
@@ -81,11 +81,11 @@ const AdminPedidos = () => {
     }
   };
 
-  const toggleAdicional = (id) => {
-    setAdicionaisSelecionados((prev) =>
-      prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]
-    );
-  };
+  // const toggleAdicional = (id) => {
+  //   setAdicionaisSelecionados((prev) =>
+  //     prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]
+  //   );
+  // };
 
   const enviarWhatsApp = (pedido) => {
     if (!pedido.cliente || !pedido.cliente.telefone) {

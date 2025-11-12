@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -8,7 +8,8 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   const [address, setAddress] = useState("");
   const [needChange, setNeedChange] = useState("");
   const [changeValue, setChangeValue] = useState("");
-  const [isLocalOrder, setIsLocalOrder] = useState(false); // 🟢 novo estado
+  const [isLocalOrder, setIsLocalOrder] = useState(false);
+  const [status, setStatus] = useState({ type: "", message: "" }); // 🟢 novo estado de feedback
 
   const total = Number(subtotal) + (isLocalOrder ? 0 : Number(deliveryFee));
 
@@ -16,18 +17,30 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
     axios.get("http://localhost:8000/sanctum/csrf-cookie", { withCredentials: true });
   }, []);
 
+  useEffect(() => {
+    if (status.message) {
+      const timer = setTimeout(() => setStatus({ type: "", message: "" }), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
+
   const handlePayment = async () => {
-    // Validação adaptada
     if (!isLocalOrder && (!address.trim() || !paymentMethod)) {
-      alert("Preencha todos os campos");
+      setStatus({ type: "error", message: "Preencha todos os campos obrigatórios." });
       return;
     }
     if (isLocalOrder && !paymentMethod) {
-      alert("Selecione a forma de pagamento");
+      setStatus({ type: "error", message: "Selecione a forma de pagamento." });
       return;
     }
     if (paymentMethod === "Dinheiro" && needChange === "Sim" && !changeValue) {
-      alert("Por favor, informe o valor para o troco.");
+      setStatus({ type: "error", message: "Informe o valor para o troco." });
+      return;
+    }
+
+    const cliente = JSON.parse(localStorage.getItem("cliente"));
+    if (!cliente || !cliente.id) {
+      setStatus({ type: "error", message: "Erro: cliente não encontrado." });
       return;
     }
 
@@ -44,55 +57,35 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
       })),
     }));
 
-      const cliente = JSON.parse(localStorage.getItem("cliente"));
-
-    if (!cliente || !cliente.id) {
-      alert("Erro: cliente não encontrado. Faça o cadastro novamente.");
-      return;
-    }
-  
     const pedidoJSON = {
-      tipo_pedido: isLocalOrder ? "local" : "delivery", // 🟢 indica o tipo
+      tipo_pedido: isLocalOrder ? "local" : "delivery",
       endereco: isLocalOrder ? null : address,
       forma_pagamento: paymentMethod,
       total,
       carrinho: carrinhoPayload,
-      cliente_id: cliente.id, // ou o nome correto do campo
-
+      cliente_id: cliente.id,
     };
 
-    console.log("🛰️ Enviando pedido:", pedidoJSON);
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/pedidos/finalizar",
+        pedidoJSON,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
 
-try {
-  const response = await axios.post(
-    "http://localhost:8000/api/pedidos/finalizar",
-    pedidoJSON,
-    {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
+      setStatus({ type: "success", message: "Pedido realizado com sucesso!" });
+      setTimeout(() => onClose(), 1500); // fecha depois de 1.5s
+    } catch (err) {
+      const errorData = err.response?.data;
+      console.error("Erro ao finalizar pedido:", errorData || err);
+      setStatus({
+        type: "error",
+        message: errorData?.message || "Erro ao finalizar pedido. Tente novamente.",
+      });
     }
-  );
-
-  alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
-  onClose();
-} catch (err) {
-  // Captura o erro retornado do backend (Laravel)
-  const errorData = err.response?.data;
-
-  console.error("Erro ao finalizar pedido:", errorData || err);
-
-  if (errorData && errorData.message) {
-    console.log(
-      "⚠️ Erro ao finalizar pedido:\n" +
-        errorData.message +
-        (errorData.file ? `\nArquivo: ${errorData.file}` : "") +
-        (errorData.line ? `\nLinha: ${errorData.line}` : "")
-    );
-  } else {
-    alert("Erro ao finalizar pedido. Verifique o console para mais detalhes.");
-  }
-}
-
   };
 
   const isPayDisabled =
@@ -111,7 +104,6 @@ try {
         <Content>
           <SmallNote>Hoje: 40 - 90 min</SmallNote>
 
-          {/* 🟢 Checkbox de Pedido Local */}
           <Option>
             <input
               type="checkbox"
@@ -122,7 +114,6 @@ try {
             <span>Pedido Local</span>
           </Option>
 
-          {/* 🟠 Só mostra o endereço se NÃO for local */}
           {!isLocalOrder && (
             <Field>
               <label>Endereço</label>
@@ -158,13 +149,12 @@ try {
 
           {paymentMethod === "Dinheiro" && (
             <Field>
-              <label>Deseja dinheiro de troco?</label>
+              <label>Deseja troco?</label>
               <Options>
                 {["Sim", "Não"].map((opt) => (
                   <Option key={opt}>
                     <input
                       type="radio"
-                      id={opt}
                       name="needChange"
                       value={opt}
                       checked={needChange === opt}
@@ -210,6 +200,11 @@ try {
               <strong>R$ {total.toFixed(2)}</strong>
             </div>
           </Totals>
+
+          {/* 🟢 Mensagem de status */}
+          {status.message && (
+            <StatusMessage type={status.type}>{status.message}</StatusMessage>
+          )}
 
           <PayButton onClick={handlePayment} disabled={isPayDisabled}>
             Realizar Pagamento
@@ -340,6 +335,17 @@ const Totals = styled.div`
     font-weight: 700;
     font-size: 18px;
   }
+`;
+
+const StatusMessage = styled.div`
+  background: ${({ type }) => (type === "success" ? "#d4edda" : "#f8d7da")};
+  color: ${({ type }) => (type === "success" ? "#155724" : "#721c24")};
+  border: 1px solid ${({ type }) => (type === "success" ? "#c3e6cb" : "#f5c6cb")};
+  padding: 10px 14px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  animation: fadein 0.3s ease;
 `;
 
 const PayButton = styled.button`

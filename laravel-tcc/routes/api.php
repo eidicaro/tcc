@@ -14,7 +14,6 @@ use Illuminate\Session\Middleware\StartSession;
 // Produtos
 Route::get('/produtos', [ProdutosController::class, 'index']); // Lista todos os produtos
 Route::get('/produtos/by-ids', [ProdutosController::class, 'getByIds']); // Para o carrossel
-// Route::get('/produtos/testar-adicionais', [ProdutosController::class, 'testaradicionais']);  Adicionais do produto
 
 
 // Categorias

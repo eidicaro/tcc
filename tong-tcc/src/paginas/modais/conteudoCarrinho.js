@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import '../../styles/carrinho.css';
 import { useCarrinho } from '../hooks/useCarrinho';

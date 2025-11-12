@@ -11,14 +11,14 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
   const { adicionarProduto } = useCarrinho();
 
   // --- adiciona ou remove um adicional do array selecionado ---
-  const toggleAdicional = (adicional) => {
-    const existe = adicionaisSelecionados.find(a => a.id_adicional === adicional.id_adicional);
-    if (existe) {
-      setAdicionaisSelecionados(adicionaisSelecionados.filter(a => a.id_adicional !== adicional.id_adicional));
-    } else {
-      setAdicionaisSelecionados([...adicionaisSelecionados, adicional]);
-    }
-  };
+  // const toggleAdicional = (adicional) => {
+  //   const existe = adicionaisSelecionados.find(a => a.id_adicional === adicional.id_adicional);
+  //   if (existe) {
+  //     setAdicionaisSelecionados(adicionaisSelecionados.filter(a => a.id_adicional !== adicional.id_adicional));
+  //   } else {
+  //     setAdicionaisSelecionados([...adicionaisSelecionados, adicional]);
+  //   }
+  // };
 
   // --- aumenta quantidade ---
   const handleAdd = (adicional) => {

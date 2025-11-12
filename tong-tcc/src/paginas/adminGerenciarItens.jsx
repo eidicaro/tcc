@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/adminGerenciarItens.css";
 
@@ -15,9 +15,8 @@ export default function AdminGerenciarItens() {
   const [novoAdicional, setNovoAdicional] = useState({ nome: "", preco: "" });
   const [editandoAdicional, setEditandoAdicional] = useState(null);
 
-  // =====================
+
   // CATEGORIAS
-  // =====================
   const listarCategorias = async () => {
     const res = await axios.get("http://localhost:8000/api/admin/categorias");
     setCategorias(res.data);
@@ -52,9 +51,7 @@ export default function AdminGerenciarItens() {
     }
   };
 
-  // =====================
   // ADICIONAIS
-  // =====================
   const listarAdicionais = async () => {
     const res = await axios.get("http://localhost:8000/api/admin/adicionais");
     setAdicionais(res.data);
@@ -111,17 +108,15 @@ const salvarAdicional = async () => {
     }
   };
 
-  // =====================
+
   // EFEITO INICIAL
-  // =====================
   useEffect(() => {
     listarCategorias();
     listarAdicionais();
   }, []);
 
-  // =====================
+  
   // RENDER
-  // =====================
   return (
 
     <div className="admin-itens-container">

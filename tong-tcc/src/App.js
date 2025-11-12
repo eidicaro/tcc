@@ -61,9 +61,9 @@ const finalizarPedido = async () => {
 };
 
  // 🔍 Teste para verificar se o carrinho foi criado
-  useEffect(() => {
-    console.log("Carrinho atual:", carrinho);
-  }, [carrinho]);
+  // useEffect(() => {
+  //   console.log("Carrinho atual:", carrinho);
+  // }, [carrinho]);
 
   if (loading) return <Loader loading={true} />;
 

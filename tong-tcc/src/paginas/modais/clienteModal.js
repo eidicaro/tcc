@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal, Button, Form } from "react-bootstrap";
 import './../../styles/home.css'
-import { auto } from "@popperjs/core";
 
 const ClienteModal = ({ onConfirm }) => {
   const [show, setShow] = useState(false);
