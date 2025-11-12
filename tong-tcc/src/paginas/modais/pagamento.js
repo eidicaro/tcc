@@ -8,7 +8,8 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   const [address, setAddress] = useState("");
   const [needChange, setNeedChange] = useState("");
   const [changeValue, setChangeValue] = useState("");
-  const [isLocalOrder, setIsLocalOrder] = useState(false); // 🟢 novo estado
+  const [observation, setObservation] = useState(""); // 🟢 novo campo
+  const [isLocalOrder, setIsLocalOrder] = useState(false);
 
   const total = Number(subtotal) + (isLocalOrder ? 0 : Number(deliveryFee));
 
@@ -17,7 +18,6 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   }, []);
 
   const handlePayment = async () => {
-    // Validação adaptada
     if (!isLocalOrder && (!address.trim() || !paymentMethod)) {
       alert("Preencha todos os campos");
       return;
@@ -44,55 +44,43 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
       })),
     }));
 
-      const cliente = JSON.parse(localStorage.getItem("cliente"));
+    const cliente = JSON.parse(localStorage.getItem("cliente"));
 
     if (!cliente || !cliente.id) {
       alert("Erro: cliente não encontrado. Faça o cadastro novamente.");
       return;
     }
-  
+
     const pedidoJSON = {
-      tipo_pedido: isLocalOrder ? "local" : "delivery", // 🟢 indica o tipo
+      tipo_pedido: isLocalOrder ? "local" : "delivery",
       endereco: isLocalOrder ? null : address,
       forma_pagamento: paymentMethod,
       total,
       carrinho: carrinhoPayload,
-      cliente_id: cliente.id, // ou o nome correto do campo
-
+      cliente_id: cliente.id,
+      valor_troco: paymentMethod === "Dinheiro" && needChange === "Sim" ? changeValue : null, // 🟢 novo campo
+      observacao: observation, // 🟢 novo campo
     };
 
     console.log("🛰️ Enviando pedido:", pedidoJSON);
 
-try {
-  const response = await axios.post(
-    "http://localhost:8000/api/pedidos/finalizar",
-    pedidoJSON,
-    {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/pedidos/finalizar",
+        pedidoJSON,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
+      onClose();
+    } catch (err) {
+      const errorData = err.response?.data;
+      console.error("Erro ao finalizar pedido:", errorData || err);
+      alert("Erro ao finalizar pedido. Verifique o console para mais detalhes.");
     }
-  );
-
-  alert("Pedido realizado com sucesso! ID: " + response.data.pedido_id);
-  onClose();
-} catch (err) {
-  // Captura o erro retornado do backend (Laravel)
-  const errorData = err.response?.data;
-
-  console.error("Erro ao finalizar pedido:", errorData || err);
-
-  if (errorData && errorData.message) {
-    console.log(
-      "⚠️ Erro ao finalizar pedido:\n" +
-        errorData.message +
-        (errorData.file ? `\nArquivo: ${errorData.file}` : "") +
-        (errorData.line ? `\nLinha: ${errorData.line}` : "")
-    );
-  } else {
-    alert("Erro ao finalizar pedido. Verifique o console para mais detalhes.");
-  }
-}
-
   };
 
   const isPayDisabled =
@@ -111,7 +99,6 @@ try {
         <Content>
           <SmallNote>Hoje: 40 - 60 min</SmallNote>
 
-          {/* 🟢 Checkbox de Pedido Local */}
           <Option>
             <input
               type="checkbox"
@@ -122,7 +109,6 @@ try {
             <span>Pedido Local</span>
           </Option>
 
-          {/* 🟠 Só mostra o endereço se NÃO for local */}
           {!isLocalOrder && (
             <Field>
               <label>Endereço</label>
@@ -192,6 +178,24 @@ try {
               )}
             </Field>
           )}
+
+          {/* 🟢 Campo de observação */}
+          <Field>
+            <label>Observações</label>
+            <textarea
+              rows="3"
+              placeholder="Ex: sem cebola, molho separado..."
+              value={observation}
+              onChange={(e) => setObservation(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px",
+                borderRadius: "6px",
+                border: "1px solid #cfcfcf",
+                resize: "none",
+              }}
+            />
+          </Field>
         </Content>
 
         <Footer>
