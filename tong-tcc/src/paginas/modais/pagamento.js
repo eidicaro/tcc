@@ -38,13 +38,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
       setStatus({ type: "error", message: "Informe o valor para o troco." });
       return;
     }
-
-    // const cliente = JSON.parse(localStorage.getItem("cliente"));
-    // if (!cliente || !cliente.id) {
-    //   setStatus({ type: "error", message: "Erro: cliente não encontrado." });
-    //   return;
-    // }
-
+  
     const carrinhoPayload = carrinho.map(item => ({
       produto_id: item.id_produto || item.produto_id,
       nome: item.nome,
@@ -57,48 +51,53 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
         quantidade: Number(add.quantidade || 1),
       })),
     }));
-
+  
     const cliente = JSON.parse(localStorage.getItem("cliente"));
-
+  
     if (!cliente || !cliente.id) {
       alert("Erro: cliente não encontrado. Faça o cadastro novamente.");
       return;
     }
-
-
+  
     const pedidoJSON = {
-      tipo_pedido: isLocalOrder ? "local" : "delivery",
       tipo_pedido: isLocalOrder ? "local" : "delivery",
       endereco: isLocalOrder ? null : address,
       forma_pagamento: paymentMethod,
       total,
       carrinho: carrinhoPayload,
       cliente_id: cliente.id,
-      valor_troco: paymentMethod === "Dinheiro" && needChange === "Sim" ? changeValue : null, // 🟢 novo campo
-      observacao: observation, // 🟢 novo campo
+      valor_troco: paymentMethod === "Dinheiro" && needChange === "Sim" ? changeValue : null,
+      observacao: observation,
     };
-
+  
     try {
+      // 1️⃣ Finaliza pedido no Laravel
       const response = await axios.post(
         "http://localhost:8000/api/pedidos/finalizar",
         pedidoJSON,
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
+        { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );
+  
+        // 2️⃣ Envia o pedido para a impressora via Laravel
+      await axios.post("http://localhost:8000/api/imprimir", pedidoJSON, {
+        headers: { "Content-Type": "application/json" },
+      });
 
-      setStatus({ type: "success", message: "Pedido realizado com sucesso!" });
-      setTimeout(() => onClose(), 1500); // fecha depois de 1.5s
+  
+      // 3️⃣ Feedback
+      setStatus({ type: "success", message: "Pedido realizado e enviado para impressão!" });
+  
+      setTimeout(() => onClose(), 1500);
+  
     } catch (err) {
-      const errorData = err.response?.data;
-      console.error("Erro ao finalizar pedido:", errorData || err);
+      console.error("Erro:", err.response?.data || err);
       setStatus({
         type: "error",
-        message: errorData?.message || "Erro ao finalizar pedido. Tente novamente.",
+        message: "Erro ao finalizar ou imprimir o pedido.",
       });
     }
   };
+  
 
   const isPayDisabled =
     !paymentMethod ||

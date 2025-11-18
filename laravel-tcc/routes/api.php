@@ -83,6 +83,11 @@ Route::get('/csrf-cookie', function() {
 });
 
 
+// ROTA PARA IMPRESSÃO
+use App\Http\Controllers\PrinterController;
+
+Route::post('/imprimir-pedido', [PrinterController::class, 'imprimirPedido']);
+
 
 
 
