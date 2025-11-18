@@ -83,6 +83,9 @@ Route::get('/csrf-cookie', function() {
 });
 
 
+//rota para api 
+Route::post('/pix/gerar', [PixController::class, 'gerarPix']);
+
 
 
 

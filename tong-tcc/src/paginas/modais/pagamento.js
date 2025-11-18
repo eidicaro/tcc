@@ -12,6 +12,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   const [isLocalOrder, setIsLocalOrder] = useState(false);
   const [status, setStatus] = useState({ type: "", message: "" }); // 🟢 novo estado de feedback
 
+
   const total = Number(subtotal) + (isLocalOrder ? 0 : Number(deliveryFee));
 
   useEffect(() => {
@@ -104,6 +105,8 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
     !paymentMethod ||
     (!isLocalOrder && !address.trim()) ||
     (paymentMethod === "Dinheiro" && needChange === "Sim" && !changeValue);
+
+    
 
   return (
     <Overlay>
@@ -244,6 +247,8 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
     </Overlay>
   );
 };
+
+
 
 export default PaymentPage;
 
