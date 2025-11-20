@@ -30,3 +30,4 @@ class PixController extends Controller
         ]);
     }
 }
+

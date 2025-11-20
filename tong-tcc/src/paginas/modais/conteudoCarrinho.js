@@ -4,6 +4,7 @@ import '../../styles/carrinho.css';
 import { useCarrinho } from '../hooks/useCarrinho';
 import PaymentPage from './pagamento';
 
+
 // ================== COMPONENTE ITEM CARRINHO ==================
 const ItemCarrinho = ({ item, incrementar, decrementar, remover }) => {
   const adicionais = item.adicionais || [];
