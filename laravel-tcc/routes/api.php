@@ -9,6 +9,7 @@ use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ClienteController;
 use Illuminate\Session\Middleware\StartSession;
+use App\Http\Controllers\PixController;
 
 
 // Produtos
@@ -83,10 +84,12 @@ Route::get('/csrf-cookie', function() {
 });
 
 
-//rota para api 
-Route::post('/pix/gerar', [PixController::class, 'gerarPix']);
+Route::post('/pix/gerar', [PixController::class, 'gerar']);
 
 
-
-
-
+Route::get('/teste-env', function () {
+    return response()->json([
+        "env" => env('MERCADOPAGO_ACCESS_TOKEN'),
+        "all" => config('app'),
+    ]);
+});

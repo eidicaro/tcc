@@ -488,9 +488,10 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   const [pixData, setPixData] = useState(null);
   const [loadingPix, setLoadingPix] = useState(false);
 
-  const cliente = JSON.parse(localStorage.getItem("cliente")); // <-- movido para cima
+  const cliente = JSON.parse(localStorage.getItem("cliente"));
 
-  const total = Number(subtotal) + (isLocalOrder ? 0 : Number(deliveryFee));
+  const total =
+    Number(subtotal) + (isLocalOrder ? 0 : Number(deliveryFee));
 
   useEffect(() => {
     axios.get("http://localhost:8000/sanctum/csrf-cookie", {
@@ -508,27 +509,55 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
     }
   }, [status]);
 
+  /* **********************
+   *      GERAR PIX
+   ************************ */
   const gerarPix = async () => {
+    console.log("=== gerarPix START ===");
+
+    const clienteLS = JSON.parse(localStorage.getItem("cliente"));
+    console.log("Cliente carregado do localStorage:", clienteLS);
+
+    if (!clienteLS || !clienteLS.id) {
+      setStatus({
+        type: "error",
+        message: "Cliente inválido: dados não encontrados.",
+      });
+      console.error("Cliente inválido ao gerar PIX:", clienteLS);
+      return;
+    }
+
     setLoadingPix(true);
 
     try {
-      const response = await axios.post("http://localhost:8000/api/pix/gerar", {
+      const payload = {
         valor: total,
-        nome: cliente?.nome || "Cliente",
-        email: cliente?.email || "email@test.com",
-      });
+        nome: clienteLS.nome || "Cliente",
+        cliente_id: clienteLS.id,
+      };
 
-      
+      console.log("Enviando para API PIX:", payload);
+
+      const response = await axios.post(
+        "http://localhost:8000/api/pix/gerar",
+        payload,
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      console.log("Resposta da API PIX:", response.data);
 
       setPixData(response.data);
     } catch (err) {
-      console.log("Erro ao gerar PIX", err);
+      console.error("Erro ao gerar PIX:", err);
       setStatus({ type: "error", message: "Erro ao gerar PIX." });
     }
 
     setLoadingPix(false);
   };
 
+  /* **********************
+   *    FINALIZAR PEDIDO
+   ************************ */
   const handlePayment = async () => {
     if (!isLocalOrder && (!address.trim() || !paymentMethod)) {
       setStatus({
@@ -604,8 +633,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
       setStatus({
         type: "error",
         message:
-          errorData?.message ||
-          "Erro ao finalizar pedido. Tente novamente.",
+          errorData?.message || "Erro ao finalizar pedido. Tente novamente.",
       });
     }
   };
@@ -633,7 +661,6 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
           <Option>
             <input
               type="checkbox"
-              id="localOrder"
               checked={isLocalOrder}
               onChange={() => setIsLocalOrder(!isLocalOrder)}
             />
@@ -718,7 +745,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
             <label>Observações</label>
             <textarea
               rows="3"
-              placeholder="Ex: sem cebola, molho separado..."
+              placeholder="Ex: sem cebola..."
               value={observation}
               onChange={(e) => setObservation(e.target.value)}
               style={{
@@ -731,6 +758,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
             />
           </Field>
 
+          {/* ---------------- PIX ---------------- */}
           {paymentMethod === "Pix" && (
             <Field>
               <label>Pagamento via PIX</label>
@@ -754,19 +782,21 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
               {pixData && (
                 <>
                   <img
-                    src={`data:image/png;base64,${pixData.qr_code}`}
-                    alt="QR Code"
+                    src={`data:image/png;base64,${pixData.qr_code_base64}`}
+                    alt="QR Code Pix"
                     style={{
                       width: "220px",
                       height: "220px",
-                      borderRadius: "8px",
                       marginTop: "12px",
+                      borderRadius: "8px",
                     }}
                   />
 
                   <button
                     onClick={() =>
-                      navigator.clipboard.writeText(pixData.qr_code_plain)
+                      navigator.clipboard.writeText(
+                        pixData.qr_code_plain
+                      )
                     }
                     style={{
                       marginTop: "10px",
@@ -794,9 +824,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
             </div>
             <div>
               <span>Taxa de entrega:</span>
-              <strong>
-                R$ {isLocalOrder ? "0.00" : deliveryFee.toFixed(2)}
-              </strong>
+              <strong>{isLocalOrder ? "R$ 0,00" : `R$ ${deliveryFee.toFixed(2)}`}</strong>
             </div>
             <hr />
             <div className="total-row">
@@ -882,11 +910,13 @@ const SmallNote = styled.div`
 
 const Field = styled.div`
   margin-top: 14px;
+
   label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
   }
+
   input[type="text"],
   input[type="number"] {
     width: 100%;
@@ -926,17 +956,20 @@ const Footer = styled.div`
 
 const Totals = styled.div`
   color: #fff;
+
   div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 6px 0;
   }
+
   hr {
     border: none;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     margin: 8px 0;
   }
+
   .total-row {
     font-weight: 700;
     font-size: 18px;
