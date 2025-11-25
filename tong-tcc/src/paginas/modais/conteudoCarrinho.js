@@ -13,7 +13,7 @@ const ItemCarrinho = ({ item, incrementar, decrementar, remover }) => {
   // Soma dos adicionais POR UNIDADE do produto
   const adicionaisPorUnidade = adicionais.reduce((acc, ad) => {
     const precoAd = Number(ad.preco || 0);
-    const qtdAd = Number(ad.quantidade || 1); // quantidade por unidade
+    const qtdAd = Number(ad.quantidade || 1); 
     return acc + precoAd * qtdAd;
   }, 0);
 
@@ -30,7 +30,7 @@ const ItemCarrinho = ({ item, incrementar, decrementar, remover }) => {
           <ul className="lista-adicionais">
             {adicionais.map((ad, index) => {
               const precoAd = Number(ad.preco || 0);
-              const qtdAd = Number(ad.quantidade || 1); // por unidade
+              const qtdAd = Number(ad.quantidade || 1);
               return (
                 <li key={index}>
                   {qtdAd}x {ad.nome} — R$ {(precoAd * qtdAd).toFixed(2)} por unidade
@@ -133,6 +133,8 @@ const ConteudoCarrinho = () => {
         />
       )}
     </div>
+
+    // mo trampo pa funfa
   );
 };
 

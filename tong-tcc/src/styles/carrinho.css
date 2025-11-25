@@ -16,9 +16,9 @@
 /* MODAL CARRINHO */
 
 .itens-carrinho {
-  max-height: 55vh;   /* limita a altura em 60% da tela */
-  overflow-y: auto;   /* ativa scroll vertical */
-  padding-right: 8px; /* espaço pro scroll não colar no conteúdo */
+  max-height: 55vh;  
+  overflow-y: auto;   
+  padding-right: 8px; 
 }
 
 /* estiliza a barra de rolagem (opcional) */

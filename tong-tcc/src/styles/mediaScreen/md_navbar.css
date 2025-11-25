@@ -2,7 +2,7 @@
 .navbar {
   background-color: #000;
   padding: 1rem 0;
-  font-family: 'Orbitron', sans-serif; /* Você pode importar essa fonte futurista do Google Fonts */
+  font-family: 'Orbitron', sans-serif;
 }
 
 .navbar-titulo {

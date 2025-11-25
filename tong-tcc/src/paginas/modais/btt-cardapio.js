@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';  // Importando Link
+import { Link } from 'react-router-dom';
 
 const Btt = () => {
   return (

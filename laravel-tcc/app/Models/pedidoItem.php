@@ -16,7 +16,7 @@ class PedidoItem extends Model {
     protected $fillable = ['id_pedido', 'id_produto', 'quantidade', 'preco_unitario'];
 
 
-     public $timestamps = false; // <---- adicione isto
+     public $timestamps = false; 
 
     // Um item pertence a um pedido
    public function pedido()

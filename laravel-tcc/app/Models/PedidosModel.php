@@ -10,7 +10,7 @@ class PedidosModel extends Model
     use HasFactory;
 
     protected $table = 'pedidos';
-    protected $primaryKey = 'id_pedido'; // 👈 importante!
+    protected $primaryKey = 'id_pedido'; 
     public $timestamps = true;
 
     protected $fillable = [

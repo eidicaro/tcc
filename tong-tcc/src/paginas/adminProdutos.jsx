@@ -6,7 +6,7 @@ import EditProdutoForm from "./editProdutoForm.jsx";
 import "./../styles/adminProdutos.css";
 
 export default function ProdutosPage() {
-  const [modalOpen, setModalOpen] = useState(null); // null, "criar", "editar"
+  const [modalOpen, setModalOpen] = useState(null);
   const [produtos, setProdutos] = useState([]);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 

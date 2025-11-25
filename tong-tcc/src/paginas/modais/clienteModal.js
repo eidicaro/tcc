@@ -17,7 +17,6 @@ useEffect(() => {
   } else {
     onConfirm(JSON.parse(clienteSalvo));
   }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 
 
@@ -32,7 +31,7 @@ useEffect(() => {
         nome,
         telefone,
       });
-      localStorage.setItem("cliente", JSON.stringify(res.data)); // salva localmente
+      localStorage.setItem("cliente", JSON.stringify(res.data));
       onConfirm(res.data);
       setShow(false);
     } catch (err) {

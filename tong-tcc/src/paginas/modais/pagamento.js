@@ -8,9 +8,9 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
   const [address, setAddress] = useState("");
   const [needChange, setNeedChange] = useState("");
   const [changeValue, setChangeValue] = useState("");
-  const [observation, setObservation] = useState(""); // 🟢 novo campo
+  const [observation, setObservation] = useState("");
   const [isLocalOrder, setIsLocalOrder] = useState(false);
-  const [status, setStatus] = useState({ type: "", message: "" }); // 🟢 novo estado de feedback
+  const [status, setStatus] = useState({ type: "", message: "" }); 
 
   const total = Number(subtotal) + (isLocalOrder ? 0 : Number(deliveryFee));
 
@@ -39,11 +39,6 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
       return;
     }
 
-    // const cliente = JSON.parse(localStorage.getItem("cliente"));
-    // if (!cliente || !cliente.id) {
-    //   setStatus({ type: "error", message: "Erro: cliente não encontrado." });
-    //   return;
-    // }
 
     const carrinhoPayload = carrinho.map(item => ({
       produto_id: item.id_produto || item.produto_id,
@@ -74,8 +69,8 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
       total,
       carrinho: carrinhoPayload,
       cliente_id: cliente.id,
-      valor_troco: paymentMethod === "Dinheiro" && needChange === "Sim" ? changeValue : null, // 🟢 novo campo
-      observacao: observation, // 🟢 novo campo
+      valor_troco: paymentMethod === "Dinheiro" && needChange === "Sim" ? changeValue : null, 
+      observacao: observation, 
     };
 
     try {
@@ -89,7 +84,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
       );
 
       setStatus({ type: "success", message: "Pedido realizado com sucesso!" });
-      setTimeout(() => onClose(), 1500); // fecha depois de 1.5s
+      setTimeout(() => onClose(), 1500); 
     } catch (err) {
       const errorData = err.response?.data;
       console.error("Erro ao finalizar pedido:", errorData || err);
@@ -195,7 +190,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
             </Field>
           )}
 
-          {/* 🟢 Campo de observação */}
+          {/* Campo de observação */}
           <Field>
             <label>Observações</label>
             <textarea
@@ -231,7 +226,7 @@ const PaymentPage = ({ subtotal, onClose, carrinho }) => {
             </div>
           </Totals>
 
-          {/* 🟢 Mensagem de status */}
+          {/* Mensagem de status */}
           {status.message && (
             <StatusMessage type={status.type}>{status.message}</StatusMessage>
           )}

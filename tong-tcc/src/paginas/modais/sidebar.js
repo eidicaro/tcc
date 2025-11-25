@@ -21,7 +21,7 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* 🔹 Sidebar Desktop (não muda) */}
+      {/* Sidebar Desktop (não muda) */}
       <div
         className="sidebar-custom d-none d-lg-flex flex-column p-3 text-white"
         style={{
@@ -46,12 +46,12 @@ export default function Sidebar() {
         </ul>
       </div>
 
-      {/* 🔹 Botão Mobile */}
+      {/* Botão Mobile */}
       <button className="menu-toggle d-lg-none" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <FaTimes /> : <FaBars />}
       </button>
 
-      {/* 🔹 Sidebar Mobile */}
+      {/* Sidebar Mobile */}
       <div className={`mobile-sidebar ${isOpen ? 'active' : ''}`}>
         <ul className="nav flex-column">
           {categorias.map((c) => (
@@ -66,6 +66,8 @@ export default function Sidebar() {
           ))}
         </ul>
       </div>
+
+      {/* ibaselly demorou 3 meses pra fazer a responsividade */}
     </>
   );
 }

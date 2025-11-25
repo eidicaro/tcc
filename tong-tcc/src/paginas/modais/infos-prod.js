@@ -10,15 +10,6 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
   const [quantidades, setQuantidades] = useState({});
   const { adicionarProduto } = useCarrinho();
 
-  // --- adiciona ou remove um adicional do array selecionado ---
-  // const toggleAdicional = (adicional) => {
-  //   const existe = adicionaisSelecionados.find(a => a.id_adicional === adicional.id_adicional);
-  //   if (existe) {
-  //     setAdicionaisSelecionados(adicionaisSelecionados.filter(a => a.id_adicional !== adicional.id_adicional));
-  //   } else {
-  //     setAdicionaisSelecionados([...adicionaisSelecionados, adicional]);
-  //   }
-  // };
 
   // --- aumenta quantidade ---
   const handleAdd = (adicional) => {
@@ -64,7 +55,7 @@ const InfosProd = ({ produto, adicionais, onClose }) => {
 
     const produtoComUID = {
       ...produto,
-      preco: precoBase, // somente o preço do produto
+      preco: precoBase,
       adicionais: adicionaisEnvio,
       quantidade: 1,
       uid: produto.uid || `${produto.id_produto}-${Date.now()}`,

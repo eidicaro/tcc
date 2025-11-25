@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 class PedidosController extends Controller
 {
     
+    //finalizar pedido
     public function finalizar(Request $request)
 {
     $tipo_pedido = $request->filled('endereco') ? 'delivery' : 'local';
@@ -92,14 +93,14 @@ class PedidosController extends Controller
 }
 
 
-    /**
-     * Lista todos os pedidos para o admin, com itens e adicionais
-     */
+    
+    //  Lista todos os pedidos para o admin, com itens e adicionais
+    
     public function listarPedidos()
     {
         try {
             $pedidos = PedidosModel::with([
-                'cliente', // <--- adiciona o relacionamento
+                'cliente', 
                 'itens.produto',
                 'itens.adicionais.adicional'
             ])->get();
@@ -114,9 +115,9 @@ class PedidosController extends Controller
         }
     }
 
-    /**
-     * Exibe um pedido específico
-     */
+    
+     // Exibe um pedido específico
+     
     public function mostrarPedido($id)
     {
         try {
@@ -129,9 +130,9 @@ class PedidosController extends Controller
         }
     }
 
-    /**
-     * Atualiza dados do pedido
-     */
+    
+     // Atualiza dados do pedido
+     
     public function atualizarPedido(Request $request, $id)
     {
         try {
@@ -153,9 +154,9 @@ class PedidosController extends Controller
         }
     }
 
-    /**
-     * Atualiza apenas o status do pagamento
-     */
+    
+    //  Atualiza apenas o status do pagamento
+
     public function atualizarStatus(Request $request, $id)
     {
         try {
@@ -179,9 +180,9 @@ class PedidosController extends Controller
         }
     }
 
-    /**
-     * Exclui um pedido e seus relacionamentos
-     */
+    
+    // Exclui um pedido e seus relacionamentos
+     
     public function excluirPedido($id)
     {
         try {

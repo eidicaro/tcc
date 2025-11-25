@@ -76,7 +76,7 @@ class ProdutosController extends Controller
             'descricao' => $validated['descricao'] ?? '',
             'preco' => $validated['preco'],
             'id_categoria' => $validated['id_categoria'] ?? null,
-            'imagem' => $produto->imagem, // garante que a nova imagem seja salva
+            'imagem' => $produto->imagem, 
         ]);
 
         $produto->imagem_url = $produto->imagem ? asset('storage/' . $produto->imagem) : null;
@@ -105,9 +105,9 @@ class ProdutosController extends Controller
         $produtos = ProdutoModel::whereIn('id_produto', $ids)
             ->get()
             ->map(function ($p) {
-                // monta a URL completa da imagem
+                
                 $p->imagem_url = asset('storage/' . $p->imagem);
-                return $p; // precisa retornar o objeto dentro do map!
+                return $p; 
             });
 
         return response()->json($produtos);

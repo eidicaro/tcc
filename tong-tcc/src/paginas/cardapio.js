@@ -20,7 +20,6 @@ function Cardapio() {
   const [adicionarProduto] = useState(false);
 
   const API = 'http://localhost:8000/api/carrinho';
-  // eslint-disable-next-line no-unused-vars
   const [carrinho, setCarrinho] = useState([]);
 
   const abrirModalProduto = async (produto) => {

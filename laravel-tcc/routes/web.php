@@ -30,7 +30,3 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
 });
 
 
-// Route::get('/debug-carrinho', function () {
-//     dd(session()->all());
-// });
-

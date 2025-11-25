@@ -19,13 +19,13 @@
 
 .nav-item-cardapio {
   width: 100%;
-  padding: 4% 0; /* tira o padding lateral pra não "encolher" */
+  padding: 4% 0; 
   font-size: 20px;
   font-weight: 600;
   border-bottom: 3px solid #fff;
   box-sizing: border-box;
-  display: block; /* força ocupar a linha toda */
-  text-align: center; /* opcional, se quiser centralizar o texto */
+  display: block; 
+  text-align: center;
 }
 
 .sidebar-custom {
@@ -50,7 +50,7 @@
   margin-left: 15%;
   width: 85%;
   position: fixed;
-  height: calc(100vh - 22vh); /* ajuste conforme o espaço que precisa */
+  height: calc(100vh - 22vh);
   overflow-y: auto; 
 }
 
@@ -58,7 +58,7 @@
 .prod {
   display: flex;
   flex-direction: row;
-  align-items: stretch; /* garante que os elementos estiquem igualmente */
+  align-items: stretch; 
   margin: auto;
   height: 32vh;
   width: 85%;
@@ -109,7 +109,7 @@
 }
 
 .prod article section {
-  margin-top: auto; /* fixa o preço + botão no rodapé */
+  margin-top: auto; 
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -144,11 +144,11 @@
 
 @media (max-width: 768px) {
   .prod {
-    height: auto; /* altura ajusta ao conteúdo no mobile */
+    height: auto; 
   }
 
   .prod-desktop {
-    display: none; /* esconde o layout desktop */
+    display: none; 
   }
 
   .prod-mobile {

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import InfosProd from './infos-prod';
 import '../../style.css';
-import { useCarrinho } from '../hooks/useCarrinho'; // importa o hook
+import { useCarrinho } from '../hooks/useCarrinho'; 
 
 const Carrossel = () => {
   const [produtos, setProdutos] = useState(Array(9).fill(null));
@@ -11,7 +11,7 @@ const Carrossel = () => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [adicionais, setAdicionais] = useState([]);
 
-  const { adicionarProduto } = useCarrinho(); // pega do hook
+  const { adicionarProduto } = useCarrinho(); 
 
   useEffect(() => {
     const ids = [1, 5, 8, 12, 15, 18, 22, 19, 20];
@@ -80,7 +80,7 @@ const Carrossel = () => {
             produto={produtoSelecionado}
             adicionais={adicionais}
             onClose={fecharModal}
-            adicionarProduto={adicionarProduto} // vem do hook
+            adicionarProduto={adicionarProduto} 
           />
         )}
       </div>

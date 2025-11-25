@@ -19,10 +19,9 @@
   }
 }
 
-/* 🔹 Botão hambúrguer (aparece só no mobile) */
+/* Botão hambúrguer (aparece só no mobile) */
 .menu-toggle {
   position: fixed;
-  /* top: 100px;  coloca logo abaixo do header */
   margin-top: 15px;
   left: 15px;
   background: #f37030;
@@ -34,7 +33,7 @@
   z-index: 1100;
 }
 
-/* 🔹 Sidebar mobile */
+/* Sidebar mobile */
 .mobile-sidebar {
   position: fixed;
   top: 0;

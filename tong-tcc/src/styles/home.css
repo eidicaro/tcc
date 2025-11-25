@@ -20,11 +20,11 @@ main{
 }  
 
 main h1 {
-  font-weight: 800; /* Extrabold */
+  font-weight: 800; 
   font-size: 50px;
   border-bottom: #000 ridge 4px;
   padding: 0 0 1% 0;
-  width: fit-content; /* Ajusta o tamanho do h1 ao conteúdo */
+  width: fit-content; 
 }  
 
 main p{
@@ -78,7 +78,7 @@ main p{
   font-weight: 800;
   border-bottom: #000 ridge 4px;
   padding: 0 0 1% 0;
-  width: fit-content; /* Ajusta o tamanho do h1 ao conteúdo */
+  width: fit-content; 
 }  
 
 .local h1{
@@ -86,7 +86,7 @@ main p{
 }  
 
 .local p{
-  font-weight: 800; /* Extrabold */
+  font-weight: 800; 
   text-align: center;
 } 
 

@@ -39,8 +39,8 @@ Route::prefix('carrinho')->group(function() {
 Route::get('/pedidos', [PedidosController::class, 'listarPedidos']); // listar pedidos no admin
 Route::post('/pedidos/finalizar', [PedidosController::class, 'finalizar']);
 
-// rotas de admim
 
+// rotas de admim
 Route::prefix('admin')->group(function () {
     Route::get('/pedidos', [PedidosController::class, 'listarPedidos']);
     Route::get('/pedidos/{id}', [PedidosController::class, 'mostrarPedido']);
@@ -71,8 +71,6 @@ Route::prefix('admin')->group(function () {
 
     // Clientes
     Route::get('/clientes', [ClienteController::class, 'index']);
-
-
 });
 
 
@@ -81,9 +79,4 @@ Route::prefix('admin')->group(function () {
 Route::get('/csrf-cookie', function() {
     return response()->json(['csrf_token' => csrf_token()]);
 });
-
-
-
-
-
 

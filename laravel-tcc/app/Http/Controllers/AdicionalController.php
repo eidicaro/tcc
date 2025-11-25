@@ -31,10 +31,10 @@ class AdicionalController extends Controller
 
         if ($request->hasFile('imagem')) {
             $path = $request->file('imagem')->store('images', 'public');
-            $validated['imagem'] = $path; // <-- Corrigido
+            $validated['imagem'] = $path; 
         }
 
-        $adicional = AdicionalModel::create($validated); // <-- Corrigido o nome da classe
+        $adicional = AdicionalModel::create($validated); 
 
         return response()->json($adicional, 201);
     }

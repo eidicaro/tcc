@@ -1,6 +1,6 @@
 
 import tong from './../../images/tong-2.svg';
-import { FaInstagram, FaFacebookF, FaWhatsapp } from 'react-icons/fa'; // <-- importação dos ícones
+import { FaInstagram, FaFacebookF, FaWhatsapp } from 'react-icons/fa';
 import '../../styles/footer.css';
 import viii from './../../images/viii.png';
 

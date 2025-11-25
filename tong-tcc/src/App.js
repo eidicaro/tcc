@@ -60,7 +60,7 @@ const finalizarPedido = async () => {
   }
 };
 
- // 🔍 Teste para verificar se o carrinho foi criado
+ //  Teste para verificar se o carrinho foi criado
   // useEffect(() => {
   //   console.log("Carrinho atual:", carrinho);
   // }, [carrinho]);
@@ -113,7 +113,7 @@ const finalizarPedido = async () => {
   );
 };
 
-// 🔹 Aqui o Provider envolve TODO o app
+//  Aqui o Provider envolve TODO o app
 const App = () => (
   <CarrinhoProvider>
     <ConteudoApp />

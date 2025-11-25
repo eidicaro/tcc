@@ -4,12 +4,9 @@ import "./../styles/adminPedidos.css";
 
 const AdminPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
-  // const [produtoEditando, setProdutoEditando] = useState(null);
-  // const [quantidade, setQuantidade] = useState(1);
-  // const [adicionaisSelecionados, setAdicionaisSelecionados] = useState([]);
   const [statusEditando, setStatusEditando] = useState({});
 
-  // 🔁 Atualiza pedidos automaticamente a cada 90 segundos
+  // Atualiza pedidos automaticamente a cada 90 segundos
   useEffect(() => {
     carregarPedidos();
 
@@ -25,8 +22,6 @@ const AdminPedidos = () => {
       const response = await axios.get("http://localhost:8000/api/admin/pedidos");
       const pedidosOrdenados = (response.data.pedidos || []).reverse();
       setPedidos(pedidosOrdenados);
-
-      // console.log("📦 Pedidos carregados:", response.data.pedidos);
     } catch (error) {
       console.error("Erro ao carregar pedidos:", error);
     }
@@ -42,26 +37,8 @@ const AdminPedidos = () => {
     }
   };
 
-  // const fecharModalEdicao = () => {
-  //   setProdutoEditando(null);
-  //   setQuantidade(1);
-  //   setAdicionaisSelecionados([]);
-  // };
 
-  // const salvarEdicao = async () => {
-  //   try {
-  //     await axios.put(
-  //       `http://localhost:8000/api/admin/pedidos/${produtoEditando.id_pedido}/produto/${produtoEditando.id_produto}`,
-  //       { quantidade, adicionais: adicionaisSelecionados }
-  //     );
-  //     carregarPedidos();
-  //     fecharModalEdicao();
-  //   } catch (error) {
-  //     console.error("Erro ao atualizar produto:", error);
-  //   }
-  // };
-
-  // 🔹 Atualiza o status do pedido
+  // Atualiza o status do pedido
   const atualizarStatus = async (id_pedido, novoStatus) => {
     try {
       await axios.put(
@@ -80,11 +57,6 @@ const AdminPedidos = () => {
     }
   };
 
-  // const toggleAdicional = (id) => {
-  //   setAdicionaisSelecionados((prev) =>
-  //     prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]
-  //   );
-  // };
 
   const enviarWhatsApp = (pedido) => {
     if (!pedido.cliente || !pedido.cliente.telefone) {
@@ -167,7 +139,7 @@ Obrigado pela preferência, se precisar de algo é só chamar!`;
                   <td>{pedido.id_pedido}</td>
                   <td>{pedido.endereco}</td>
                   
-                  {/* 🔹 Forma de pagamento + troco + observação */}
+                  {/* Forma de pagamento + troco + observação */}
                   <td>
                     <div>{pedido.forma_pagamento}</div>
                     {pedido.troco ? (
