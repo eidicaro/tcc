@@ -17,11 +17,11 @@ return new class extends Migration
             $table->unsignedBigInteger('id_produto');
             $table->integer('quantidade');
             $table->decimal('preco_unitario', 10, 2);
-        
+
             $table->foreign('id_pedido')->references('id_pedido')->on('pedidos')->onDelete('cascade');
             $table->foreign('id_produto')->references('id_produto')->on('produto')->onDelete('cascade');
         });
-        
+
     }
 
     /**

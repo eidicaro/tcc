@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::create('carrinho_produto', function (Blueprint $table) {
@@ -17,7 +18,7 @@ return new class extends Migration {
             $table->json('adicionais')->nullable();
             $table->string('uid')->nullable();
             $table->timestamps();
-        
+
             $table->foreign('carrinho_id')->references('id_carrinho')->on('carrinho')->onDelete('cascade');
         });
     }

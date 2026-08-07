@@ -1,0 +1,109 @@
+:root {
+  --store-ink: #111111;
+  --store-orange: #f48347;
+  --store-green: #03391d;
+  --store-surface: #f8f5ef;
+  --store-muted: #d9d9d9;
+  --store-white: #ffffff;
+  --store-danger: #a7271f;
+  --store-success: #145c38;
+  --store-radius-sm: 0.65rem;
+  --store-radius-md: 1.1rem;
+  --store-radius-lg: 1.8rem;
+  --store-shadow-sm: 0 8px 30px rgb(17 17 17 / 8%);
+  --store-shadow-lg: 0 30px 90px rgb(17 17 17 / 22%);
+  --store-font-sans: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --store-font-display: Georgia, "Times New Roman", serif;
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: var(--store-font-sans);
+  color: var(--store-ink);
+  background: var(--store-surface);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+svg {
+  display: block;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid #111111;
+  outline-offset: 3px;
+}
+
+::selection {
+  color: var(--store-ink);
+  background: var(--store-orange);
+}
+
+.app-fatal-error {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+  justify-items: center;
+  gap: 0.8rem;
+  padding: 2rem;
+  color: #111;
+  text-align: center;
+  background: #f8f5ef;
+}
+
+.app-fatal-error > span { color: #f48347; font-size: 2.4rem; }
+.app-fatal-error h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 7vw, 3.5rem); }
+.app-fatal-error p { max-width: 34rem; margin: 0; color: #5e625f; line-height: 1.65; }
+.app-fatal-error div { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.7rem; margin-top: 0.7rem; }
+.app-fatal-error button,
+.app-fatal-error a { padding: 0.8rem 1rem; color: #fff; font-weight: 750; text-decoration: none; border: 0; border-radius: 0.75rem; background: #03391d; cursor: pointer; }
+.app-fatal-error a { color: #111; background: #e9e5de; }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

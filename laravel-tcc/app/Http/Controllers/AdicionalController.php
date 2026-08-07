@@ -2,80 +2,107 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\AdicionalModel;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\AdicionalModel as Adicional;
-
+use Throwable;
 
 class AdicionalController extends Controller
 {
-    // Lista todos os adicionais
-    public function index()
+    public function index(Request $request): JsonResponse
     {
-        $adicionais = AdicionalModel::all()->map(function ($adc) {
-            $adc->imagem_url = $adc->imagem ? asset('storage/' . $adc->imagem) : null;
-            return $adc;
-        });
-        return response()->json($adicionais);
-    }
+        $query = AdicionalModel::query();
 
-    // Cria um novo adicional
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'preco' => 'required|numeric',
-            'imagem' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
-
-        if ($request->hasFile('imagem')) {
-            $path = $request->file('imagem')->store('images', 'public');
-            $validated['imagem'] = $path; // <-- Corrigido
+        if (! $request->is('api/admin/*')) {
+            $query->where('ativo', true);
         }
 
-        $adicional = AdicionalModel::create($validated); // <-- Corrigido o nome da classe
-
-        return response()->json($adicional, 201);
+        return response()->json($query
+            ->orderBy('ordem')
+            ->orderBy('nome')
+            ->get());
     }
 
-    // Atualiza um adicional existente
-    public function update(Request $request, $id)
+    public function store(Request $request): JsonResponse
     {
-        $adicional = AdicionalModel::findOrFail($id);
+        $data = $request->validate($this->rules());
+        $image = $data['imagem'] ?? null;
+        unset($data['imagem']);
 
-        $validated = $request->validate([
-            'nome' => 'sometimes|string|max:255',
-            'preco' => 'sometimes|numeric',
-            'imagem' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        $storedPath = null;
 
-        if ($request->hasFile('imagem')) {
-            // Remove imagem anterior se existir
-            if ($adicional->imagem && Storage::disk('public')->exists($adicional->imagem)) {
-                Storage::disk('public')->delete($adicional->imagem);
+        try {
+            if ($image) {
+                $storedPath = $image->store('images', 'public');
+                $data['imagem'] = $storedPath;
             }
 
-            $path = $request->file('imagem')->store('images', 'public');
-            $validated['imagem'] = $path;
+            $additional = AdicionalModel::create($data);
+        } catch (Throwable $exception) {
+            if ($storedPath) {
+                Storage::disk('public')->delete($storedPath);
+            }
+
+            throw $exception;
         }
 
-        $adicional->update($validated);
-
-        return response()->json($adicional);
+        return response()->json($additional, 201);
     }
 
-    // Exclui um adicional
-    public function destroy($id)
+    public function update(Request $request, int $id): JsonResponse
     {
-        $adicional = AdicionalModel::findOrFail($id);
+        $additional = AdicionalModel::findOrFail($id);
+        $data = $request->validate($this->rules(true));
+        $image = $data['imagem'] ?? null;
+        unset($data['imagem']);
 
-        if ($adicional->imagem && Storage::disk('public')->exists($adicional->imagem)) {
-            Storage::disk('public')->delete($adicional->imagem);
+        $oldPath = $additional->imagem;
+        $newPath = null;
+
+        try {
+            if ($image) {
+                $newPath = $image->store('images', 'public');
+                $data['imagem'] = $newPath;
+            }
+
+            $additional->update($data);
+        } catch (Throwable $exception) {
+            if ($newPath) {
+                Storage::disk('public')->delete($newPath);
+            }
+
+            throw $exception;
         }
 
-        $adicional->delete();
+        if ($newPath && $oldPath && $oldPath !== $newPath) {
+            Storage::disk('public')->delete($oldPath);
+        }
 
-        return response()->json(['message' => 'Adicional excluído com sucesso!']);
+        return response()->json($additional->fresh());
+    }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $additional = AdicionalModel::findOrFail($id);
+        $additional->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Adicional desativado com sucesso.',
+        ]);
+    }
+
+    private function rules(bool $updating = false): array
+    {
+        $presence = $updating ? 'sometimes' : 'required';
+
+        return [
+            'nome' => [$presence, 'string', 'max:100'],
+            'preco' => [$presence, 'numeric', 'min:0', 'max:99999999.99'],
+            'imagem' => ['sometimes', 'nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:4096'],
+            'ativo' => ['sometimes', 'boolean'],
+            'ordem' => ['sometimes', 'integer', 'min:0', 'max:4294967295'],
+        ];
     }
 }

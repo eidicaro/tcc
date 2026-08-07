@@ -1,49 +1,39 @@
 <?php
 
+$configuredOrigins = env('ALLOWED_ORIGINS', env('FRONTEND_URL', 'http://localhost:3000'));
+
+$allowedOrigins = array_values(array_unique(array_filter(array_map(
+    static fn (string $origin): string => rtrim(trim($origin), '/'),
+    explode(',', (string) $configuredOrigins)
+))));
+
 return [
+    'paths' => [
+        'api/*',
+        'login',
+        'logout',
+        'sanctum/csrf-cookie',
+    ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Cross-Origin Resource Sharing (CORS) Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure your settings for cross-origin resource sharing
-    | or "CORS". This determines what cross-origin operations may execute
-    | in web browsers. You are free to adjust these settings as needed.
-    |
-    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-    |
-    */
+    'allowed_methods' => ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'carrinho', 'carrinho/*', '*', 'pedidos/', 'admin/*'],
-    // 'paths' => ['*'],
+    'allowed_origins' => $allowedOrigins,
 
-
-    // 'allowed_methods' => ['*'],
-    'allowed_methods' => ['*'],
-
-
-    'allowed_origins' => ['http://localhost:3000'], //react
-    // 'allowed_origins' => ['*'], //react
-
-    
-    // 'allowed_origins_patterns' => [],
     'allowed_origins_patterns' => [],
 
+    'allowed_headers' => [
+        'Accept',
+        'Authorization',
+        'Content-Type',
+        'Origin',
+        'X-CSRF-TOKEN',
+        'X-Requested-With',
+        'X-XSRF-TOKEN',
+    ],
 
-    // 'allowed_headers' => ['*'],
-    'allowed_headers' => ['*'],
-
-
-    // 'exposed_headers' => [],
     'exposed_headers' => [],
 
+    'max_age' => (int) env('CORS_MAX_AGE', 600),
 
-    // 'max_age' => 0,
-    'max_age' => 0,
-
-
-    'supports_credentials' => true, // habilita os cookies
-    // 'supports_credentials' => false, // habilita os cookies
-
+    'supports_credentials' => true,
 ];

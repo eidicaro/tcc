@@ -1,6 +1,25 @@
 <?php
 
+use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\VerifyCsrfToken;
+use Laravel\Sanctum\Http\Middleware\AuthenticateSession;
 use Laravel\Sanctum\Sanctum;
+
+$frontendUrl = (string) env('FRONTEND_URL', 'http://localhost:3000');
+$frontendHost = parse_url($frontendUrl, PHP_URL_HOST);
+$frontendPort = parse_url($frontendUrl, PHP_URL_PORT);
+$frontendDomain = $frontendHost
+    ? $frontendHost.($frontendPort ? ':'.$frontendPort : '')
+    : null;
+
+$defaultStatefulDomains = implode(',', array_filter([
+    'localhost',
+    'localhost:3000',
+    '127.0.0.1',
+    '127.0.0.1:8000',
+    '::1',
+    $frontendDomain,
+])).Sanctum::currentApplicationUrlWithPort();
 
 return [
 
@@ -15,11 +34,10 @@ return [
     |
     */
 
-    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
-        '%s%s',
-        'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
-        Sanctum::currentApplicationUrlWithPort()
-    ))),
+    'stateful' => array_values(array_unique(array_filter(array_map(
+        'trim',
+        explode(',', (string) env('SANCTUM_STATEFUL_DOMAINS', $defaultStatefulDomains))
+    )))),
 
     /*
     |--------------------------------------------------------------------------
@@ -75,9 +93,9 @@ return [
     */
 
     'middleware' => [
-        'authenticate_session' => Laravel\Sanctum\Http\Middleware\AuthenticateSession::class,
-        'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
-        'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
+        'authenticate_session' => AuthenticateSession::class,
+        'encrypt_cookies' => EncryptCookies::class,
+        'validate_csrf_token' => VerifyCsrfToken::class,
     ],
 
 ];
