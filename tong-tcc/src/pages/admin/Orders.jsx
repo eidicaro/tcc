@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   FiChevronDown,
   FiChevronUp,
@@ -89,42 +89,58 @@ export default function Orders() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [feedback, setFeedback] = useState(null);
+  const [summary, setSummary] = useState({ active: 0, new: 0, preparing: 0 });
   const [pagination, setPagination] = useState({ currentPage: 1, lastPage: 1, total: 0 });
+  const requestSequence = useRef(0);
 
   const load = useCallback(async ({ silent = false, page = 1, append = false } = {}) => {
+    const requestId = ++requestSequence.current;
     if (!silent) setLoading(true);
     setError("");
     try {
-      const response = await api.get("/admin/pedidos", { params: { page, per_page: 50 } });
+      const response = await api.get("/admin/pedidos", {
+        params: {
+          page,
+          per_page: 50,
+          status,
+          ...(query.trim() ? { q: query.trim() } : {}),
+        },
+      });
+      if (requestId !== requestSequence.current) return;
+
       const pageOrders = asArray(response.data);
       setOrders((current) => {
-        if (!append && !silent) return pageOrders;
+        if (!append) return pageOrders;
         const merged = new Map(current.map((order) => [order.id_pedido, order]));
         pageOrders.forEach((order) => merged.set(order.id_pedido, order));
         return [...merged.values()].sort((left, right) => right.id_pedido - left.id_pedido);
       });
 
       const meta = response.data?.pagination ?? {};
-      setPagination((current) => ({
+      setSummary(response.data?.summary ?? { active: 0, new: 0, preparing: 0 });
+      setPagination({
         currentPage: append
           ? Number(meta.current_page || page)
-          : silent
-            ? Math.max(current.currentPage, Number(meta.current_page || 1))
-            : Number(meta.current_page || 1),
+          : Number(meta.current_page || 1),
         lastPage: Number(meta.last_page || 1),
         total: Number(meta.total ?? pageOrders.length),
-      }));
+      });
     } catch (requestError) {
-      setError(getErrorMessage(requestError, "Não foi possível sincronizar os pedidos."));
+      if (requestId === requestSequence.current) {
+        setError(getErrorMessage(requestError, "Não foi possível sincronizar os pedidos."));
+      }
     } finally {
-      if (!silent) setLoading(false);
+      if (requestId === requestSequence.current) setLoading(false);
     }
-  }, []);
+  }, [query, status]);
 
   useEffect(() => {
-    load();
+    const initialRequest = window.setTimeout(() => load(), 300);
     const interval = window.setInterval(() => load({ silent: true, page: 1 }), 60000);
-    return () => window.clearInterval(interval);
+    return () => {
+      window.clearTimeout(initialRequest);
+      window.clearInterval(interval);
+    };
   }, [load]);
 
   useEffect(() => {
@@ -132,23 +148,6 @@ export default function Orders() {
     const timer = window.setTimeout(() => setFeedback(null), 2600);
     return () => window.clearTimeout(timer);
   }, [feedback]);
-
-  const filtered = useMemo(() => {
-    const normalized = query.trim().toLocaleLowerCase("pt-BR");
-    const activeStatuses = new Set(["novo", "confirmado", "preparando", "saiu_entrega"]);
-    return orders.filter((order) => {
-      const matchesStatus = status === "todos"
-        || (status === "ativos" ? activeStatuses.has(order.status_pedido || "novo") : order.status_pedido === status);
-      const haystack = `${order.id_pedido} ${order.cliente?.nome || ""} ${order.cliente?.telefone || ""} ${order.endereco || ""}`.toLocaleLowerCase("pt-BR");
-      return matchesStatus && (!normalized || haystack.includes(normalized));
-    });
-  }, [orders, query, status]);
-
-  const summary = useMemo(() => ({
-    active: orders.filter((order) => ["novo", "confirmado", "preparando", "saiu_entrega"].includes(order.status_pedido || "novo")).length,
-    new: orders.filter((order) => (order.status_pedido || "novo") === "novo").length,
-    preparing: orders.filter((order) => order.status_pedido === "preparando").length,
-  }), [orders]);
 
   const toggleExpanded = (id) => {
     setExpanded((current) => {
@@ -169,6 +168,7 @@ export default function Orders() {
       const updated = response.data?.pedido ?? response.data?.data ?? { ...order, [field]: value };
       setOrders((current) => current.map((entry) => entry.id_pedido === order.id_pedido ? { ...entry, ...updated, [field]: value } : entry));
       setFeedback({ message: "Status atualizado.", tone: "success" });
+      load({ silent: true });
     } catch (requestError) {
       setFeedback({ message: getErrorMessage(requestError, "Não foi possível atualizar o pedido."), tone: "error" });
     } finally {
@@ -240,9 +240,9 @@ export default function Orders() {
         </label>
       </section>
 
-      {filtered.length ? (
+      {orders.length ? (
         <section className="admin-orders-list" aria-label="Lista de pedidos">
-            {filtered.map((order) => {
+            {orders.map((order) => {
             const isExpanded = expanded.has(order.id_pedido);
             return (
               <article className={`admin-order-card admin-order-card--${order.status_pedido || "novo"}`} key={order.id_pedido}>
@@ -330,7 +330,7 @@ export default function Orders() {
       ) : (
         <AdminEmpty
           title="Nenhum pedido neste filtro"
-          description={orders.length ? "Altere o status ou a busca para ver outros pedidos." : "Os novos pedidos aparecerão aqui automaticamente."}
+          description={query || status !== "ativos" ? "Altere o status ou a busca para ver outros pedidos." : "Os novos pedidos aparecerão aqui automaticamente."}
         />
       )}
       {pagination.currentPage < pagination.lastPage && (

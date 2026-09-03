@@ -45,21 +45,12 @@ function persistCustomer(customer, remember) {
   }
 }
 
-async function saveCustomer(customer) {
-  const body = { nome: customer.name.trim(), telefone: customer.phone.trim() };
-  // O endpoint é um upsert por telefone: cria um novo cliente ou atualiza o
-  // nome do cadastro existente sem expor uma rota pública de alteração por ID.
-  const response = await api.post("/cliente", body);
-  return response.data?.cliente ?? response.data;
-}
-
 export default function CheckoutForm({ onBack, onSuccess, onSubmittingChange }) {
   const saved = useMemo(storedCustomer, []);
   const { store, commerceReady } = useStore();
   const { subtotal, completeCheckout, notify } = useCart();
   const { formatCurrency } = useStoreFormatting();
   const [customer, setCustomer] = useState({
-    id: saved.id ?? saved.id_cliente ?? null,
     name: saved.nome ?? saved.name ?? "",
     phone: saved.telefone ?? saved.phone ?? "",
   });
@@ -75,7 +66,9 @@ export default function CheckoutForm({ onBack, onSuccess, onSubmittingChange }) 
   const [needsChange, setNeedsChange] = useState(false);
   const [changeFor, setChangeFor] = useState("");
   const [observation, setObservation] = useState("");
-  const [remember, setRemember] = useState(Boolean(saved.id ?? saved.id_cliente));
+  const [remember, setRemember] = useState(Boolean(
+    (saved.nome ?? saved.name) && (saved.telefone ?? saved.phone),
+  ));
   const [formError, setFormError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const orderToken = useRef(createOrderToken());
@@ -130,17 +123,11 @@ export default function CheckoutForm({ onBack, onSuccess, onSubmittingChange }) 
     onSubmittingChange?.(true);
     setFormError("");
     try {
-      await ensureCsrfCookie().catch(() => undefined);
-      const persistedCustomer = await saveCustomer(customer);
-      const customerId = persistedCustomer?.id ?? persistedCustomer?.id_cliente;
-      if (!customerId) throw new Error("O servidor não retornou a identificação do cliente.");
-
+      await ensureCsrfCookie();
       const customerToRemember = {
-        id: customerId,
         nome: customer.name.trim(),
         telefone: customer.phone.trim(),
       };
-      persistCustomer(customerToRemember, remember);
 
       // O carrinho e os preços são recuperados da sessão pelo backend. Não envie
       // itens ou total calculado no navegador como fonte de verdade.
@@ -151,11 +138,12 @@ export default function CheckoutForm({ onBack, onSuccess, onSubmittingChange }) 
         forma_pagamento: paymentMethod,
         troco: isCash && needsChange ? Number(changeFor) : null,
         observacao: observation.trim() || null,
-        cliente_id: customerId,
+        cliente: customerToRemember,
       });
 
       // O backend finaliza e limpa a sessão na mesma transação lógica; aqui
       // apenas refletimos localmente o carrinho vazio retornado pela API.
+      persistCustomer(customerToRemember, remember);
       completeCheckout();
       onSubmittingChange?.(false);
       onSuccess(orderResponse.data);

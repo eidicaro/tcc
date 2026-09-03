@@ -115,9 +115,8 @@ export function CartProvider({ children }) {
   }, [refreshCart]);
 
   const prepareMutation = useCallback(async () => {
-    // Alguns backends usam sessão sem CSRF nas rotas /api. A falha do cookie não
-    // deve bloquear o pedido; a própria mutação continuará protegida pelo servidor.
-    await ensureCsrfCookie().catch(() => undefined);
+    // O carrinho vive na sessão Laravel; toda mutação precisa do cookie XSRF.
+    await ensureCsrfCookie();
   }, []);
 
   const enqueueMutation = useCallback((operation) => {

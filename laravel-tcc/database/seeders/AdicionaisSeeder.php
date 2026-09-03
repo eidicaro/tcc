@@ -12,7 +12,7 @@ class AdicionaisSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('adicional')->insert([
+        $additionals = [
             [
                 'nome' => 'tare 30ml',
                 'preco' => 5.00,
@@ -102,6 +102,17 @@ class AdicionaisSeeder extends Seeder
                 'preco' => 3.00,
                 'imagem' => 'images/cebolinha.jpeg',
             ],
-        ]);
+        ];
+
+        foreach ($additionals as $order => $additional) {
+            DB::table('adicional')->updateOrInsert(
+                ['nome' => $additional['nome']],
+                $additional + [
+                    'ativo' => true,
+                    'ordem' => $order + 1,
+                    'deleted_at' => null,
+                ]
+            );
+        }
     }
 }

@@ -12,7 +12,7 @@ class ProdutosSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('produto')->insert([
+        $products = [
             // Entradas
             [
 
@@ -647,6 +647,37 @@ class ProdutosSeeder extends Seeder
             //     'imagem' => 'doce',
             //     'id_categoria' => 'doce',
             // ],
-        ]);
+        ];
+
+        $categoryNames = [
+            1 => 'Entradas',
+            2 => 'Combinados',
+            3 => 'Especial da Casa',
+            4 => 'Sushis',
+            5 => 'Temakis',
+            6 => 'Hot Rolls',
+            7 => 'Yakisoba',
+            8 => 'Coxinhas',
+            9 => 'Bebidas',
+        ];
+
+        $categoryIds = DB::table('categoria')
+            ->whereIn('nome', array_values($categoryNames))
+            ->pluck('id_categoria', 'nome');
+
+        foreach ($products as $order => $product) {
+            $categoryName = $categoryNames[(int) $product['id_categoria']];
+            $product['id_categoria'] = $categoryIds[$categoryName];
+
+            DB::table('produto')->updateOrInsert(
+                ['nome' => $product['nome']],
+                $product + [
+                    'ativo' => true,
+                    'destaque' => false,
+                    'ordem' => $order + 1,
+                    'deleted_at' => null,
+                ]
+            );
+        }
     }
 }

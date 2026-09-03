@@ -25,7 +25,6 @@ const sharedConfig = {
   xsrfHeaderName: "X-XSRF-TOKEN",
   headers: {
     Accept: "application/json",
-    "X-Requested-With": "XMLHttpRequest",
   },
 };
 
@@ -60,7 +59,7 @@ export function assetUrl(path, fallback = "") {
   if (!value) return fallback;
 
   if (/^(https?:|data:|blob:)/i.test(value)) return value;
-  if (/^\/(assets|src|images)\//i.test(value)) return value;
+  if (/^\/(?!storage\/)/i.test(value)) return value;
 
   const normalizedPath = value
     .replace(/^\/+/, "")

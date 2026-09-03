@@ -27,7 +27,6 @@ return [
         'Content-Type',
         'Origin',
         'X-CSRF-TOKEN',
-        'X-Requested-With',
         'X-XSRF-TOKEN',
     ],
 

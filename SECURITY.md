@@ -1,5 +1,7 @@
 # Segurança e publicação
 
+> O ambiente padrão do repositório é local. Este documento registra o que deve ser revisto somente quando a etapa de publicação começar; ele não faz parte do setup atual.
+
 ## Regras essenciais
 
 1. Gere uma `APP_KEY` diferente para cada instalação com `php artisan key:generate`.

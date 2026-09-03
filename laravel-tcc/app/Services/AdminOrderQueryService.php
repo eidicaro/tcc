@@ -34,12 +34,12 @@ class AdminOrderQueryService
                 // dos filtros de status aplicados na consulta externa.
                 $conditions
                     ->where('endereco', 'like', $like)
-                    ->orWhereHas('cliente', function (Builder $customers) use ($like, $phoneDigits): void {
+                    ->orWhereHas('cliente', function (Builder $customers) use ($like, $orderId, $phoneDigits): void {
                         $customers->where('nome', 'like', $like);
 
-                        if ($phoneDigits !== '') {
+                        if (strlen($phoneDigits) >= 4) {
                             $customers->orWhere('telefone', 'like', "%$phoneDigits%");
-                        } else {
+                        } elseif ($orderId === null) {
                             $customers->orWhere('telefone', 'like', $like);
                         }
                     });
@@ -68,9 +68,12 @@ class AdminOrderQueryService
         return $query;
     }
 
-    public function summary(): array
+    public function summary(array $filters = []): array
     {
-        $totals = PedidosModel::query()
+        // O resumo acompanha a busca e o pagamento, mas não a aba de status.
+        unset($filters['status'], $filters['status_pedido']);
+
+        $totals = $this->applyFilters(PedidosModel::query(), $filters)
             ->selectRaw(
                 'COALESCE(SUM(CASE WHEN status_pedido IN (?, ?, ?, ?) THEN 1 ELSE 0 END), 0) AS active_count,
                 COALESCE(SUM(CASE WHEN status_pedido = ? THEN 1 ELSE 0 END), 0) AS new_count,

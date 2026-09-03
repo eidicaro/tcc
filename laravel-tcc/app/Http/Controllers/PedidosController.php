@@ -6,6 +6,7 @@ use App\Models\ClienteModel;
 use App\Models\PedidoItemAdicional;
 use App\Models\PedidoItemModel;
 use App\Models\PedidosModel;
+use App\Services\AdminOrderQueryService;
 use App\Services\CartService;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +20,10 @@ class PedidosController extends Controller
 {
     private const PAYMENT_STATUSES = ['pendente', 'pago', 'cancelado'];
 
-    public function __construct(private readonly CartService $cart) {}
+    public function __construct(
+        private readonly CartService $cart,
+        private readonly AdminOrderQueryService $adminOrders,
+    ) {}
 
     public function finalizar(Request $request): JsonResponse
     {
@@ -188,6 +192,12 @@ class PedidosController extends Controller
     public function listarPedidos(Request $request): JsonResponse
     {
         $filters = $request->validate([
+            'q' => ['sometimes', 'string', 'max:100'],
+            'status' => ['sometimes', Rule::in([
+                'ativos',
+                'todos',
+                ...config('store.order_statuses', []),
+            ])],
             'status_pedido' => ['sometimes', Rule::in(config('store.order_statuses', []))],
             'status_pagamento' => ['sometimes', Rule::in(self::PAYMENT_STATUSES)],
             'limit' => ['sometimes', 'integer', 'min:1', 'max:200'],
@@ -196,20 +206,15 @@ class PedidosController extends Controller
         ]);
 
         $perPage = (int) ($filters['per_page'] ?? $filters['limit'] ?? 50);
-        $orders = PedidosModel::query()
+        $query = PedidosModel::query()
             ->with([
                 'cliente:id,nome,telefone',
                 'itens.produto',
                 'itens.adicionais.adicional',
-            ])
-            ->when(
-                isset($filters['status_pedido']),
-                fn ($query) => $query->where('status_pedido', $filters['status_pedido'])
-            )
-            ->when(
-                isset($filters['status_pagamento']),
-                fn ($query) => $query->where('status_pagamento', $filters['status_pagamento'])
-            )
+            ]);
+
+        $orders = $this->adminOrders
+            ->applyFilters($query, $filters)
             ->latest('id_pedido')
             ->paginate($perPage);
 
@@ -223,6 +228,7 @@ class PedidosController extends Controller
                 'total' => $orders->total(),
                 'has_more' => $orders->hasMorePages(),
             ],
+            'summary' => $this->adminOrders->summary($filters),
         ]);
     }
 

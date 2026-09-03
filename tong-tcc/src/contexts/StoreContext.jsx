@@ -239,11 +239,7 @@ export function StoreProvider({ children }) {
     try {
       const response = await api.get("/store");
       setStore(normalizeStore(response.data));
-      const configured = response.data?.configured !== false;
-      setUsingFallback(!configured);
-      if (!configured) {
-        setError("A configuração comercial desta loja ainda está incompleta.");
-      }
+      setUsingFallback(false);
     } catch (requestError) {
       setStore(INITIAL_STORE);
       setUsingFallback(true);

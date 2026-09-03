@@ -6,7 +6,7 @@ use Tests\TestCase;
 
 class StoreReadinessTest extends TestCase
 {
-    public function test_store_is_configured_when_every_essential_field_is_filled(): void
+    public function test_store_returns_the_profile_without_blocking_local_orders(): void
     {
         config(['store' => [
             'name' => 'Loja Exemplo',
@@ -28,7 +28,7 @@ class StoreReadinessTest extends TestCase
             ->assertJsonPath('store.public_marker', 'preservado');
     }
 
-    public function test_store_reports_only_safe_field_names_when_configuration_is_incomplete(): void
+    public function test_store_uses_frontend_fallbacks_instead_of_pausing_orders(): void
     {
         config(['store' => [
             'name' => " \t ",
@@ -45,17 +45,11 @@ class StoreReadinessTest extends TestCase
 
         $this->getJson('/api/store')
             ->assertOk()
-            ->assertJsonPath('configured', false)
+            ->assertJsonPath('configured', true)
             ->assertExactJson([
                 'store' => config('store'),
-                'configured' => false,
-                'missing_fields' => [
-                    'name',
-                    'description',
-                    'logo_url',
-                    'hero_image_url',
-                    'city',
-                ],
+                'configured' => true,
+                'missing_fields' => [],
             ]);
     }
 }
