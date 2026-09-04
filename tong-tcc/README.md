@@ -1,4 +1,10 @@
-# Getting Started with Create React App
+# Frontend Tong Commerce
+
+Este projeto usa React 19 e Vite. Comece pelo [manual do frontend](DEVELOPMENT.md), pela [arquitetura](../docs/ARCHITECTURE.md) e pelo [contrato da API](../docs/API.md).
+
+> O texto de Create React App abaixo pertence ao scaffold antigo e nao descreve o setup atual.
+
+# Referencia historica do scaffold
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

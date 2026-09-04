@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
 
 class CategoriaSeeder extends Seeder
 {
@@ -14,44 +12,23 @@ class CategoriaSeeder extends Seeder
      */
     public function run(): void
     {
-        
-         DB::table('categoria')->insert([
-        [
-            'nome' => 'Entradas'
-        ],
+        $categories = [
+            'Entradas',
+            'Combinados',
+            'Especial da Casa',
+            'Sushis',
+            'Temakis',
+            'Hot Rolls',
+            'Yakisoba',
+            'Coxinhas',
+            'Bebidas',
+        ];
 
-        [
-            'nome' => 'Combinados'
-        ],
-
-        [
-            'nome' => 'Especial da Casa'
-        ],
-
-        [
-            'nome' => 'Sushis'
-        ],
-
-        [
-            'nome' => 'Temakis'
-        ],
-
-        [
-            'nome' => 'Hot Rolls'
-        ],
-
-        [
-            'nome' => 'Yakisoba'
-        ],
-
-        [
-            'nome' => 'Coxinhas'
-        ],
-
-        [
-            'nome' => 'Bebidas'
-        ]
-
-    ]);
+        foreach ($categories as $order => $name) {
+            DB::table('categoria')->updateOrInsert(
+                ['nome' => $name],
+                ['ativo' => true, 'ordem' => $order + 1, 'deleted_at' => null]
+            );
+        }
     }
 }

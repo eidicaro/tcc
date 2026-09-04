@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title description">
+  <title id="title">Apresentação da loja</title>
+  <desc id="description">Composição abstrata em verde, laranja e creme.</desc>
+  <rect width="1200" height="900" rx="90" fill="#f8f5ef"/>
+  <circle cx="600" cy="450" r="326" fill="#03391d"/>
+  <circle cx="600" cy="450" r="248" fill="none" stroke="#f48347" stroke-width="28"/>
+  <path d="M358 520c136 132 348 132 484 0" fill="none" stroke="#f8f5ef" stroke-linecap="round" stroke-width="34"/>
+  <path d="M430 365h340l-36 184H466l-36-184Z" fill="#f8f5ef" stroke="#f8f5ef" stroke-linejoin="round" stroke-width="20"/>
+  <path d="M510 336c0-68 40-118 90-118s90 50 90 118" fill="none" stroke="#f48347" stroke-linecap="round" stroke-width="30"/>
+  <g fill="#f48347"><circle cx="220" cy="214" r="26"/><circle cx="982" cy="666" r="38"/><circle cx="970" cy="214" r="15"/></g>
+</svg>

@@ -3,54 +3,81 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoriaModel;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoriaController extends Controller
 {
-    // Lista todas as categorias
-    public function index()
+    public function index(Request $request): JsonResponse
     {
-        return response()->json(CategoriaModel::all());
+        $query = CategoriaModel::query();
+
+        if (! $request->is('api/admin/*')) {
+            $query->where('ativo', true);
+        }
+
+        return response()->json($query
+            ->orderBy('ordem')
+            ->orderBy('nome')
+            ->get());
     }
 
-    // Cria uma nova categoria
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'nome' => 'required|string|max:100'
-        ]);
-
-        $categoria = CategoriaModel::create($validated);
+        $category = CategoriaModel::create($request->validate($this->rules()));
 
         return response()->json([
-            'message' => 'Categoria criada com sucesso!',
-            'data' => $categoria
+            'success' => true,
+            'message' => 'Categoria criada com sucesso.',
+            'data' => $category,
         ], 201);
     }
 
-    // Atualiza uma categoria existente
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): JsonResponse
     {
-        $categoria = CategoriaModel::findOrFail($id);
-
-        $validated = $request->validate([
-            'nome' => 'sometimes|string|max:100'
-        ]);
-
-        $categoria->update($validated);
+        $category = CategoriaModel::findOrFail($id);
+        $category->update($request->validate($this->rules(true)));
 
         return response()->json([
-            'message' => 'Categoria atualizada com sucesso!',
-            'data' => $categoria
+            'success' => true,
+            'message' => 'Categoria atualizada com sucesso.',
+            'data' => $category->fresh(),
         ]);
     }
 
-    // Exclui uma categoria
-    public function destroy($id)
+    public function destroy(int $id): JsonResponse
     {
-        $categoria = CategoriaModel::findOrFail($id);
-        $categoria->delete();
+        return DB::transaction(function () use ($id): JsonResponse {
+            $category = CategoriaModel::query()
+                ->lockForUpdate()
+                ->findOrFail($id);
+            $linkedProducts = $category->produtos()->count();
 
-        return response()->json(['message' => 'Categoria excluída com sucesso!']);
+            if ($linkedProducts > 0) {
+                return response()->json([
+                    'success' => false,
+                    'code' => 'category_has_products',
+                    'message' => 'Não é possível remover esta categoria enquanto houver produtos vinculados. Reatribua ou remova os produtos primeiro.',
+                    'produtos_vinculados' => $linkedProducts,
+                ], 409);
+            }
+
+            $category->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Categoria desativada com sucesso.',
+            ]);
+        });
+    }
+
+    private function rules(bool $updating = false): array
+    {
+        return [
+            'nome' => [$updating ? 'sometimes' : 'required', 'string', 'max:100'],
+            'ativo' => ['sometimes', 'boolean'],
+            'ordem' => ['sometimes', 'integer', 'min:0', 'max:4294967295'],
+        ];
     }
 }

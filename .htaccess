@@ -1,0 +1,16 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Impede acesso direto a dotfiles, segredos e código caso a raiz seja
+    # colocada acidentalmente sob o DocumentRoot do Apache/XAMPP.
+    RewriteRule (^|/)\. - [F,L]
+    RewriteRule ^laravel-tcc/(app|bootstrap|config|database|resources|routes|storage|tests|vendor)(/|$) - [F,L,NC]
+    RewriteRule ^tong-tcc/(node_modules|src)(/|$) - [F,L,NC]
+    RewriteRule (^|/)(composer\.(json|lock)|package(-lock)?\.json|phpunit\.xml|artisan|vite\.config\.js)$ - [F,L,NC]
+</IfModule>
+
+<FilesMatch "^(\.env|\.env\..*|.*\.(log|sql|bak))$">
+    Require all denied
+</FilesMatch>

@@ -1,0 +1,74 @@
+# Ajuste caminhos e domínios antes de usar. O frontend compilado pode ser
+# servido em outro VirtualHost ou por uma CDN.
+
+ServerTokens Prod
+ServerSignature Off
+
+<VirtualHost *:80>
+    ServerName app.sualoja.com.br
+    Redirect permanent / https://app.sualoja.com.br/
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName api.sualoja.com.br
+    Redirect permanent / https://api.sualoja.com.br/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName app.sualoja.com.br
+    DocumentRoot "C:/caminho/privado/tong-commerce/tong-tcc/dist"
+
+    SSLEngine on
+    SSLProtocol -all +TLSv1.2 +TLSv1.3
+    SSLCertificateFile "C:/caminho/certificado/fullchain.pem"
+    SSLCertificateKeyFile "C:/caminho/certificado/privkey.pem"
+
+    <Directory "C:/caminho/privado/tong-commerce/tong-tcc/dist">
+        AllowOverride None
+        Options -Indexes -MultiViews
+        Require all granted
+        FallbackResource /index.html
+    </Directory>
+
+    # Ajuste connect-src e frame-src aos domínios efetivamente configurados.
+    Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://api.sualoja.com.br; frame-src https://www.google.com https://maps.google.com"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    <LocationMatch "^/(admin|login)(/|$)">
+        Header always set X-Robots-Tag "noindex, nofollow"
+        Header always set Cache-Control "no-store, private"
+    </LocationMatch>
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName api.sualoja.com.br
+    DocumentRoot "C:/caminho/privado/tong-commerce/laravel-tcc/public"
+
+    SSLEngine on
+    SSLProtocol -all +TLSv1.2 +TLSv1.3
+    SSLCertificateFile "C:/caminho/certificado/fullchain.pem"
+    SSLCertificateKeyFile "C:/caminho/certificado/privkey.pem"
+
+    <Directory "C:/caminho/privado/tong-commerce/laravel-tcc/public">
+        AllowOverride None
+        Options -Indexes -MultiViews
+        Require all granted
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^ index.php [L]
+    </Directory>
+
+    <FilesMatch "^\.env">
+        Require all denied
+    </FilesMatch>
+
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    <LocationMatch "^/(api/admin|login|logout)(/|$)">
+        Header always set X-Robots-Tag "noindex, nofollow"
+        Header always set Cache-Control "no-store, private"
+    </LocationMatch>
+</VirtualHost>

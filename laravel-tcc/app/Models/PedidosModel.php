@@ -10,25 +10,39 @@ class PedidosModel extends Model
     use HasFactory;
 
     protected $table = 'pedidos';
-    protected $primaryKey = 'id_pedido'; 
+
+    protected $primaryKey = 'id_pedido';
+
     public $timestamps = true;
 
     protected $fillable = [
-    'cliente_id',
-    'endereco',
-    'forma_pagamento',
-    'troco', 
-    'observacao', 
-    'total',
-    'status_pagamento',
-    'tipo_pedido',
-];
+        'cliente_id',
+        'endereco',
+        'forma_pagamento',
+        'troco',
+        'observacao',
+        'subtotal',
+        'taxa_entrega',
+        'total',
+        'status_pagamento',
+        'status_pedido',
+        'tipo_pedido',
+        'token',
+    ];
 
+    protected $casts = [
+        'troco' => 'decimal:2',
+        'subtotal' => 'decimal:2',
+        'taxa_entrega' => 'decimal:2',
+        'total' => 'decimal:2',
+    ];
+
+    protected $hidden = ['token'];
 
     // Relacionamentos
     public function itens()
     {
-        return $this->hasMany(PedidoItem::class, 'id_pedido', 'id_pedido');
+        return $this->hasMany(PedidoItemModel::class, 'id_pedido', 'id_pedido');
     }
 
     public function cliente()

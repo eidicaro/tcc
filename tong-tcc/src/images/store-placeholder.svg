@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Marca da loja</title>
+  <rect width="512" height="512" rx="144" fill="#03391d"/>
+  <circle cx="256" cy="256" r="148" fill="none" stroke="#f48347" stroke-width="18"/>
+  <path d="M164 302c48 42 136 42 184 0M180 224h152l-18 94H198l-18-94Z" fill="#f8f5ef" stroke="#f8f5ef" stroke-linejoin="round" stroke-width="14"/>
+  <path d="M220 210c0-28 16-49 36-49s36 21 36 49" fill="none" stroke="#f48347" stroke-linecap="round" stroke-width="16"/>
+  <circle cx="371" cy="145" r="14" fill="#f8f5ef"/>
+</svg>
