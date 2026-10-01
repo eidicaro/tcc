@@ -7,7 +7,7 @@
 1. Gere uma `APP_KEY` diferente para cada instalação com `php artisan key:generate`.
 2. Use `APP_ENV=production`, `APP_DEBUG=false`, HTTPS e cookies seguros em produção.
 3. Crie um usuário exclusivo do banco, com senha forte e apenas os privilégios necessários para o schema da aplicação.
-4. Aponte o servidor web somente para `laravel-tcc/public`; nunca exponha `.env`, `.git`, `storage`, `vendor`, código-fonte ou logs.
+4. Aponte o servidor web somente para `backend/public`; nunca exponha `.env`, `.git`, `storage`, `vendor`, código-fonte ou logs.
 5. Crie administradores com `php artisan admin:create`. Não compartilhe contas.
 6. Restrinja `FRONTEND_URL` e `ALLOWED_ORIGINS` aos domínios reais da loja.
 7. Mantenha PHP, Composer, Node e as dependências atualizados; rode os audits antes de cada publicação.

@@ -16,14 +16,14 @@ ServerSignature Off
 
 <VirtualHost *:443>
     ServerName app.sualoja.com.br
-    DocumentRoot "C:/caminho/privado/tong-commerce/tong-tcc/dist"
+    DocumentRoot "C:/caminho/privado/mare-de-nori/frontend/dist"
 
     SSLEngine on
     SSLProtocol -all +TLSv1.2 +TLSv1.3
     SSLCertificateFile "C:/caminho/certificado/fullchain.pem"
     SSLCertificateKeyFile "C:/caminho/certificado/privkey.pem"
 
-    <Directory "C:/caminho/privado/tong-commerce/tong-tcc/dist">
+    <Directory "C:/caminho/privado/mare-de-nori/frontend/dist">
         AllowOverride None
         Options -Indexes -MultiViews
         Require all granted
@@ -45,14 +45,14 @@ ServerSignature Off
 
 <VirtualHost *:443>
     ServerName api.sualoja.com.br
-    DocumentRoot "C:/caminho/privado/tong-commerce/laravel-tcc/public"
+    DocumentRoot "C:/caminho/privado/mare-de-nori/backend/public"
 
     SSLEngine on
     SSLProtocol -all +TLSv1.2 +TLSv1.3
     SSLCertificateFile "C:/caminho/certificado/fullchain.pem"
     SSLCertificateKeyFile "C:/caminho/certificado/privkey.pem"
 
-    <Directory "C:/caminho/privado/tong-commerce/laravel-tcc/public">
+    <Directory "C:/caminho/privado/mare-de-nori/backend/public">
         AllowOverride None
         Options -Indexes -MultiViews
         Require all granted

@@ -18,6 +18,10 @@ export default function Login() {
   const destination = location.state?.from || "/admin";
 
   useEffect(() => {
+    document.title = "Área administrativa | " + store.name;
+  }, [store.name]);
+
+  useEffect(() => {
     if (status === "authenticated") navigate(destination, { replace: true });
   }, [destination, navigate, status]);
 
@@ -83,7 +87,7 @@ export default function Login() {
                   autoComplete="username"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  placeholder="admin@sualoja.com.br"
+                  placeholder="admin@maredenori.example"
                   required
                   disabled={submitting}
                 />

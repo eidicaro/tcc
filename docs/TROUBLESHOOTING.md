@@ -3,11 +3,11 @@
 ## `ERR_CONNECTION_REFUSED` na porta 8000
 
 ```powershell
-cd laravel-tcc
+cd backend
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 
-Confirme `VITE_API_URL=http://localhost:8000` em `tong-tcc/.env`.
+Confirme `VITE_API_URL=http://localhost:8000` em `frontend/.env`.
 
 ## CORS entre as portas 3000 e 8000
 
@@ -28,8 +28,8 @@ O frontend esta desatualizado. O fluxo atual envia `cliente` para `POST /api/ped
 
 ## Imagens nao aparecem
 
-- Marca: `tong-tcc/public`, com URLs como `/logo.svg`.
-- Catalogo: `laravel-tcc/storage/app/public/images`.
+- Marca: `frontend/public`, com URLs como `/logo.svg`.
+- Catalogo: `backend/storage/app/public/images`.
 - Rode `php artisan storage:link` uma vez.
 - Confirme `APP_URL=http://localhost:8000`.
 

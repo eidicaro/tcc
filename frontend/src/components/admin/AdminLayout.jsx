@@ -34,6 +34,10 @@ export default function AdminLayout({ children }) {
   const sidebarRef = useRef(null);
   const menuButtonRef = useRef(null);
   const sidebarHidden = isMobile && !menuOpen;
+  useEffect(() => {
+    const section = navigation.find((item) => item.to === location.pathname)?.label || "Painel";
+    document.title = section + " | " + store.name;
+  }, [location.pathname, store.name]);
 
   const closeMobileMenu = useCallback(() => {
     setMenuOpen(false);

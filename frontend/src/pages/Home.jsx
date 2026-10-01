@@ -137,13 +137,13 @@ export default function Home() {
               <FiMapPin aria-hidden="true" />
               <span><strong>{store.location.address}</strong><small>{store.location.city}</small></span>
             </div>
-            <iframe
+            {store.location.mapUrl ? <iframe
               src={store.location.mapUrl}
               title={`Localização de ${store.name}`}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
-            />
+            /> : <img className="store-location__illustration" src="/location.svg" alt="" loading="lazy" />}
           </div>
         </div>
       </section>

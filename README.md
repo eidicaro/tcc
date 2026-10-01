@@ -1,11 +1,11 @@
-# Tong Commerce
+# Maré de Nori Sushi — demonstração
 
-Plataforma local-first para catálogo, pedidos e gestão de restaurantes e lojas. A configuração padrão traz uma loja Tong Sushi funcional para desenvolvimento com XAMPP. Comece por este guia e consulte [arquitetura](docs/ARCHITECTURE.md), [API](docs/API.md) e [solução de problemas](docs/TROUBLESHOOTING.md).
+Plataforma local-first para catálogo, pedidos e gestão de restaurantes e lojas. A configuração padrão traz uma loja Maré de Nori Sushi funcional para desenvolvimento com XAMPP. Comece por este guia e consulte [arquitetura](docs/ARCHITECTURE.md), [API](docs/API.md) e [solução de problemas](docs/TROUBLESHOOTING.md).
 
 ## Estrutura
 
-- `tong-tcc/`: storefront e painel administrativo em React + Vite.
-- `laravel-tcc/`: API Laravel, autenticação Sanctum, catálogo, carrinho e pedidos.
+- `frontend/`: storefront e painel administrativo em React + Vite.
+- `backend/`: API Laravel, autenticação Sanctum, catálogo, carrinho e pedidos.
 - `docs/`: arquitetura, contrato HTTP e troubleshooting.
 - `deploy/`: material reservado para uma etapa futura de publicação.
 
@@ -19,7 +19,7 @@ Plataforma local-first para catálogo, pedidos e gestão de restaurantes e lojas
 ## Preparação do backend
 
 ```powershell
-cd laravel-tcc
+cd backend
 composer install
 Copy-Item .env.example .env
 php artisan key:generate
@@ -33,12 +33,12 @@ php artisan storage:link
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 
-A seeder local cria `admin@example.com` com senha `admin12345678`. Essas credenciais são somente para desenvolvimento.
+Os seeders criam um cardápio fictício. Ao rodar php artisan db:seed sobre um banco existente, os itens antigos ficam inativos e preservados para o histórico dos pedidos. A seeder local cria `admin@example.com` com senha `admin12345678`. Essas credenciais são somente para desenvolvimento.
 
 ## Preparação do frontend
 
 ```powershell
-cd tong-tcc
+cd frontend
 Copy-Item .env.example .env
 npm.cmd install
 npm.cmd run dev
@@ -62,19 +62,19 @@ O endpoint público `/api/store` entrega essa configuração em runtime. Produto
 
 Campos visuais ausentes usam os fallbacks do frontend e não pausam pedidos durante o desenvolvimento.
 
-Metadados lidos por buscadores e redes sociais não executam o React; por isso, nome, descrição, ícone e imagem Open Graph também são definidos pelas variáveis `VITE_STORE_*` do frontend. A imagem padrão fica em `tong-tcc/public/og-preview.jpg` e deve ser substituída para cada cliente.
+Metadados lidos por buscadores e redes sociais não executam o React; por isso, nome, descrição, ícone e imagem Open Graph também são definidos pelas variáveis `VITE_STORE_*` do frontend. A imagem padrão fica em `frontend/public/og-preview.svg` e deve ser substituída para cada cliente.
 
 ## Qualidade
 
 ```powershell
 # Frontend
-cd tong-tcc
+cd frontend
 npm.cmd test -- --run
 npm.cmd run build
 npm audit
 
 # Backend
-cd ..\laravel-tcc
+cd ..\backend
 php artisan test
 composer audit --locked
 ```

@@ -1,9 +1,9 @@
 :root {
-  --store-ink: #111111;
-  --store-orange: #f48347;
-  --store-green: #03391d;
-  --store-surface: #f8f5ef;
-  --store-muted: #d9d9d9;
+  --store-ink: #152d35;
+  --store-orange: #c49347;
+  --store-green: #123c4a;
+  --store-surface: #f7f4ec;
+  --store-muted: #cdd6d2;
   --store-white: #ffffff;
   --store-danger: #a7271f;
   --store-success: #145c38;
@@ -64,7 +64,7 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid #111111;
+  outline: 3px solid #152d35;
   outline-offset: 3px;
 }
 
@@ -82,16 +82,16 @@ a {
   padding: 2rem;
   color: #111;
   text-align: center;
-  background: #f8f5ef;
+  background: #f7f4ec;
 }
 
-.app-fatal-error > span { color: #f48347; font-size: 2.4rem; }
+.app-fatal-error > span { color: #c49347; font-size: 2.4rem; }
 .app-fatal-error h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 7vw, 3.5rem); }
 .app-fatal-error p { max-width: 34rem; margin: 0; color: #5e625f; line-height: 1.65; }
 .app-fatal-error div { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.7rem; margin-top: 0.7rem; }
 .app-fatal-error button,
-.app-fatal-error a { padding: 0.8rem 1rem; color: #fff; font-weight: 750; text-decoration: none; border: 0; border-radius: 0.75rem; background: #03391d; cursor: pointer; }
-.app-fatal-error a { color: #111; background: #e9e5de; }
+.app-fatal-error a { padding: 0.8rem 1rem; color: #fff; font-weight: 750; text-decoration: none; border: 0; border-radius: 0.75rem; background: #123c4a; cursor: pointer; }
+.app-fatal-error a { color: #111; background: #e6ece9; }
 
 @media (prefers-reduced-motion: reduce) {
   html {

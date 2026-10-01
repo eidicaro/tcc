@@ -25,20 +25,20 @@ function mediaTypeFromAsset(asset, fallback = "application/octet-stream") {
 
 function whiteLabelAssets(env) {
   const brand = {
-    name: env.VITE_STORE_NAME || "Tong Sushi",
-    shortName: env.VITE_STORE_SHORT_NAME || env.VITE_STORE_NAME || "Tong Sushi",
+    name: env.VITE_STORE_NAME || "Maré de Nori Sushi",
+    shortName: env.VITE_STORE_SHORT_NAME || env.VITE_STORE_NAME || "Maré de Nori Sushi",
     description:
       env.VITE_STORE_DESCRIPTION ||
-      "Cardápio digital, pedidos e atendimento em uma experiência premium.",
-    title: env.VITE_STORE_PAGE_TITLE || `${env.VITE_STORE_NAME || "Tong Sushi"} | Catálogo e pedidos`,
+      "Restaurante fictício de sushi para demonstrações e apresentações.",
+    title: env.VITE_STORE_PAGE_TITLE || `${env.VITE_STORE_NAME || "Maré de Nori Sushi"} | Catálogo e pedidos`,
     themeColor: /^#[0-9a-f]{6}$/i.test(env.VITE_STORE_THEME_COLOR || "")
       ? env.VITE_STORE_THEME_COLOR
-      : "#03391D",
+      : "#123C4A",
     backgroundColor: /^#[0-9a-f]{6}$/i.test(env.VITE_STORE_BACKGROUND_COLOR || "")
       ? env.VITE_STORE_BACKGROUND_COLOR
-      : "#F8F5EF",
+      : "#F7F4EC",
     icon: env.VITE_STORE_ICON || "/logo.svg",
-    ogImage: env.VITE_STORE_OG_IMAGE || "/og-preview.jpg",
+    ogImage: env.VITE_STORE_OG_IMAGE || "/og-preview.svg",
   };
 
   const manifest = JSON.stringify({

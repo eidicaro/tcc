@@ -2,6 +2,10 @@
 
 Base local: `http://localhost:8000`. Rotas `/api/admin` exigem sessao administrativa. Mutacoes da SPA usam antes `GET /sanctum/csrf-cookie`.
 
+## Perfil de demonstração
+
+GET /api/store retorna store com nome Maré de Nori Sushi, cores azul-petróleo e dourado, endereço explicitamente fictício, URLs /logo.svg e /hero.svg, além de configured e missing_fields. O frontend usa uma ilustração local no lugar do mapa quando store.location.map_url estiver vazio. Nomes, cores e URLs podem ser configurados nos arquivos .env locais. O seeding cria produtos e adicionais fictícios com imagens SVG.
+
 ## Publico
 
 | Metodo | Rota | Finalidade |

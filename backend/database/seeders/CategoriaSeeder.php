@@ -7,24 +7,14 @@ use Illuminate\Support\Facades\DB;
 
 class CategoriaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    public const NAMES = [
+        'Entradas', 'Combinados', 'Especiais da Casa', 'Sushis',
+        'Temakis', 'Hot Rolls', 'Pokes', 'Sobremesas', 'Bebidas',
+    ];
+
     public function run(): void
     {
-        $categories = [
-            'Entradas',
-            'Combinados',
-            'Especial da Casa',
-            'Sushis',
-            'Temakis',
-            'Hot Rolls',
-            'Yakisoba',
-            'Coxinhas',
-            'Bebidas',
-        ];
-
-        foreach ($categories as $order => $name) {
+        foreach (self::NAMES as $order => $name) {
             DB::table('categoria')->updateOrInsert(
                 ['nome' => $name],
                 ['ativo' => true, 'ordem' => $order + 1, 'deleted_at' => null]

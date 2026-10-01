@@ -1,4 +1,4 @@
-# Arquitetura do Tong Commerce
+# Arquitetura do Maré de Nori Sushi — demonstração
 
 ## Visao geral
 
@@ -6,10 +6,10 @@ O sistema e separado em SPA e API. O navegador abre o React em `http://localhost
 
 ```text
 Navegador
-  -> React/Vite (tong-tcc)
+  -> React/Vite (frontend)
        -> catalogo, carrinho, checkout e painel
        -> HTTP + cookie + XSRF
-  -> Laravel (laravel-tcc)
+  -> Laravel (backend)
        -> controllers e validacao
        -> CartService / AdminOrderQueryService
        -> Eloquent -> MySQL
@@ -35,7 +35,7 @@ Navegador
 - `app/Services/AdminOrderQueryService.php`: filtros e contadores de pedidos.
 - `config/store.php`: perfil e regras comerciais.
 - `database/migrations`: estrutura persistente.
-- `database/seeders`: dados locais de exemplo, repetiveis por nome/e-mail.
+- `database/seeders`: dados fictícios, repetíveis por nome/e-mail. O seeding torna o catálogo anterior inativo e preserva o histórico de pedidos.
 
 ## Fluxo de carrinho e checkout
 

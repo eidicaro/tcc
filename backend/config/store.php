@@ -52,14 +52,14 @@ $hours = static function (?string $value) use ($defaultHours): array {
 };
 
 return [
-    'id' => env('STORE_SLUG', 'tong-sushi'),
-    'name' => env('STORE_NAME', 'Tong Sushi'),
-    'short_name' => env('STORE_SHORT_NAME', env('STORE_NAME', 'Tong')),
+    'id' => env('STORE_SLUG', 'mare-de-nori-sushi'),
+    'name' => env('STORE_NAME', 'Maré de Nori Sushi'),
+    'short_name' => env('STORE_SHORT_NAME', env('STORE_NAME', 'Maré de Nori')),
     'business_type' => env('STORE_BUSINESS_TYPE', 'restaurant'),
-    'tagline' => env('STORE_TAGLINE', 'Sabor e cuidado em cada pedido'),
-    'description' => env('STORE_DESCRIPTION', 'Ingredientes selecionados e uma experiência preparada em cada detalhe.'),
-    'logo_url' => env('STORE_LOGO_URL'),
-    'hero_image_url' => env('STORE_HERO_IMAGE_URL'),
+    'tagline' => env('STORE_TAGLINE', 'Uma maré de sabores em cada peça.'),
+    'description' => env('STORE_DESCRIPTION', 'Restaurante fictício de sushi para demonstrações e apresentações.'),
+    'logo_url' => env('STORE_LOGO_URL', '/logo.svg'),
+    'hero_image_url' => env('STORE_HERO_IMAGE_URL', '/hero.svg'),
 
     'contact' => [
         'whatsapp' => env('STORE_WHATSAPP'),
@@ -70,15 +70,15 @@ return [
     ],
 
     'address' => [
-        'line' => env('STORE_ADDRESS', 'Rua Orlando Sartorelli, 45 — Centro'),
-        'city' => env('STORE_CITY', 'Iperó'),
+        'line' => env('STORE_ADDRESS', 'Rua das Ondas, 123 — Vila das Marés (endereço fictício)'),
+        'city' => env('STORE_CITY', 'Vila das Marés (cidade fictícia)'),
         'state' => env('STORE_STATE', 'SP'),
         'postal_code' => env('STORE_POSTAL_CODE'),
     ],
 
     'location' => [
-        'address' => env('STORE_ADDRESS', 'Rua Orlando Sartorelli, 45 — Centro'),
-        'city' => trim(env('STORE_CITY', 'Iperó').' — '.env('STORE_STATE', 'SP'), ' —'),
+        'address' => env('STORE_ADDRESS', 'Rua das Ondas, 123 — Vila das Marés (endereço fictício)'),
+        'city' => trim(env('STORE_CITY', 'Vila das Marés (cidade fictícia)').' — '.env('STORE_STATE', 'SP'), ' —'),
         'map_url' => env('STORE_MAP_URL'),
     ],
 
@@ -89,14 +89,14 @@ return [
     'timezone' => env('STORE_TIMEZONE', 'America/Sao_Paulo'),
 
     'theme' => [
-        'primary' => env('STORE_PRIMARY_COLOR', '#F48347'),
-        'secondary' => env('STORE_SECONDARY_COLOR', '#111111'),
-        'accent' => env('STORE_ACCENT_COLOR', '#03391D'),
-        'ink' => env('STORE_SECONDARY_COLOR', '#111111'),
-        'orange' => env('STORE_PRIMARY_COLOR', '#F48347'),
-        'green' => env('STORE_ACCENT_COLOR', '#03391D'),
-        'surface' => '#F8F5EF',
-        'muted' => '#D9D9D9',
+        'primary' => env('STORE_PRIMARY_COLOR', '#C49347'),
+        'secondary' => env('STORE_SECONDARY_COLOR', '#152D35'),
+        'accent' => env('STORE_ACCENT_COLOR', '#123C4A'),
+        'ink' => env('STORE_SECONDARY_COLOR', '#152D35'),
+        'orange' => env('STORE_PRIMARY_COLOR', '#C49347'),
+        'green' => env('STORE_ACCENT_COLOR', '#123C4A'),
+        'surface' => '#F7F4EC',
+        'muted' => '#CDD6D2',
     ],
 
     'delivery' => [

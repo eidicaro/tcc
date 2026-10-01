@@ -1,17 +1,15 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import tongLogo from "../images/tong-2.svg";
-import heroImage from "../images/poke.png";
 import genericLogo from "../images/store-placeholder.svg";
 import genericHero from "../images/store-hero-placeholder.svg";
 import { api, assetUrl, getErrorMessage } from "../services/api";
 import { getStoreVocabulary } from "../utils/storefront";
 
 const FALLBACK_THEME = {
-  ink: "#111111",
-  orange: "#F48347",
-  green: "#03391D",
-  surface: "#F8F5EF",
-  muted: "#D9D9D9",
+  ink: "#152D35",
+  orange: "#C49347",
+  green: "#123C4A",
+  surface: "#F7F4EC",
+  muted: "#CDD6D2",
 };
 
 const GENERIC_COPY = {
@@ -22,30 +20,29 @@ const GENERIC_COPY = {
 };
 
 export const FALLBACK_STORE = {
-  id: "tong-sushi",
-  name: "Tong Sushi",
-  shortName: "Tong",
+  id: "mare-de-nori-sushi",
+  name: "Maré de Nori Sushi",
+  shortName: "Maré de Nori",
   businessType: "restaurant",
   locale: "pt-BR",
   currency: "BRL",
   timezone: "America/Sao_Paulo",
-  tagline: "Culinária japonesa, elevada ao essencial.",
+  tagline: "Uma maré de sabores em cada peça.",
   description:
-    "Ingredientes selecionados, técnica precisa e uma experiência preparada em cada detalhe.",
-  logo: tongLogo,
-  heroImage,
+    "Restaurante fictício de sushi para demonstrações e apresentações.",
+  logo: "/logo.svg",
+  heroImage: "/hero.svg",
   theme: FALLBACK_THEME,
   contact: {
     phone: "",
     whatsapp: "",
-    instagram: "https://www.instagram.com/tongsushidelivery",
-    facebook: "https://www.facebook.com/diddyacasadoyakisoba?locale=pt_BR",
+    instagram: "",
+    facebook: "",
   },
   location: {
-    address: "Rua Orlando Sartorelli, 45 — Centro",
-    city: "Iperó — SP",
-    mapUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4356.226877656857!2d-47.6898667!3d-23.3514105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8396108f88ca8cb3%3A0x87a04fcb137e595!2sTong%20Sushi%20Iper%C3%B3!5e0!3m2!1spt-BR!2sbr!4v1709918912454!5m2!1spt-BR!2sbr",
+    address: "Rua das Ondas, 123 — Vila das Marés (endereço fictício)",
+    city: "Vila das Marés (cidade fictícia) — SP",
+    mapUrl: "",
   },
   hours: [
     { label: "Segunda a quinta", value: "18h30 — 22h" },
@@ -63,16 +60,16 @@ export const FALLBACK_STORE = {
 };
 
 const initialName = import.meta.env.VITE_STORE_NAME || FALLBACK_STORE.name;
-const initialUsesTongBrand = /tong/i.test(initialName);
+const initialUsesDemoBrand = /mar[eé] de nori/i.test(initialName);
 
 const INITIAL_STORE = {
   ...FALLBACK_STORE,
   name: initialName,
   shortName: import.meta.env.VITE_STORE_SHORT_NAME || import.meta.env.VITE_STORE_NAME || FALLBACK_STORE.shortName,
   description: import.meta.env.VITE_STORE_DESCRIPTION || FALLBACK_STORE.description,
-  logo: import.meta.env.VITE_STORE_ICON || (initialUsesTongBrand ? FALLBACK_STORE.logo : genericLogo),
+  logo: import.meta.env.VITE_STORE_ICON || (initialUsesDemoBrand ? FALLBACK_STORE.logo : genericLogo),
   heroImage: import.meta.env.VITE_STORE_HERO_IMAGE
-    || (initialUsesTongBrand ? FALLBACK_STORE.heroImage : genericHero),
+    || (initialUsesDemoBrand ? FALLBACK_STORE.heroImage : genericHero),
   theme: normalizeTheme({
     ink: validHexColor(import.meta.env.VITE_STORE_INK_COLOR, FALLBACK_THEME.ink),
     orange: validHexColor(import.meta.env.VITE_STORE_PRIMARY_COLOR, FALLBACK_THEME.orange),
@@ -151,16 +148,16 @@ function normalizeStore(payload) {
   const location = raw.location ?? raw.localizacao ?? {};
   const order = raw.order ?? raw.pedido ?? {};
   const explicitName = nonEmptyString(raw.name ?? raw.nome, "");
-  const usesTongBrand = /tong/i.test(`${raw.id ?? raw.slug ?? ""} ${explicitName}`)
+  const usesDemoBrand = /mar[eé][ -]de[ -]nori/i.test(`${raw.id ?? raw.slug ?? ""} ${explicitName}`)
     || explicitName === "";
-  const copyFallback = usesTongBrand ? FALLBACK_STORE : GENERIC_COPY;
+  const copyFallback = usesDemoBrand ? FALLBACK_STORE : GENERIC_COPY;
   const address = nonEmptyString(
     location.address ?? location.endereco ?? raw.endereco,
-    usesTongBrand ? FALLBACK_STORE.location.address : GENERIC_COPY.address,
+    usesDemoBrand ? FALLBACK_STORE.location.address : GENERIC_COPY.address,
   );
   const city = nonEmptyString(
     location.city ?? location.cidade ?? raw.cidade,
-    usesTongBrand ? FALLBACK_STORE.location.city : GENERIC_COPY.city,
+    usesDemoBrand ? FALLBACK_STORE.location.city : GENERIC_COPY.city,
   );
   const genericMapUrl = `https://www.google.com/maps?q=${encodeURIComponent(`${address}, ${city}`)}&output=embed`;
 
@@ -170,7 +167,7 @@ function normalizeStore(payload) {
     name: explicitName || FALLBACK_STORE.name,
     shortName: nonEmptyString(
       raw.short_name ?? raw.nome_curto ?? raw.name ?? raw.nome,
-      usesTongBrand ? FALLBACK_STORE.shortName : explicitName,
+      usesDemoBrand ? FALLBACK_STORE.shortName : explicitName,
     ),
     businessType: raw.business_type ?? raw.tipo_negocio ?? FALLBACK_STORE.businessType,
     locale: raw.locale ?? FALLBACK_STORE.locale,
@@ -178,10 +175,10 @@ function normalizeStore(payload) {
     timezone: raw.timezone ?? FALLBACK_STORE.timezone,
     tagline: nonEmptyString(raw.tagline ?? raw.slogan, copyFallback.tagline),
     description: nonEmptyString(raw.description ?? raw.descricao, copyFallback.description),
-    logo: assetUrl(raw.logo_url ?? raw.logo, usesTongBrand ? FALLBACK_STORE.logo : genericLogo),
+    logo: assetUrl(raw.logo_url ?? raw.logo, usesDemoBrand ? FALLBACK_STORE.logo : genericLogo),
     heroImage: assetUrl(
       raw.hero_image_url ?? raw.imagem_capa,
-      usesTongBrand ? FALLBACK_STORE.heroImage : genericHero,
+      usesDemoBrand ? FALLBACK_STORE.heroImage : genericHero,
     ),
     theme: normalizeTheme({
       ink: validHexColor(theme.ink ?? theme.preto, FALLBACK_THEME.ink),
@@ -201,7 +198,7 @@ function normalizeStore(payload) {
       city,
       mapUrl: safeExternalUrl(
         location.map_url ?? location.mapa_url ?? raw.mapa_url,
-        genericMapUrl,
+        usesDemoBrand ? "" : genericMapUrl,
       ),
     },
     hours: Array.isArray(raw.hours ?? raw.horarios)
@@ -257,6 +254,7 @@ export function StoreProvider({ children }) {
     const root = document.documentElement;
     const vocabulary = getStoreVocabulary(store);
     const pageTitle = `${store.name} | ${vocabulary.catalog} e pedidos`;
+    document.title = pageTitle;
     const variables = {
       "--store-ink": store.theme.ink,
       "--store-orange": store.theme.orange,
