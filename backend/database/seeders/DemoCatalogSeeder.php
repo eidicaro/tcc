@@ -9,6 +9,10 @@ class DemoCatalogSeeder extends Seeder
 {
     public function run(): void
     {
+        if (app()->isProduction()) {
+            throw new \RuntimeException('O catálogo de demonstração não pode ser aplicado em produção.');
+        }
+
         DB::transaction(function (): void {
             // Preserva os registros antigos para o histórico dos pedidos.
             DB::table('produto')->where('ativo', true)->update(['ativo' => false]);

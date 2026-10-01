@@ -56,7 +56,7 @@ export default function Home() {
           </div>
           <div className="store-hero__visual">
             <div className="store-hero__halo" aria-hidden="true" />
-            <img src={store.heroImage} alt="Apresentação da casa" fetchPriority="high" />
+            <img src={store.heroImage} alt={"Apresentação de " + store.name} fetchPriority="high" />
             <div className="store-hero__seal" aria-hidden="true">
               <span>Seleção</span><strong>da casa</strong>
             </div>

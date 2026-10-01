@@ -5,11 +5,12 @@ export default function ProductCard({ product, onSelect, priority = false }) {
   const { formatCurrency } = useStoreFormatting();
 
   return (
-    <article className="store-product-card">
+    <article className={"store-product-card" + (product.available ? "" : " is-unavailable")}>
       <button
         type="button"
         className="store-product-card__media"
         onClick={() => onSelect(product)}
+        disabled={!product.available}
         aria-label={`Ver detalhes de ${product.name}`}
       >
         {product.image ? (
@@ -22,7 +23,7 @@ export default function ProductCard({ product, onSelect, priority = false }) {
         ) : (
           <span className="store-product-card__placeholder" aria-hidden="true">✦</span>
         )}
-        {product.featured && <span className="store-product-card__badge">Destaque</span>}
+        {!product.available ? <span className="store-product-card__badge">Indisponível</span> : product.featured && <span className="store-product-card__badge">Destaque</span>}
       </button>
       <div className="store-product-card__body">
         <div>
@@ -34,9 +35,10 @@ export default function ProductCard({ product, onSelect, priority = false }) {
           <button
             type="button"
             onClick={() => onSelect(product)}
+            disabled={!product.available}
             aria-label={`Adicionar ${product.name}`}
           >
-            <FiPlus aria-hidden="true" /> Adicionar
+            {product.available ? <><FiPlus aria-hidden="true" /> Adicionar</> : "Indisponível"}
           </button>
         </div>
       </div>

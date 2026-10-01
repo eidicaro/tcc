@@ -140,6 +140,18 @@ class ProdutosController extends Controller
         return response()->json($product->fresh()->load(['categoria', 'adicionais']));
     }
 
+    public function availability(Request $request, int $id): JsonResponse
+    {
+        $data = $request->validate([
+            'disponivel' => ['required', 'boolean'],
+        ]);
+
+        $product = ProdutoModel::findOrFail($id);
+        $product->update(['disponivel' => $data['disponivel']]);
+
+        return response()->json($product->fresh()->load(['categoria', 'adicionais']));
+    }
+
     public function destroy(int $id): JsonResponse
     {
         $product = ProdutoModel::findOrFail($id);
@@ -210,6 +222,7 @@ class ProdutosController extends Controller
             ],
             'imagem' => ['sometimes', 'nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:4096'],
             'ativo' => ['sometimes', 'boolean'],
+            'disponivel' => ['sometimes', 'boolean'],
             'destaque' => ['sometimes', 'boolean'],
             'ordem' => ['sometimes', 'integer', 'min:0', 'max:4294967295'],
             'adicionais' => ['sometimes', 'array', 'max:100'],

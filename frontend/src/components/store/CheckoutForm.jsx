@@ -3,6 +3,7 @@ import { FiArrowLeft, FiCheck, FiLock } from "react-icons/fi";
 import { useCart } from "../../contexts/CartContext";
 import { useStore } from "../../contexts/StoreContext";
 import { useStoreFormatting } from "../../hooks/useStoreFormatting";
+import { getStoreVocabulary } from "../../utils/storefront";
 import { api, ensureCsrfCookie, getErrorMessage } from "../../services/api";
 import { centsToMoney, moneyToCents } from "../../contexts/cartMath";
 import {
@@ -50,6 +51,7 @@ export default function CheckoutForm({ onBack, onSuccess, onSubmittingChange }) 
   const { store, commerceReady } = useStore();
   const { subtotal, completeCheckout, notify } = useCart();
   const { formatCurrency } = useStoreFormatting();
+  const vocabulary = getStoreVocabulary(store);
   const [customer, setCustomer] = useState({
     name: saved.nome ?? saved.name ?? "",
     phone: saved.telefone ?? saved.phone ?? "",
@@ -311,7 +313,7 @@ export default function CheckoutForm({ onBack, onSuccess, onSubmittingChange }) 
               onChange={(event) => setObservation(event.target.value)}
               rows="3"
               maxLength="500"
-              placeholder="Ex.: sem cebola, molho separado…"
+              placeholder={vocabulary.notePlaceholder}
             />
           </label>
         </fieldset>

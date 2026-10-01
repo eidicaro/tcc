@@ -8,7 +8,13 @@ describe("getStoreVocabulary", () => {
     expect(copy.storyEyebrow).toContain("cozinha");
   });
 
-  it("adapta a experiência para lojas de outros segmentos", () => {
+  it("adapta a experiência para mercado, farmácia e pet shop", () => {
+    expect(getStoreVocabulary({ businessType: "mercado" }).storyEyebrow).toContain("lista");
+    expect(getStoreVocabulary({ businessType: "farmacia" }).brandDescriptor).toContain("Cuidado");
+    expect(getStoreVocabulary({ businessType: "pet_shop" }).featuredEyebrow).toContain("pets");
+  });
+
+  it("usa linguagem genérica para segmentos não cadastrados", () => {
     const copy = getStoreVocabulary({ businessType: "retail" });
     expect(copy.catalog).toBe("Catálogo");
     expect(copy.storyEyebrow).toContain("escolha");

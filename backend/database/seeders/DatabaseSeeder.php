@@ -12,6 +12,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        if (app()->isProduction()) {
+            throw new \RuntimeException(
+                'Seeders de demonstração não podem ser executadas em produção. Use migrate --force e admin:create.'
+            );
+        }
+
         $this->call([
             UsuariosSeeder::class,
             DemoCatalogSeeder::class,

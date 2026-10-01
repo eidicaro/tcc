@@ -15,6 +15,10 @@ class UsuariosSeeder extends Seeder
      */
     public function run(): void
     {
+        if (app()->isProduction()) {
+            throw new \RuntimeException('Crie administradores de produção com admin:create.');
+        }
+
         $name = trim((string) config('development.admin.name'));
         $email = Str::lower(trim((string) config('development.admin.email')));
         $password = (string) config('development.admin.password');

@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { FiCheck, FiMinus, FiPlus, FiX } from "react-icons/fi";
 import { useCart } from "../../contexts/CartContext";
 import { useStoreFormatting } from "../../hooks/useStoreFormatting";
+import { useStore } from "../../contexts/StoreContext";
+import { getStoreVocabulary } from "../../utils/storefront";
 import { normalizeAdditional } from "../../utils/catalog";
 import { centsToMoney, moneyToCents } from "../../contexts/cartMath";
 import AccessibleDialog from "./AccessibleDialog";
@@ -16,6 +18,8 @@ export default function ProductDialog({ product, additionals = [], onClose }) {
   const [submitting, setSubmitting] = useState(false);
   const { addItem, openCart, syncing } = useCart();
   const { formatCurrency } = useStoreFormatting();
+  const { store } = useStore();
+  const vocabulary = getStoreVocabulary(store);
   const open = Boolean(product);
 
   useEffect(() => {
@@ -79,7 +83,7 @@ export default function ProductDialog({ product, additionals = [], onClose }) {
   };
 
   const handleAdd = async () => {
-    if (submitting) return;
+    if (submitting || !product?.available) return;
     setSubmitting(true);
     try {
       await addItem({
@@ -118,15 +122,15 @@ export default function ProductDialog({ product, additionals = [], onClose }) {
       </div>
 
       <div className="store-product-dialog__content">
-        <span className="store-eyebrow">Escolha cada detalhe</span>
+        <span className="store-eyebrow">Confira os detalhes</span>
         <h2 id="store-product-dialog-title">{product.name}</h2>
         <p id="store-product-dialog-description">{product.description}</p>
         <strong className="store-product-dialog__price">{formatCurrency(product.price)}</strong>
 
         {availableAdditionals.length > 0 && (
           <fieldset className="store-additionals">
-            <legend>Complete seu pedido</legend>
-            <p>Os adicionais são calculados por unidade do produto.</p>
+            <legend>{vocabulary.extrasLegend}</legend>
+            <p>{vocabulary.extrasHelp}</p>
             {selectionError && <p className="store-form-error" role="alert">{selectionError}</p>}
             <div className="store-additionals__list">
               {availableAdditionals.map((additional) => {
@@ -192,12 +196,12 @@ export default function ProductDialog({ product, additionals = [], onClose }) {
             type="button"
             className="store-button store-button--primary store-product-dialog__submit"
             onClick={handleAdd}
-            disabled={submitting || syncing}
+            disabled={submitting || syncing || !product.available}
           >
             {submitting ? (
               "Adicionando…"
             ) : (
-              <><FiCheck aria-hidden="true" /> Adicionar · {formatCurrency(total)}</>
+              product.available ? <><FiCheck aria-hidden="true" /> Adicionar · {formatCurrency(total)}</> : "Indisponível"
             )}
           </button>
         </div>

@@ -21,6 +21,7 @@ const emptyForm = {
   preco: "",
   id_categoria: "",
   ativo: true,
+  disponivel: true,
   destaque: false,
   ordem: 0,
   imagem: null,
@@ -43,6 +44,7 @@ export default function Products() {
   const [form, setForm] = useState(emptyForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [availabilitySavingId, setAvailabilitySavingId] = useState(null);
   const [error, setError] = useState("");
   const [feedback, setFeedback] = useState(null);
   const [modalError, setModalError] = useState("");
@@ -110,6 +112,7 @@ export default function Products() {
       preco: product.preco ?? "",
       id_categoria: product.id_categoria ?? "",
       ativo: Boolean(product.ativo ?? true),
+      disponivel: Boolean(product.disponivel ?? true),
       destaque: Boolean(product.destaque ?? false),
       ordem: Number(product.ordem ?? 0),
       imagem: null,
@@ -140,6 +143,7 @@ export default function Products() {
     body.append("preco", String(form.preco));
     body.append("id_categoria", String(form.id_categoria));
     body.append("ativo", form.ativo ? "1" : "0");
+    body.append("disponivel", form.disponivel ? "1" : "0");
     body.append("destaque", form.destaque ? "1" : "0");
     body.append("ordem", String(form.ordem || 0));
     body.append("adicionais", JSON.stringify(form.adicionais));
@@ -171,6 +175,33 @@ export default function Products() {
       setModalError(getErrorMessage(requestError, "Não foi possível salvar o produto."));
     } finally {
       setSaving(false);
+    }
+  };
+
+  const toggleAvailability = async (product) => {
+    if (availabilitySavingId !== null) return;
+    setAvailabilitySavingId(product.id_produto);
+    try {
+      const response = await api.patch(
+        "/admin/produtos/" + product.id_produto + "/disponibilidade",
+        { disponivel: !product.disponivel },
+      );
+      const updated = response.data?.data ?? response.data;
+      setProducts((current) => current.map((item) => (
+        item.id_produto === updated.id_produto ? updated : item
+      )));
+      clearCatalogCache();
+      setFeedback({
+        message: updated.disponivel ? "Produto disponível para pedidos." : "Produto pausado para pedidos.",
+        tone: "success",
+      });
+    } catch (requestError) {
+      setFeedback({
+        message: getErrorMessage(requestError, "Não foi possível alterar a disponibilidade."),
+        tone: "error",
+      });
+    } finally {
+      setAvailabilitySavingId(null);
     }
   };
 
@@ -243,15 +274,15 @@ export default function Products() {
       {filteredProducts.length > 0 ? (
         <section className="admin-product-grid" aria-label="Produtos cadastrados">
           {filteredProducts.map((product) => (
-            <article className={`admin-product-card${product.ativo === false ? " is-inactive" : ""}`} key={product.id_produto}>
+            <article className={`admin-product-card${product.ativo === false || product.disponivel === false ? " is-inactive" : ""}`} key={product.id_produto}>
               <div className="admin-product-card__image">
                 {product.imagem || product.imagem_url ? (
                   <img src={assetUrl(product.imagem_url || product.imagem)} alt="" loading="lazy" />
                 ) : (
                   <FiImage aria-hidden="true" />
                 )}
-                <span className={`admin-availability${product.ativo === false ? " is-off" : ""}`}>
-                  {product.ativo === false ? "Indisponível" : "Ativo"}
+                <span className={`admin-availability${product.ativo === false || product.disponivel === false ? " is-off" : ""}`}>
+                  {product.ativo === false ? "Oculto" : product.disponivel === false ? "Indisponível" : "Disponível"}
                 </span>
                 {product.destaque ? <span className="admin-featured"><FiStar aria-hidden="true" /> Destaque</span> : null}
               </div>
@@ -262,6 +293,14 @@ export default function Products() {
                 <div className="admin-product-card__footer">
                   <strong>{formatCurrency(product.preco)}</strong>
                   <div>
+                    <button
+                      type="button"
+                      onClick={() => toggleAvailability(product)}
+                      disabled={availabilitySavingId !== null || product.ativo === false}
+                      aria-label={(product.disponivel ? "Pausar " : "Disponibilizar ") + product.nome}
+                    >
+                      {product.disponivel ? "Pausar" : "Ativar"}
+                    </button>
                     <button type="button" onClick={() => openEdit(product)} aria-label={`Editar ${product.nome}`}>
                       <FiEdit3 aria-hidden="true" />
                     </button>
@@ -413,7 +452,16 @@ export default function Products() {
                 onChange={(event) => setForm((current) => ({ ...current, ativo: event.target.checked }))}
               />
               <span aria-hidden="true" />
-              Disponível no catálogo
+              Publicado no catálogo
+            </label>
+            <label className="admin-switch">
+              <input
+                type="checkbox"
+                checked={form.disponivel}
+                onChange={(event) => setForm((current) => ({ ...current, disponivel: event.target.checked }))}
+              />
+              <span aria-hidden="true" />
+              Disponível para pedidos
             </label>
             <label className="admin-switch">
               <input

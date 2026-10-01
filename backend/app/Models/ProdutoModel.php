@@ -21,6 +21,7 @@ class ProdutoModel extends Model
         'imagem',
         'id_categoria',
         'ativo',
+        'disponivel',
         'destaque',
         'adicionais_configurados',
         'ordem',
@@ -29,6 +30,7 @@ class ProdutoModel extends Model
     protected $casts = [
         'preco' => 'decimal:2',
         'ativo' => 'boolean',
+        'disponivel' => 'boolean',
         'destaque' => 'boolean',
         'adicionais_configurados' => 'boolean',
         'ordem' => 'integer',

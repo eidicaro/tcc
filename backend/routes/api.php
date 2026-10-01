@@ -45,6 +45,7 @@ Route::prefix('admin')
         Route::get('/produtos', [ProdutosController::class, 'index']);
         Route::post('/produtos', [ProdutosController::class, 'store']);
         Route::put('/produtos/{id}', [ProdutosController::class, 'update'])->whereNumber('id');
+        Route::patch('/produtos/{id}/disponibilidade', [ProdutosController::class, 'availability'])->whereNumber('id');
         Route::delete('/produtos/{id}', [ProdutosController::class, 'destroy'])->whereNumber('id');
 
         Route::get('/categorias', [CategoriaController::class, 'index']);

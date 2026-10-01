@@ -2265,3 +2265,8 @@
     left: 0.75rem;
   }
 }
+
+.store-product-card.is-unavailable { opacity: 0.78; }
+.store-product-card button:disabled { cursor: not-allowed; }
+.store-product-card__footer button:disabled { color: var(--store-ink); background: var(--store-muted); }
+.store-product-card button:disabled img { filter: grayscale(0.6); }

@@ -20,12 +20,11 @@ export default function Menu() {
   const visibleProducts = useMemo(() => {
     const normalizedQuery = normalizeSearch(query);
     return products.filter((product) => {
-      if (!product.available) return false;
       const matchesCategory =
         categoryId === "all" || String(product.categoryId) === String(categoryId);
       const searchableText = normalizeSearch(`${product.name} ${product.description}`);
       return matchesCategory && (!normalizedQuery || searchableText.includes(normalizedQuery));
-    });
+    }).sort((left, right) => Number(right.available) - Number(left.available));
   }, [products, query, categoryId]);
 
   const hasFilters = query || categoryId !== "all";
@@ -36,7 +35,7 @@ export default function Menu() {
         <div className="store-shell">
           <span className="store-eyebrow">Escolha sem pressa</span>
           <h1>{vocabulary.catalog}</h1>
-          <p>Encontre seu favorito, ajuste os detalhes e acompanhe o pedido em um só lugar.</p>
+          <p>{vocabulary.menuIntro}</p>
         </div>
       </header>
 

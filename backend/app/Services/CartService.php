@@ -133,6 +133,7 @@ class CartService
     ): array {
         $product = ProdutoModel::query()
             ->where('ativo', true)
+            ->where('disponivel', true)
             ->find($productId);
 
         if (! $product) {

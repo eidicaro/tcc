@@ -65,6 +65,7 @@ const initialUsesDemoBrand = /mar[eé] de nori/i.test(initialName);
 const INITIAL_STORE = {
   ...FALLBACK_STORE,
   name: initialName,
+  businessType: import.meta.env.VITE_STORE_BUSINESS_TYPE || FALLBACK_STORE.businessType,
   shortName: import.meta.env.VITE_STORE_SHORT_NAME || import.meta.env.VITE_STORE_NAME || FALLBACK_STORE.shortName,
   description: import.meta.env.VITE_STORE_DESCRIPTION || FALLBACK_STORE.description,
   logo: import.meta.env.VITE_STORE_ICON || (initialUsesDemoBrand ? FALLBACK_STORE.logo : genericLogo),

@@ -59,6 +59,7 @@ class ProdutosSeeder extends Seeder
                     'imagem' => "images/demo/{$image}.svg",
                     'id_categoria' => $categoryIds[$category],
                     'ativo' => true,
+                    'disponivel' => true,
                     'destaque' => in_array($name, [
                         'Barca Maré de Nori (36 peças)',
                         'Combinado Maré Mansa (20 peças)',

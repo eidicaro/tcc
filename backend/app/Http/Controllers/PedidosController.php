@@ -133,6 +133,22 @@ class PedidosController extends Controller
                     return $existingOrder;
                 }
 
+                $productIds = array_values(array_unique(array_column($items, 'produto_id')));
+                $sellableProducts = DB::table('produto')
+                    ->whereIn('id_produto', $productIds)
+                    ->where('ativo', true)
+                    ->where('disponivel', true)
+                    ->whereNull('deleted_at')
+                    ->lockForUpdate()
+                    ->pluck('id_produto')
+                    ->all();
+
+                if (count($sellableProducts) !== count($productIds)) {
+                    throw ValidationException::withMessages([
+                        'carrinho' => ['Um produto ficou indisponível. Atualize o carrinho antes de finalizar.'],
+                    ]);
+                }
+
                 $customer = $this->resolveCustomer(
                     $customerName,
                     $normalizedPhone,
